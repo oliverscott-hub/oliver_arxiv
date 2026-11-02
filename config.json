@@ -1,0 +1,18 @@
+{
+  "categories": [
+    "astro-ph",
+    "astro-ph.CO",
+    "astro-ph.HE",
+    "astro-ph.GA",
+    "astro-ph.SR",
+    "astro-ph.IM",
+    "gr-qc",
+    "hep-th",
+    "hep-ph",
+    "hep-ex",
+    "math-ph"
+  ],
+  "lookback_hours": 36,
+  "page_size": 2000,
+  "min_request_interval_seconds": 3.2
+}

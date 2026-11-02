@@ -1,0 +1,4 @@
+# Local secrets and credentials
+**/.env
+**/.env.*
+!**/.env.example

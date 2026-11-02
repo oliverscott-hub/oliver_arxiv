@@ -1,0 +1,2 @@
+# Las claves reales deben permanecer locales y fuera del control de versiones.
+.env
