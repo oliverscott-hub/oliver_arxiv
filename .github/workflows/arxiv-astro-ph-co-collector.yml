@@ -1,0 +1,55 @@
+name: arXiv astro-ph.CO collector
+
+on:
+  schedule:
+    # 12-hour cadence, offset from the existing general collector.
+    - cron: '31 6,18 * * *'
+  workflow_dispatch:
+    inputs:
+      max_days:
+        description: "Máximo de días UTC a procesar en esta ejecución"
+        required: true
+        default: "30"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: arxiv-api-requests
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Recopilar días pendientes de astro-ph.CO
+        env:
+          MAX_DAYS: ${{ inputs.max_days || '30' }}
+        run: python scripts/collect_arxiv_category.py --max-days "$MAX_DAYS"
+
+      - name: Guardar SQLite, cobertura y log
+        if: always()
+        run: |
+          if [ ! -f library/astro-ph_CO.sqlite ]; then
+            echo 'No se creó la base de datos.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add library/astro-ph_CO.sqlite library/astro-ph_CO.coverage.json logs/arxiv_collector.jsonl
+          if git diff --cached --quiet; then
+            echo 'No hay cambios que guardar.'
+          else
+            git commit -m 'Actualizar biblioteca arXiv astro-ph.CO'
+            git push
+          fi

@@ -16,6 +16,10 @@ Repositorio de trabajo dedicado al seguimiento periódico de metadatos de arXiv 
 
 La configuración editable está en `config.json`. Se consulta el campo `submittedDate` para la ventana móvil; el tiempo se expresa en UTC y no es necesariamente el día oficial de anuncio de arXiv.
 
+## Biblioteca histórica astro-ph.CO
+
+El workflow **arXiv astro-ph.CO collector** (`.github/workflows/arxiv-astro-ph-co-collector.yml`) hace backfill de días completos cada 12 horas y permite ejecución manual. Excluye el día UTC actual, reintenta días fallidos y rellena huecos según el registro diario de cobertura. Su fuente de verdad es `library/astro-ph_CO.sqlite`; también genera `library/astro-ph_CO.coverage.json` y añade eventos a `logs/arxiv_collector.jsonl`. El detalle operativo y los límites están en `manuales/collector_astro_ph_CO.md`.
+
 ## Política de peticiones
 
 El cliente hace peticiones en serie, espera un mínimo de 3,2 segundos, limita las páginas a 2.000 resultados, cachea el resultado en el catálogo y usa reintentos acotados con espera creciente. Respeta `Retry-After` en HTTP 429. Si la consulta excede 30.000 resultados o el XML está corrupto, se detiene sin reemplazar el catálogo anterior.

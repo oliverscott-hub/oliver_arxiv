@@ -17,3 +17,9 @@ El resultado se guarda en `data/arxiv_queries.sqlite` y se confirma en el reposi
 `published` es la fecha de envío de la primera versión y `updated` la de la versión devuelta por la API. `abstract.length` se calcula sobre el resumen normalizado. `arxiv_status_comment` queda nulo porque `arxiv:comment` es texto libre, no un estado editorial estructurado.
 
 La captura no descarga PDFs ni archivos fuente. La búsqueda histórica representa los resultados que la API devuelve para el rango y momento de ejecución; una reejecución crea un nuevo `query_run_id` y conserva una captura separada.
+
+## Biblioteca incremental astro-ph.CO
+
+El workflow periódico y manual ya implementado se documenta en [collector_astro_ph_CO.md](collector_astro_ph_CO.md). Su base es `library/astro-ph_CO.sqlite`; el índice legible `library/astro-ph_CO.coverage.json` se deriva desde SQLite, y el log acumulativo común está en `logs/arxiv_collector.jsonl`.
+
+La clave primaria de papers es el identificador versionado completo de arXiv (`2601.12345v2`). `work_id` conserva el identificador sin sufijo de versión para agrupar versiones, pero no para deduplicarlas. La cobertura se registra por día UTC, incluso cuando la API responde correctamente con cero resultados.
