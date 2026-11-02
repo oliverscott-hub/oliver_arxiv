@@ -39,7 +39,7 @@ jobs:
           if [ ! -f library/math-ph.sqlite ]; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add library/math-ph.sqlite library/math-ph.coverage.json logs/arxiv_collector.jsonl
+          git add library/math-ph.sqlite library/math-ph.coverage.json
           if ! git diff --cached --quiet; then
             git commit -m 'Actualizar biblioteca arXiv math-ph'
             git push

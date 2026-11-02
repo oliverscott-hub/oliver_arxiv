@@ -405,13 +405,6 @@ def write_coverage_json(connection):
     return payload
 
 
-def append_log(event):
-    path = ROOT / "logs" / "arxiv_collector.jsonl"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8", newline="\n") as stream:
-        stream.write(json.dumps(event, ensure_ascii=False, separators=(",", ":")) + "\n")
-
-
 def configure_category(category):
     global CATEGORY, DB_PATH, COVERAGE_JSON_PATH
     CATEGORY = category
@@ -516,7 +509,6 @@ def run(max_days, category):
         "coverage_json": COVERAGE_JSON_PATH.relative_to(ROOT).as_posix(),
         "error": error,
     }
-    append_log(result)
     connection.close()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if error:
