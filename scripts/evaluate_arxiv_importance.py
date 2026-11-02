@@ -120,7 +120,9 @@ def open_category_connection(
     return connection
 
 
-def next_candidate(connection: sqlite3.Connection, category: str) -> Candidate | None:
+def next_candidate(
+    connection: sqlite3.Connection, category: str, skipped_ids: set[str] | None = None
+) -> Candidate | None:
     row = connection.execute(
         """
         SELECT p.arxiv_id, p.updated, p.published, p.summary
@@ -129,11 +131,12 @@ def next_candidate(connection: sqlite3.Connection, category: str) -> Candidate |
         WHERE r.arxiv_id IS NULL
           AND TRIM(COALESCE(p.summary, '')) <> ''
           AND json_extract(p.primary_category_json, '$.term') = ?
+          AND p.arxiv_id NOT IN (SELECT value FROM json_each(?))
         ORDER BY COALESCE(NULLIF(p.updated, ''), p.published) DESC,
                  p.arxiv_id DESC
         LIMIT 1
         """,
-        (category,),
+        (category, json.dumps(sorted(skipped_ids or ()))),
     ).fetchone()
     if row is None:
         return None
@@ -200,7 +203,8 @@ def score_abstract(model: Llama, candidate: Candidate) -> tuple[int, str]:
     content = response["choices"][0]["message"]["content"]
     if not isinstance(content, str):
         raise ValueError(f"La respuesta del modelo no es texto para {candidate.arxiv_id}")
-    parsed: Any = json.loads(content)
+    # Some GGUF responses contain literal newlines/control characters in a JSON string.
+    parsed: Any = json.loads(content, strict=False)
     value = parsed.get("importance") if isinstance(parsed, dict) else None
     if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= 10:
         raise ValueError(f"Valoración no válida para {candidate.arxiv_id}: {content!r}")
@@ -254,6 +258,7 @@ def main() -> int:
         print("Cargando el modelo local de Hugging Face en CPU…")
         model = load_model()
         scored = 0
+        skipped_ids: set[str] = set()
 
         while time.time() < deadline:
             category_index = select_next_category(heads, cursor)
@@ -261,14 +266,28 @@ def main() -> int:
                 break
             candidate = heads[category_index]
             assert candidate is not None
-            try:
-                value, justification = score_abstract(model, candidate)
-            except Exception as error:
-                print(
-                    f"No se guardó {candidate.arxiv_id}; fallo de inferencia o formato: {error}",
-                    file=sys.stderr,
-                )
-                return 1
+            for attempt in range(1, 4):
+                try:
+                    value, justification = score_abstract(model, candidate)
+                    break
+                except (ValueError, KeyError, TypeError, json.JSONDecodeError) as error:
+                    if attempt < 3 and time.time() < deadline:
+                        print(f"Reintentando {candidate.arxiv_id} ({attempt}/3): {error}", file=sys.stderr)
+                        continue
+                    skipped_ids.add(candidate.arxiv_id)
+                    heads[category_index] = next_candidate(
+                        connections[category_index], categories[category_index], skipped_ids
+                    )
+                    cursor = category_index
+                    print(
+                        f"Se omitió {candidate.arxiv_id} tras {attempt} intentos: {error}",
+                        file=sys.stderr,
+                    )
+                    break
+            else:
+                continue
+            if candidate.arxiv_id in skipped_ids:
+                continue
 
             results.execute(
                 "INSERT INTO ratings (arxiv_id, importance, model, justification) VALUES (?, ?, ?, ?)",
