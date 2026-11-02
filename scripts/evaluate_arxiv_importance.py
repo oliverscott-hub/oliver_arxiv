@@ -175,7 +175,21 @@ def score_abstract(model: Llama, candidate: Candidate) -> int:
                 ),
             },
         ],
-        response_format={"type": "json_object"},
+        response_format={
+            "type": "json_object",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "importance": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 10,
+                    }
+                },
+                "required": ["importance"],
+                "additionalProperties": False,
+            },
+        },
         temperature=0.2,
         top_p=0.8,
         max_tokens=96,
