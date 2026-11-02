@@ -4,7 +4,6 @@ Se usa un workflow independiente por categoría, pero todos llaman al mismo scri
 
 | Categoría | Horas UTC | Workflow | SQLite | Índice JSON |
 |---|---|---|---|---|
-| `astro-ph` | 03:00, 09:00, 15:00, 21:00 | `arXiv astro-ph collector` | `library/astro-ph.sqlite` | `library/astro-ph.coverage.json` |
 | `astro-ph.CO` | 03:30, 09:30, 15:30, 21:30 | `arXiv astro-ph.CO collector` | `library/astro-ph_CO.sqlite` | `library/astro-ph_CO.coverage.json` |
 | `astro-ph.HE` | 04:00, 10:00, 16:00, 22:00 | `arXiv astro-ph.HE collector` | `library/astro-ph_HE.sqlite` | `library/astro-ph_HE.coverage.json` |
 | `astro-ph.GA` | 04:30, 10:30, 16:30, 22:30 | `arXiv astro-ph.GA collector` | `library/astro-ph_GA.sqlite` | `library/astro-ph_GA.coverage.json` |

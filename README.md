@@ -1,6 +1,6 @@
 # Recolector de metadatos de arXiv — Maldito Sigma
 
-Repositorio de trabajo dedicado al seguimiento periódico de metadatos de arXiv en once categorías de astrofísica, física de altas energías y física matemática.
+Repositorio de trabajo dedicado al seguimiento periódico de metadatos de arXiv en diez categorías de astrofísica, física de altas energías y física matemática.
 
 ## Funcionamiento
 
@@ -12,7 +12,7 @@ Repositorio de trabajo dedicado al seguimiento periódico de metadatos de arXiv 
 
 ## Categorías vigiladas
 
-`astro-ph`, `astro-ph.CO`, `astro-ph.HE`, `astro-ph.GA`, `astro-ph.SR`, `astro-ph.IM`, `gr-qc`, `hep-th`, `hep-ph`, `hep-ex`, `math-ph`.
+`astro-ph.CO`, `astro-ph.HE`, `astro-ph.GA`, `astro-ph.SR`, `astro-ph.IM`, `gr-qc`, `hep-th`, `hep-ph`, `hep-ex`, `math-ph`.
 
 La configuración editable está en `config.json`. Se consulta el campo `submittedDate` para la ventana móvil; el tiempo se expresa en UTC y no es necesariamente el día oficial de anuncio de arXiv.
 
