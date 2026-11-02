@@ -84,5 +84,19 @@ Fecha de revisión: 2026-11-03. Fuente: `abstract_evaluation/abstract_importance
 
 ## Lectura conjunta
 
+### Comparación directa con `mod0` para los mismos ID
+
+| arXiv ID | Qwen `mod0` | OpenScholar `mod1` | Diferencia | Comparación de las justificaciones |
+|---|---:|---:|---:|---|
+| [2610.42151v1](https://arxiv.org/abs/2610.42151v1) | 8 | 8 | 0 | Ambas identifican problema y datos; ninguna explica los hallazgos por escala. |
+| [2609.12998v2](https://arxiv.org/abs/2609.12998v2) | 8 | 9 | +1 | OpenScholar recoge el efecto en la señal gravitacional tras la fusión; Qwen lo omite. |
+| [2610.41921v1](https://arxiv.org/abs/2610.41921v1) | 8 | 8 | 0 | OpenScholar recoge la interacción propuesta hace 1,8 Myr; Qwen llama nuevos a cúmulos ya catalogados. |
+| [2610.41923v1](https://arxiv.org/abs/2610.41923v1) | 7 | 9 | +2 | Qwen afirma erróneamente que no hay resultados; OpenScholar reconoce catálogo, clasificación y disipación, aunque omite cifras. |
+| [2610.41934v1](https://arxiv.org/abs/2610.41934v1) | 7 | 8 | +1 | Ambas omiten el hallazgo decisivo: T-T es el método más fiable. Las dos presentan las técnicas como nuevas sin apoyo. |
+| [2610.42091v1](https://arxiv.org/abs/2610.42091v1) | 7 | 9 | +2 | OpenScholar describe mejor la separación entre límite geométrico y respuesta electromagnética; ambas son generales. |
+| [2610.42057v1](https://arxiv.org/abs/2610.42057v1) | 8 | 9 | +1 | OpenScholar cita cinco sectores nuevos y los ángulos de dispersión; Qwen repite contexto general. |
+
+OpenScholar puntúa **igual en 2 casos y más alto en 5**, con una diferencia media de **+1 punto**. Sus justificaciones son más específicas en varios casos, pero la diferencia de nota no demuestra mejor calibración: ninguna de las dos escalas se ha contrastado aún con evaluadores expertos. La revisión compara exclusivamente la fidelidad de las explicaciones a los abstracts.
+
 OpenScholar guardó siete valoraciones, todas entre 8 y 9. Sus justificaciones reflejan en general mejor los resultados de los abstracts que las primeras respuestas del modelo `mod0`, pero esta muestra pequeña no demuestra mayor fiabilidad estadística ni que la escala 0–10 esté bien calibrada. En varios casos omite el hallazgo cuantitativo que permitiría auditar la nota y emplea calificativos de novedad o impacto que el abstract por sí solo no verifica.
 
