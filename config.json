@@ -12,7 +12,7 @@
     "hep-ex",
     "math-ph"
   ],
-  "lookback_hours": 36,
+  "lookback_hours": 72,
   "page_size": 2000,
   "min_request_interval_seconds": 3.2
 }
