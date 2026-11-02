@@ -48,10 +48,9 @@ jobs:
           python -m pip install --disable-pip-version-check 'huggingface_hub==2.4.0'
 
       - name: Evaluate newest unscored papers, rotating categories and UTC days
-        timeout-minutes: 7
         env:
           IMPORTANCE_DEADLINE_EPOCH: ${{ env.IMPORTANCE_DEADLINE_EPOCH }}
-        run: python scripts/evaluate_arxiv_importance.py
+        run: python -u scripts/evaluate_arxiv_importance.py
 
       - name: Save SQLite results
         if: always()
