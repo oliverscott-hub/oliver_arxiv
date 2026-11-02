@@ -181,18 +181,21 @@ def load_model() -> Llama:
 def score_abstract(model: Llama, candidate: Candidate) -> tuple[int, str]:
     # Keep the input within the small model's context; arXiv abstracts are normally short.
     abstract = candidate.summary.strip()[:10000]
-    response = model.create_chat_completion(
-        messages=[
+    user_content = (
+        f"Abstract:\n<abstract>\n{abstract}\n</abstract>\n\n"
+        "Valora del 0 al 10 la importancia del artículo basándote en el abstract y justifica la nota en español."
+        + (" /no_think" if VARIANT == "mod0" else "")
+    )
+    if VARIANT == "mod1":
+        # OpenScholar's chat template accepts user/assistant messages only.
+        messages = [{"role": "user", "content": SYSTEM_PROMPT + "\n\n" + user_content}]
+    else:
+        messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
-            {
-                "role": "user",
-                "content": (
-                    f"Abstract:\n<abstract>\n{abstract}\n</abstract>\n\n"
-                    "Valora del 0 al 10 la importancia del artículo basándote en el abstract y justifica la nota en español."
-                    + (" /no_think" if VARIANT == "mod0" else "")
-                ),
-            },
-        ],
+            {"role": "user", "content": user_content},
+        ]
+    response = model.create_chat_completion(
+        messages=messages,
         response_format={
             "type": "json_object",
             "schema": {
@@ -273,6 +276,7 @@ def main() -> int:
         model = load_model()
         scored = 0
         skipped_ids: set[str] = set()
+        consecutive_failures = 0
 
         while time.time() < deadline:
             category_index = select_next_category(heads, cursor)
@@ -297,6 +301,10 @@ def main() -> int:
                         f"Se omitió {candidate.arxiv_id} tras {attempt} intentos: {error}",
                         file=sys.stderr,
                     )
+                    consecutive_failures += 1
+                    if consecutive_failures >= 5:
+                        print("Cinco artículos consecutivos fallaron; se detiene el evaluador.", file=sys.stderr)
+                        return 1
                     break
             else:
                 continue
@@ -309,11 +317,16 @@ def main() -> int:
             )
             results.commit()
             scored += 1
+            consecutive_failures = 0
             cursor = category_index
             print(f"{candidate.arxiv_id}\t{value}/10\t{categories[category_index]}\t{candidate.effective_day.isoformat()}")
             heads[category_index] = next_candidate(
                 connections[category_index], categories[category_index]
             )
+
+        if scored == 0 and (skipped_ids or any(heads)):
+            print("No se guardó ninguna valoración pese a haber artículos pendientes.", file=sys.stderr)
+            return 1
 
         print(
             f"Ejecución finalizada: {scored} valoraciones guardadas; "
