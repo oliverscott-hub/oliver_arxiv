@@ -1,0 +1,46 @@
+name: arXiv hep-th collector
+
+on:
+  schedule:
+    - cron: '30 0,6,12,18 * * *'
+  workflow_dispatch:
+    inputs:
+      max_days:
+        description: "Máximo de días UTC a procesar en esta ejecución"
+        required: true
+        default: "30"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: arxiv-api-requests
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Recopilar días pendientes de hep-th
+        env:
+          MAX_DAYS: ${{ inputs.max_days || '30' }}
+        run: python scripts/collect_arxiv_category.py --category hep-th --max-days "$MAX_DAYS"
+      - name: Guardar SQLite, cobertura y log
+        if: always()
+        run: |
+          if [ ! -f library/hep-th.sqlite ]; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add library/hep-th.sqlite library/hep-th.coverage.json logs/arxiv_collector.jsonl
+          if ! git diff --cached --quiet; then
+            git commit -m 'Actualizar biblioteca arXiv hep-th'
+            git push
+          fi

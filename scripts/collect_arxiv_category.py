@@ -30,7 +30,7 @@ MAX_PER_QUERY = 30000
 MAX_RETRIES = 3
 MAX_DAYS_PER_RUN = 30
 USER_AGENT = (
-    "oliver-arxiv-astro-ph-CO-collector/1.0 "
+    "oliver-arxiv-category-collector/1.0 "
     "(metadata-only; https://github.com/oliverscott-hub/oliver_arxiv)"
 )
 
@@ -392,7 +392,7 @@ def write_coverage_json(connection):
         "schema_version": 1,
         "source": "arxiv",
         "category": CATEGORY,
-        "database": "library/astro-ph_CO.sqlite",
+        "database": DB_PATH.relative_to(ROOT).as_posix(),
         "generated_at_utc": iso_utc(utc_now()),
         "covered_day_count": sum(1 for row in coverage if row["status"] == "ok"),
         "paper_version_count": connection.execute("SELECT COUNT(*) FROM papers").fetchone()[0],
@@ -412,7 +412,16 @@ def append_log(event):
         stream.write(json.dumps(event, ensure_ascii=False, separators=(",", ":")) + "\n")
 
 
-def run(max_days):
+def configure_category(category):
+    global CATEGORY, DB_PATH, COVERAGE_JSON_PATH
+    CATEGORY = category
+    slug = category.replace(".", "_")
+    DB_PATH = ROOT / "library" / f"{slug}.sqlite"
+    COVERAGE_JSON_PATH = ROOT / "library" / f"{slug}.coverage.json"
+
+
+def run(max_days, category):
+    configure_category(category)
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     connection = sqlite3.connect(DB_PATH)
     connection.row_factory = sqlite3.Row
@@ -503,8 +512,8 @@ def run(max_days):
         "days": processed,
         "covered_day_count": coverage["covered_day_count"],
         "paper_version_count": coverage["paper_version_count"],
-        "database": "library/astro-ph_CO.sqlite",
-        "coverage_json": "library/astro-ph_CO.coverage.json",
+        "database": DB_PATH.relative_to(ROOT).as_posix(),
+        "coverage_json": COVERAGE_JSON_PATH.relative_to(ROOT).as_posix(),
         "error": error,
     }
     append_log(result)
@@ -516,11 +525,13 @@ def run(max_days):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    config = json.loads((ROOT / "config.json").read_text(encoding="utf-8-sig"))
+    parser.add_argument("--category", choices=config["categories"], required=True)
     parser.add_argument("--max-days", type=int, default=MAX_DAYS_PER_RUN)
     args = parser.parse_args()
     if args.max_days < 1:
         parser.error("--max-days debe ser al menos 1")
-    run(args.max_days)
+    run(args.max_days, args.category)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 
 ## Diseño
 
-El workflow **arXiv astro-ph.CO collector** corre cada 6 horas en UTC (`00:00`, `06:00`, `12:00` y `18:00`) y también puede lanzarse manualmente. Comparte el grupo de concurrencia `arxiv-api-requests` con los otros workflows de arXiv de este repositorio, de modo que no intente consultar la API a la vez que ellos. Esas horas son una frecuencia de ejecución, no una promesa de inicio exacto: GitHub Actions puede retrasar tareas programadas.
+El workflow **arXiv astro-ph.CO collector** corre cada 6 horas en UTC (`03:30`, `09:30`, `15:30` y `21:30`) y también puede lanzarse manualmente. Comparte el grupo de concurrencia `arxiv-api-requests` con los demás collectors. La tabla de los 11 horarios está en [collectors_arxiv.md](collectors_arxiv.md). GitHub puede retrasar el inicio programado.
 
 Cada ejecución excluye el día UTC actual y procesa días completos, empezando por ayer y avanzando hacia fechas anteriores. El máximo inicial es 30 días por ejecución; el input manual permite cambiarlo. Descubre una vez el día del registro más antiguo de `astro-ph.CO` mediante una búsqueda ascendente y lo conserva en `collector_state`, incluyendo un día de margen anterior.
 
@@ -28,7 +28,7 @@ La política publicada por arXiv recomienda una pausa de tres segundos entre lla
 
 ## Uso manual
 
-En GitHub: **Actions → arXiv astro-ph.CO collector → Run workflow**. `max_days` limita cuántos días nuevos/faltantes como máximo se procesan en esa ejecución; usa un valor razonable para mantenerla dentro del tiempo límite de Actions.
+En GitHub: **Actions → arXiv astro-ph.CO collector → Run workflow**. `max_days` limita cuántos días nuevos/faltantes como máximo se procesan en esa ejecución; su valor predeterminado es 30.
 
 ## Fuentes oficiales
 

@@ -2,8 +2,8 @@ name: arXiv astro-ph.CO collector
 
 on:
   schedule:
-    # Every six hours at minute 00 UTC.
-    - cron: '0 */6 * * *'
+    # Every six hours at minute 30 UTC.
+    - cron: '30 3,9,15,21 * * *'
   workflow_dispatch:
     inputs:
       max_days:
@@ -24,8 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Obtener repositorio
+      - name: Obtener la versión más reciente de main
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -35,7 +37,7 @@ jobs:
       - name: Recopilar días pendientes de astro-ph.CO
         env:
           MAX_DAYS: ${{ inputs.max_days || '30' }}
-        run: python scripts/collect_arxiv_category.py --max-days "$MAX_DAYS"
+        run: python scripts/collect_arxiv_category.py --category astro-ph.CO --max-days "$MAX_DAYS"
 
       - name: Guardar SQLite, cobertura y log
         if: always()
