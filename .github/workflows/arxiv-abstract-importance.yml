@@ -50,18 +50,19 @@ jobs:
       - name: Evaluate newest unscored papers, rotating categories and UTC days
         env:
           IMPORTANCE_DEADLINE_EPOCH: ${{ env.IMPORTANCE_DEADLINE_EPOCH }}
+          IMPORTANCE_MODEL_VARIANT: mod0
         run: python -u scripts/evaluate_arxiv_importance.py
 
       - name: Save SQLite results
         if: always()
         run: |
-          if [ ! -f library/abstract_importance.sqlite ]; then
+          if [ ! -f abstract_evaluation/abstract_importance_mod0.sqlite ]; then
             echo 'No se creó la base de valoraciones.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add library/abstract_importance.sqlite
+          git add abstract_evaluation/abstract_importance_mod0.sqlite
           if git diff --cached --quiet; then
             echo 'No hay nuevas valoraciones que guardar.'
             exit 0

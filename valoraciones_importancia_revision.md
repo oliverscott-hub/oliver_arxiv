@@ -1,6 +1,6 @@
 # Revisión de valoraciones de importancia de arXiv
 
-Fecha de revisión: 2026-11-03. Fuente: `library/abstract_importance.sqlite` y abstracts de los SQLite por categoría. Se revisan las 22 valoraciones presentes tras la ejecución del 2026-11-02 a las 23:02 UTC.
+Fecha de revisión: 2026-11-03. Fuente: `abstract_evaluation/abstract_importance_mod0.sqlite` y abstracts de los SQLite por categoría. Se revisan las 22 valoraciones presentes tras la ejecución del 2026-11-02 a las 23:02 UTC.
 
 **Alcance:** «Fiabilidad» mide si la justificación del modelo refleja fielmente el abstract. No valida la importancia científica real ni la nota 0–10; eso requeriría evaluación experta y comparación entre artículos. Se conservan literalmente las justificaciones del modelo, incluidos errores y restos de formato.
 
