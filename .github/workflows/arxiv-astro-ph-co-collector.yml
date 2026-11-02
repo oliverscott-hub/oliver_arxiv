@@ -2,8 +2,8 @@ name: arXiv astro-ph.CO collector
 
 on:
   schedule:
-    # 12-hour cadence, offset from the existing general collector.
-    - cron: '31 6,18 * * *'
+    # Every six hours at minute 00 UTC.
+    - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
       max_days:
