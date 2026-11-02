@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: arxiv-metadata-collector
+  group: arxiv-api-requests
   cancel-in-progress: false
 
 jobs:
