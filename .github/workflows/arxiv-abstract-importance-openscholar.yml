@@ -1,6 +1,10 @@
 name: arXiv abstract importance evaluator OpenScholar
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - abstract_evaluation/priority_mod1.json
   schedule:
     - cron: '0 2,10,18 * * *'
   workflow_dispatch:
