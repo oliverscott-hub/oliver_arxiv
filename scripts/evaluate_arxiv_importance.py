@@ -374,9 +374,16 @@ def main() -> int:
         next_checkpoint = time.monotonic() + CHECKPOINT_SECONDS
 
         def maybe_checkpoint() -> None:
-            nonlocal next_checkpoint
+            nonlocal results, connections, next_checkpoint
             if time.monotonic() >= next_checkpoint:
+                # A rebase can replace SQLite files; no connection may keep the old inode open.
+                results.commit()
+                for connection in connections:
+                    connection.close()
+                results.close()
                 publish_checkpoint()
+                results = open_results_db()
+                connections = [open_category_connection(category, RESULTS_DB) for category in categories]
                 next_checkpoint = time.monotonic() + CHECKPOINT_SECONDS
 
         for request in priorities:
