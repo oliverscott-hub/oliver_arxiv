@@ -65,19 +65,19 @@ def build_query(day):
     )
 
 
-def retry_delay(retry_after, attempt):
+def retry_delay(retry_after, attempt, rate_limited=False):
     if retry_after:
         try:
-            return max(MIN_INTERVAL, float(retry_after))
+            return max(60 if rate_limited else MIN_INTERVAL, float(retry_after))
         except ValueError:
             try:
                 retry_at = email.utils.parsedate_to_datetime(retry_after)
                 if retry_at.tzinfo is None:
                     retry_at = retry_at.replace(tzinfo=timezone.utc)
-                return max(MIN_INTERVAL, (retry_at - utc_now()).total_seconds())
+                return max(60 if rate_limited else MIN_INTERVAL, (retry_at - utc_now()).total_seconds())
             except (TypeError, ValueError, OverflowError):
                 pass
-    return MIN_INTERVAL * (2**attempt)
+    return max(60 * (2**attempt), MIN_INTERVAL) if rate_limited else MIN_INTERVAL * (2**attempt)
 
 
 class PoliteClient:
@@ -107,7 +107,7 @@ class PoliteClient:
                 retryable = exc.code == 429 or 500 <= exc.code < 600
                 if not retryable or attempt >= MAX_RETRIES:
                     raise CollectionError(f"arXiv HTTP {exc.code}: {detail}") from exc
-                time.sleep(retry_delay(exc.headers.get("Retry-After"), attempt))
+                time.sleep(retry_delay(exc.headers.get("Retry-After"), attempt, exc.code == 429))
             except (urllib.error.URLError, TimeoutError, ET.ParseError) as exc:
                 self.last_finished = time.monotonic()
                 if attempt >= MAX_RETRIES:
