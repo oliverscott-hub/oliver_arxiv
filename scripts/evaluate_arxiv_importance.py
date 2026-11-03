@@ -237,7 +237,10 @@ def publish_checkpoint() -> None:
         cwd=ROOT, check=True,
     )
     for attempt in range(3):
-        subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
+        pull = subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT)
+        if pull.returncode != 0:
+            subprocess.run(["git", "rebase", "--abort"], cwd=ROOT, check=True)
+            raise RuntimeError(f"No se pudo incorporar main al checkpoint de {VARIANT}")
         if subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=ROOT).returncode == 0:
             print(f"Checkpoint {VARIANT} publicado.")
             return

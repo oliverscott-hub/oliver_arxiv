@@ -28,6 +28,11 @@ jobs:
         with:
           ref: main
 
+      - name: Configure Git identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
       - name: Set evaluation deadline
         run: echo "IMPORTANCE_DEADLINE_EPOCH=$(date -u -d '+345 minutes' +%s)" >> "$GITHUB_ENV"
 
@@ -58,6 +63,9 @@ jobs:
       - name: Save OpenScholar SQLite results
         if: always()
         run: |
+          if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then
+            git rebase --abort
+          fi
           if [ ! -f abstract_evaluation/abstract_importance_mod1.sqlite ]; then
             echo 'No se creó la base de valoraciones de OpenScholar.'
             exit 0
