@@ -18,16 +18,16 @@ concurrency:
 jobs:
   evaluate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 360
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
         with:
           ref: main
 
-      # Reserve the final two minutes for committing and pushing the SQLite file.
+      # Reserve 15 minutes for closing and publishing the final SQLite and JSON.
       - name: Set evaluation deadline
-        run: echo "IMPORTANCE_DEADLINE_EPOCH=$(date -u -d '+8 minutes' +%s)" >> "$GITHUB_ENV"
+        run: echo "IMPORTANCE_DEADLINE_EPOCH=$(date -u -d '+345 minutes' +%s)" >> "$GITHUB_ENV"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -62,7 +62,7 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add abstract_evaluation/abstract_importance_mod0.sqlite
+          git add abstract_evaluation/abstract_importance_mod0.sqlite abstract_evaluation/priority_mod0.json
           if git diff --cached --quiet; then
             echo 'No hay nuevas valoraciones que guardar.'
             exit 0
