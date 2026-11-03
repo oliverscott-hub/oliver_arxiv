@@ -188,6 +188,7 @@ def load_priorities(results: sqlite3.Connection) -> list[dict[str, str]]:
             print(f"Prioridad ya resuelta, se elimina: {arxiv_id}")
             continue
         pending.append({"arxiv_id": arxiv_id, "requested_at_utc": requested_at})
+    pending.sort(key=lambda request: request["requested_at_utc"])
     if pending != requests:
         PRIORITY_PATH.write_text(
             json.dumps(pending, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -205,7 +206,10 @@ def priority_candidate(
         ).fetchone()
         if row is None or not row["summary"] or not row["summary"].strip():
             continue
-        primary = json.loads(row["primary_category_json"] or "null")
+        try:
+            primary = json.loads(row["primary_category_json"] or "null")
+        except json.JSONDecodeError:
+            primary = None
         primary_term = primary.get("term") if isinstance(primary, dict) else None
         category_index = categories.index(primary_term) if primary_term in categories else index
         return category_index, Candidate(
@@ -316,7 +320,7 @@ def try_score_abstract(
     for attempt in range(1, 4):
         try:
             return score_abstract(model, candidate)
-        except (ValueError, KeyError, TypeError) as error:
+        except Exception as error:
             if attempt < 3 and time.time() < deadline:
                 print(f"Reintentando {candidate.arxiv_id} ({attempt}/3): {error}", file=sys.stderr)
                 continue
