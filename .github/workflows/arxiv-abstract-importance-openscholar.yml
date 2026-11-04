@@ -20,11 +20,11 @@ concurrency:
 
 jobs:
   evaluate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 360
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
 
@@ -37,12 +37,12 @@ jobs:
         run: echo "IMPORTANCE_DEADLINE_EPOCH=$(date -u -d '+345 minutes' +%s)" >> "$GITHUB_ENV"
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
       - name: Restore OpenScholar model cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/huggingface/hub/models--QuantFactory--Llama-3.1_OpenScholar-8B-GGUF
           key: openscholar-8b-q4km-9cf91d74d4aa7756b98837a6b356a6588f503de1
