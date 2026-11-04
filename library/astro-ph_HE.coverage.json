@@ -3,10 +3,21 @@
   "source": "arxiv",
   "category": "astro-ph.HE",
   "database": "library/astro-ph_HE.sqlite",
-  "generated_at_utc": "2026-11-04T02:20:48Z",
+  "generated_at_utc": "2026-11-04T04:52:32Z",
   "covered_day_count": 180,
   "paper_version_count": 3416,
   "days": [
+    {
+      "date_utc": "2026-05-07",
+      "query_string": "cat:astro-ph.HE AND submittedDate:[202605070000 TO 202605072359]",
+      "status": "error",
+      "api_total_results": null,
+      "papers_captured": null,
+      "successful_queries": 0,
+      "page_requests": 0,
+      "completed_at_utc": "2026-11-04T04:52:32Z",
+      "error_message": "arXiv HTTP 429: Rate exceeded."
+    },
     {
       "date_utc": "2026-05-08",
       "query_string": "cat:astro-ph.HE AND submittedDate:[202605080000 TO 202605082359]",
