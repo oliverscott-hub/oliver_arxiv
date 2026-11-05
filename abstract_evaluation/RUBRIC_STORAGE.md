@@ -1,22 +1,20 @@
-# Almacenamiento de la rúbrica v1
+# Rúbrica científica v1: elecciones A–D o U
 
-Las bases `rubric_qwen3_8b.sqlite` y `rubric_openscholar_8b.sqlite` guardan los experimentos nuevos por separado. Las bases anteriores `abstract_importance_mod0.sqlite` y `abstract_importance_mod1.sqlite` y sus copias no se modifican.
+Cada modelo recibe exclusivamente las instrucciones de la rúbrica y el abstract. Para cada dimensión I1–I7 selecciona una letra: A, B, C o D para las cuatro categorías ordenadas; U significa información insuficiente. La salida son exactamente siete líneas `I1=C` … `I7=B`. El lector acepta minúsculas y espacios alrededor de `=`, normaliza las letras a mayúsculas y exige una sola opción por dimensión. Una gramática limita la generación a esas siete líneas; el parser independiente vuelve a comprobarlas.
 
-La tabla `evaluations` comienza con `arxiv_id`, `modelo`, `version_rubrica` y `nota_milesimas`. La nota se muestra dividiendo por 1000 (por ejemplo, `7167` equivale a `7.167/10`). Su valor es nulo si la respuesta no pasa la validación. Cada ejecución añade una fila; `id` identifica el intento y permite comparar repeticiones sin sobrescribir datos.
+La rúbrica y sus pesos siguen en **versión 1**: 15, 15, 25, 10, 15, 10 y 10 %. El procedimiento de generación tiene `version_prompt=2` para distinguirlo del experimento JSON inicial. Python traduce letras a categorías, asigna niveles 0–3, usa 1,5 para U y calcula la nota 0–10 con tres decimales. Guarda cobertura, mínimo, máximo y número de dimensiones indeterminadas. El modelo no produce una nota.
 
-Después figuran `variante` (`A`, `B` o `C`), `version_pesos`, `pesos_json`, la huella SHA-256 del abstract, las siete categorías `I1`–`I7` y, para B, los siete pares `I*_evidence_type` y `I*_evidence_text`. También se guardan por separado tipo de contribución, métodos (lista JSON), estado del resultado, apoyo, limitaciones, estado de la afirmación, resumen y justificación global (A/C). `response_raw` conserva la salida exacta del modelo y `validation_error` explica cualquier rechazo. Se incluyen cobertura, notas mínima y máxima, número de criterios indeterminados, hora UTC, latencia y recuentos de tokens cuando estén disponibles.
+Cada modelo tiene una base independiente: `rubric_qwen3_8b.sqlite` y `rubric_openscholar_8b.sqlite`. La tabla `evaluations` comienza con `arxiv_id`, `modelo`, `version_rubrica` y `nota_milesimas` (`7167` representa `7.167/10`). Después almacena las siete letras y las siete categorías semánticas en columnas separadas, pesos y versiones, SHA-256 del abstract, respuesta textual original, error de validación, fecha UTC, latencia y tokens. Se permite un registro válido por arxiv_id y versión de rúbrica; los intentos inválidos se conservan sin nota. Las bases históricas `abstract_importance_mod0.sqlite`, `abstract_importance_mod1.sqlite` y sus copias de seguridad no se alteran.
 
-Las columnas I1–I7 conservan las elecciones originales del modelo. Si cambian los pesos, hay que crear una nueva versión de pesos y recalcular la nota a partir de esas columnas; la nota histórica y los pesos usados en ella permanecen registrados. Un cambio en definiciones u opciones de la rúbrica requiere incrementar `version_rubrica`.
+El evaluador recorre primero las prioridades por modelo y después los días UTC más recientes alternando categorías. Reintenta una vez una respuesta inválida; si tres papers consecutivos no producen ninguna nota válida, termina con error. Publica checkpoints cada 30 minutos. Los workflows admiten cron 02:00/10:00/18:00 UTC, `repository_dispatch` y ejecución manual. En ejecución manual `max_papers` permite una prueba corta; `0` deja la ejecución completa.
 
-El módulo `scripts/rubric_storage.py` valida A y B, calcula la nota en código y guarda las respuestas. La variante C acepta la nota directa como referencia y deja las dimensiones vacías. `scripts/run_rubric_evaluator.py` aplica las tres variantes a cada abstract, prioriza los IDs indicados en los archivos de prioridad existentes y después alterna categorías por día UTC. Los dos workflows usan las bases nuevas y se programan a las 02:00, 10:00 y 18:00 UTC; también admiten ejecución manual y `repository_dispatch`.
-
-Consulta de ejemplo:
+Las explicaciones y la referencia de puntuación directa se evaluarán por separado, sin modificar la nota calculada por estas siete elecciones. Los JSON previos A/B/C fueron descartados de estas dos bases al reiniciarlas para este formato.
 
 ```sql
 SELECT arxiv_id, modelo, version_rubrica,
-       printf('%.3f', nota_milesimas / 1000.0) AS nota,
-       variante, I1, I2, I3, I4, I5, I6, I7
-FROM evaluations
-WHERE validation_error IS NULL
+       printf('%.3f', nota_milesimas/1000.0) AS nota,
+       I1_choice,I2_choice,I3_choice,I4_choice,I5_choice,I6_choice,I7_choice,
+       I1,I2,I3,I4,I5,I6,I7
+FROM evaluations WHERE validation_error IS NULL
 ORDER BY nota_milesimas DESC;
 ```
