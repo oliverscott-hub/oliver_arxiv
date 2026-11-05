@@ -8,7 +8,7 @@ Después figuran `variante` (`A`, `B` o `C`), `version_pesos`, `pesos_json`, la 
 
 Las columnas I1–I7 conservan las elecciones originales del modelo. Si cambian los pesos, hay que crear una nueva versión de pesos y recalcular la nota a partir de esas columnas; la nota histórica y los pesos usados en ella permanecen registrados. Un cambio en definiciones u opciones de la rúbrica requiere incrementar `version_rubrica`.
 
-El módulo `scripts/rubric_storage.py` valida A y B, calcula la nota en código y guarda las respuestas. La variante C acepta la nota directa como referencia y deja las dimensiones vacías. Las bases se han inicializado vacías: los evaluadores de producción siguen pausados y todavía no llaman al módulo nuevo.
+El módulo `scripts/rubric_storage.py` valida A y B, calcula la nota en código y guarda las respuestas. La variante C acepta la nota directa como referencia y deja las dimensiones vacías. `scripts/run_rubric_evaluator.py` aplica las tres variantes a cada abstract, prioriza los IDs indicados en los archivos de prioridad existentes y después alterna categorías por día UTC. Los dos workflows usan las bases nuevas y se programan a las 02:00, 10:00 y 18:00 UTC; también admiten ejecución manual y `repository_dispatch`.
 
 Consulta de ejemplo:
 
