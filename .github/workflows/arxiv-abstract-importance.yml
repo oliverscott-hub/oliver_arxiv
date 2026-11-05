@@ -1,16 +1,7 @@
 name: arXiv abstract importance evaluator
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - abstract_evaluation/priority_mod0.json
-  schedule:
-    # 02:00 UTC, then every eight hours.
-    - cron: '0 2,10,18 * * *'
   workflow_dispatch:
-  repository_dispatch:
-    types: [run-importance-evaluation]
 
 permissions:
   contents: write
@@ -21,6 +12,7 @@ concurrency:
 
 jobs:
   evaluate:
+    if: false # Pausado hasta aprobar la nueva rúbrica.
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     steps:

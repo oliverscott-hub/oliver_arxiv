@@ -1,0 +1,39 @@
+{
+  "snapshot_utc": "2026-11-05T02:15:40.283370+00:00",
+  "source_commit": "c52180c369072c07a2aded863b702e0e18ee4d89",
+  "purpose": "Baseline anterior a la nueva rubrica; archivos de resultados y evaluadores originales.",
+  "files": {
+    "abstract_importance_mod0.sqlite": {
+      "bytes": 7016448,
+      "sha256": "e66d7370eed4be26d43d7c9896ce2ad8955a6ccb9a082fe7e30df803a50b711d",
+      "ratings": 6640,
+      "integrity_check": "ok"
+    },
+    "abstract_importance_mod1.sqlite": {
+      "bytes": 1900544,
+      "sha256": "226c64f8bee4dc07d6fd77fa70a234224a4e5b6b462bea380068906230d523f4",
+      "ratings": 2585,
+      "integrity_check": "ok"
+    },
+    "arxiv-abstract-importance-openscholar.yml": {
+      "bytes": 3017,
+      "sha256": "5f00582b4422f8b9c87b2dfd213071583b5331ce36afcecab563c8ef893ea4f7"
+    },
+    "arxiv-abstract-importance.yml": {
+      "bytes": 3036,
+      "sha256": "8f4ac56d380fd298cfe11cc368e6328b68e8fafd7d158a03bb95e25b34ce1b74"
+    },
+    "evaluate_arxiv_importance.py": {
+      "bytes": 19842,
+      "sha256": "9796cd688674d69a378955e0f81863e9623fd223be099fb5b8e0555089137810"
+    },
+    "priority_mod0.json": {
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    "priority_mod1.json": {
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    }
+  }
+}
