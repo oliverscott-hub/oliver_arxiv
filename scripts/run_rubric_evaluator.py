@@ -14,7 +14,7 @@ from pathlib import Path
 from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
 
-from rubric_storage import open_db, save_response
+from rubric_storage import OPTIONS, open_db, save_response
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_KEY = os.environ.get("RUBRIC_MODEL", "qwen3_8b")
@@ -37,6 +37,44 @@ I7 Enabling capability: ROUTINE no significant new research capability; IMPROVIN
 Use UNDETERMINED only if the abstract lacks enough information for a dimension. Select semantic labels, never compute a numeric score.
 description.contribution_type: DISCOVERY, MEASUREMENT, CONSTRAINT, THEORY, METHOD, REANALYSIS, REPLICATION, SYNTHESIS, OTHER, UNDETERMINED. description.methods is an array from THEORETICAL, OBSERVATIONAL, EXPERIMENTAL, COMPUTATIONAL, STATISTICAL. description.result_status: PROPOSED, DERIVED, SIMULATED, OBSERVED, MEASURED, TESTED, MIXED, UNDETERMINED.
 evidence_control.support: UNSPECIFIED, ASSERTED, ARGUED, SUBSTANTIATED. evidence_control.limitations: NONE_REPORTED, QUALIFIED, EXPLICITLY_LIMITED. evidence_control.claim_status: ESTABLISHED_WITHIN_MODEL, EMPIRICALLY_SUPPORTED, TENTATIVE, SPECULATIVE, UNCLEAR. These descriptive/evidence fields do not change importance."""
+
+
+def object_schema(properties: dict) -> dict:
+    return {"type": "object", "properties": properties,
+            "required": list(properties), "additionalProperties": False}
+
+
+def response_schema(variant: str) -> dict:
+    """Constrain output shape and categories before strict application validation."""
+    if variant == "C":
+        return object_schema({
+            "importance": {"type": "integer", "minimum": 0, "maximum": 10},
+            "justification": {"type": "string"},
+        })
+    importance = object_schema({f"I{i}": {"type": "string", "enum": [*options, "UNDETERMINED"]}
+                                for i, options in enumerate(OPTIONS, 1)})
+    description = object_schema({
+        "contribution_type": {"type": "string", "enum": ["DISCOVERY", "MEASUREMENT", "CONSTRAINT", "THEORY", "METHOD", "REANALYSIS", "REPLICATION", "SYNTHESIS", "OTHER", "UNDETERMINED"]},
+        "methods": {"type": "array", "items": {"type": "string", "enum": ["THEORETICAL", "OBSERVATIONAL", "EXPERIMENTAL", "COMPUTATIONAL", "STATISTICAL"]}},
+        "result_status": {"type": "string", "enum": ["PROPOSED", "DERIVED", "SIMULATED", "OBSERVED", "MEASURED", "TESTED", "MIXED", "UNDETERMINED"]},
+    })
+    control = object_schema({
+        "support": {"type": "string", "enum": ["UNSPECIFIED", "ASSERTED", "ARGUED", "SUBSTANTIATED"]},
+        "limitations": {"type": "string", "enum": ["NONE_REPORTED", "QUALIFIED", "EXPLICITLY_LIMITED"]},
+        "claim_status": {"type": "string", "enum": ["ESTABLISHED_WITHIN_MODEL", "EMPIRICALLY_SUPPORTED", "TENTATIVE", "SPECULATIVE", "UNCLEAR"]},
+    })
+    properties = {"importance": importance, "description": description,
+                  "evidence_control": control, "summary": {"type": "string"}}
+    if variant == "A":
+        properties["justification"] = {"type": "string"}
+    elif variant == "B":
+        properties["evidence"] = object_schema({
+            f"I{i}": object_schema({"type": {"type": "string", "enum": ["DIRECT", "INFERRED", "MISSING"]},
+                                      "text": {"type": "string"}}) for i in range(1, 8)
+        })
+    else:
+        raise ValueError("Unknown variant")
+    return object_schema(properties)
 
 
 def prompt(variant: str, abstract: str) -> str:
@@ -111,7 +149,7 @@ def infer(model: Llama, variant: str, abstract: str):
     started = time.monotonic()
     output = model.create_chat_completion(
         messages=[{"role": "user", "content": message}],
-        response_format={"type": "json_object"},
+        response_format={"type": "json_object", "schema": response_schema(variant)},
         temperature=0.2, top_p=0.8, seed=17,
         max_tokens=1200 if variant == "B" else 850,
     )
@@ -148,6 +186,8 @@ def main():
                       n_batch=256, verbose=False)
         next_checkpoint = time.monotonic() + 30 * 60
         completed = 0
+        attempts = {variant: 0 for variant in VARIANTS}
+        valid_run = {variant: 0 for variant in VARIANTS}
         priority_name = "priority_mod0.json" if MODEL_KEY == "qwen3_8b" else "priority_mod1.json"
         priority_path = ROOT / "abstract_evaluation" / priority_name
         requests = json.loads(priority_path.read_text(encoding="utf-8")) if priority_path.exists() else []
@@ -170,6 +210,8 @@ def main():
                                            latency_ms=latency, input_tokens=input_tokens,
                                            output_tokens=output_tokens)
                 row = db.execute("SELECT nota_milesimas, validation_error FROM evaluations WHERE id=?", (attempt_id,)).fetchone()
+                attempts[variant] += 1
+                valid_run[variant] += row[0] is not None
                 print(f"{arxiv_id} {category} {variant}: {row[0] / 1000 if row[0] is not None else 'invalid'} {row[1] or ''}", flush=True)
                 completed += row[0] is not None
                 if time.monotonic() >= next_checkpoint:
@@ -178,6 +220,9 @@ def main():
             if time.time() >= deadline:
                 break
         print(f"Valid evaluations: {completed}", flush=True)
+        # A green job with only valid direct baselines would hide a broken rubric.
+        if any(attempts[variant] and not valid_run[variant] for variant in ("A", "B")):
+            raise RuntimeError(f"Rubric A/B produced no valid responses this run: attempts={attempts}, valid={valid_run}")
     finally:
         db.close()
 
