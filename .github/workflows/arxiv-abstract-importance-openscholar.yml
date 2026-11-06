@@ -55,12 +55,12 @@ jobs:
             --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
           python -m pip install --disable-pip-version-check 'huggingface_hub==2.4.0'
 
-      - name: Score seven letter choices with rubric v1
+      - name: Evaluate rubric v3 from abstract
         env:
           IMPORTANCE_DEADLINE_EPOCH: ${{ env.IMPORTANCE_DEADLINE_EPOCH }}
           RUBRIC_MODEL: openscholar_8b
           RUBRIC_MAX_PAPERS: ${{ inputs.max_papers || '0' }}
-        run: python -u scripts/run_rubric_evaluator.py
+        run: python -u scripts/run_rubric_v3.py
 
       - name: Save OpenScholar SQLite results
         if: always()
@@ -68,13 +68,13 @@ jobs:
           if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then
             git rebase --abort
           fi
-          if [ ! -f abstract_evaluation/rubric_openscholar_8b.sqlite ]; then
+          if [ ! -f abstract_evaluation/rubric_v3_openscholar_8b.sqlite ]; then
             echo 'No se creó la base de valoraciones de OpenScholar.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add abstract_evaluation/rubric_openscholar_8b.sqlite
+          git add abstract_evaluation/rubric_v3_openscholar_8b.sqlite
           if git diff --cached --quiet; then
             echo 'No hay nuevas valoraciones que guardar.'
             exit 0
