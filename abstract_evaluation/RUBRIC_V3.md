@@ -6,6 +6,8 @@ Los dos modelos reciben solo la instrucción y el abstract. Responden `T`, `Q1/E
 
 El validador exige trece líneas, opciones permitidas, fragmentos exactos del abstract y la presencia de `J` solo para `C` o `D`. Una respuesta inválida se conserva sin puntuación. Las letras se aceptan sin distinguir mayúsculas y minúsculas.
 
+Se permite una corrección mecánica y registrada: descartar `J` no solicitadas para A/B/U y extraer de una cita con puntos suspensivos un fragmento continuo de al menos 20 caracteres que aparezca literalmente en el abstract. Como último recurso se toma un tramo continuo de al menos 30 caracteres compartido por la cita y el abstract. La respuesta original siempre se conserva; `response_normalized` y `normalization_actions_json` explican cada cambio. Si no resulta una cita exacta, la evaluación permanece inválida. La corrección no altera T ni Q.
+
 La puntuación, cuando Q1–Q4 están determinados, es `10/3 × (20×nivel(Q1)+40×nivel(Q2)+20×nivel(Q3)+20×nivel(Q4))/100`, con A=0, B=1, C=2 y D=3. Se guarda redondeada a dos decimales en centésimas. Si hay alguna `U`, `puntuacion_centesimas` queda nula y se guardan cobertura, mínimo y máximo posibles. `T` no influye en la nota.
 
 Los workflows ejecutan la v3 por cron a las 02:00, 10:00 y 18:00 UTC; admiten ejecución manual y `repository_dispatch`. `max_papers` permite limitar una prueba manual.

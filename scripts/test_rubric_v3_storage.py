@@ -2,7 +2,7 @@ import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
-from rubric_v3_storage import open_db, parse, metrics, save_response
+from rubric_v3_storage import open_db, parse, metrics, save_response, normalize
 
 ABSTRACT = "We derive a specific result that reduces an important uncertainty."
 RAW = '\n'.join((
@@ -39,5 +39,13 @@ class StorageTests(unittest.TestCase):
             with self.assertRaises(sqlite3.IntegrityError):
                 save_response(db, arxiv_id='2611.12345v1', model='test', abstract=ABSTRACT, raw=raw)
             db.close()
+
+    def test_audited_format_repair(self):
+        raw = RAW.replace('J3="-"', 'J3="Unrequested explanation."').replace(
+            'E1="important uncertainty"', 'E1="...important uncertainty..."')
+        repaired, actions = normalize(raw, ABSTRACT)
+        self.assertEqual(parse(repaired, ABSTRACT)['Q3'], 'U')
+        self.assertEqual(len(actions), 2)
+        self.assertEqual(raw.splitlines()[0], repaired.splitlines()[0])
 
 if __name__ == '__main__': unittest.main()
