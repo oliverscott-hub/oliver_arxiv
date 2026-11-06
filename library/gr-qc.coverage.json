@@ -3,10 +3,21 @@
   "source": "arxiv",
   "category": "gr-qc",
   "database": "library/gr-qc.sqlite",
-  "generated_at_utc": "2026-11-06T00:54:48Z",
+  "generated_at_utc": "2026-11-06T07:09:50Z",
   "covered_day_count": 420,
   "paper_version_count": 9912,
   "days": [
+    {
+      "date_utc": "2025-09-11",
+      "query_string": "cat:gr-qc AND submittedDate:[202509110000 TO 202509112359]",
+      "status": "error",
+      "api_total_results": null,
+      "papers_captured": null,
+      "successful_queries": 0,
+      "page_requests": 0,
+      "completed_at_utc": "2026-11-06T07:09:50Z",
+      "error_message": "No se obtuvo una respuesta válida: The read operation timed out"
+    },
     {
       "date_utc": "2025-09-12",
       "query_string": "cat:gr-qc AND submittedDate:[202509120000 TO 202509122359]",
