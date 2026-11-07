@@ -204,13 +204,15 @@ def main():
             for attempt in (1,2):
                 if time.time() >= deadline:
                     break
+                attempt_started = time.monotonic()
                 try:
                     raw,latency,input_tokens,output_tokens = infer(model,grammar,abstract,17+attempt-1)
                 except Exception as error:
                     raw,latency,input_tokens,output_tokens = f"INFERENCE_ERROR: {type(error).__name__}: {error}",None,None,None
                 score,error = save_response(db,arxiv_id=arxiv_id,model=MODEL_LABEL,abstract=abstract,
                     raw=raw,latency_ms=latency,input_tokens=input_tokens,output_tokens=output_tokens)
-                print(f"{arxiv_id} {category} attempt={attempt} score={score} error={error}",flush=True)
+                elapsed_seconds = time.monotonic() - attempt_started
+                print(f"{arxiv_id} {category} attempt={attempt} duration_s={elapsed_seconds:.1f} score={score} error={error}",flush=True)
                 if error is None:
                     valid += 1
                     paper_valid = True
