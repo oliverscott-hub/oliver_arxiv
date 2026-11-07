@@ -109,6 +109,19 @@ def prompt(abstract: str) -> str:
 def collect_candidates(db: sqlite3.Connection):
     categories = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))["categories"]
     done = {row[0] for row in db.execute("SELECT id FROM evaluations")}
+    if MODEL_KEY == "qwen3_8b":
+        for group in DAY_GROUPS:
+            path = ROOT / "abstract_evaluation" / (
+                "rubric_v3_qwen3_8b.sqlite" if group == "monday"
+                else f"rubric_v3_qwen3_8b_{group}.sqlite"
+            )
+            if path == DB_PATH or not path.exists():
+                continue
+            other = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+            try:
+                done.update(row[0] for row in other.execute("SELECT id FROM evaluations"))
+            finally:
+                other.close()
     pending = {}
     for category in categories:
         path = ROOT / "library" / f"{category.replace('.', '_')}.sqlite"
