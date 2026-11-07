@@ -7,6 +7,7 @@ on:
       - 'dashboard/**'
       - 'library/*.sqlite'
       - 'library/*.coverage.json'
+      - 'abstract_evaluation/rubric_v3_qwen3_8b*.sqlite'
       - '.github/workflows/publish-weekly-dashboard.yml'
   workflow_dispatch:
 

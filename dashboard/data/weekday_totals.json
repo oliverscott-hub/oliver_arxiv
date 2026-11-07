@@ -1,8 +1,13 @@
 {
-  "generated_at_utc": "2026-11-07T10:42:25Z",
+  "generated_at_utc": "2026-11-07T11:28:03Z",
+  "today_utc": "2026-11-07",
   "week_start_utc": "2026-11-02",
   "previous_week_start_utc": "2026-10-26",
   "previous_week_end_utc": "2026-11-01",
+  "month_start_utc": "2026-11-01",
+  "quarter_start_utc": "2026-10-01",
+  "half_year_start_utc": "2026-07-01",
+  "year_start_utc": "2026-01-01",
   "weekdays": [
     "Lunes",
     "Martes",
@@ -13,335 +18,2356 @@
     "Domingo"
   ],
   "counting_rule": "updated, falling back to published; unique arxiv_id in combined Total",
+  "evaluation_databases": {
+    "Qwen3-8B lunes": "abstract_evaluation/rubric_v3_qwen3_8b.sqlite",
+    "Qwen3-8B martes": "abstract_evaluation/rubric_v3_qwen3_8b_tuesday.sqlite",
+    "Qwen3-8B miércoles": "abstract_evaluation/rubric_v3_qwen3_8b_wednesday.sqlite",
+    "Qwen3-8B jueves": "abstract_evaluation/rubric_v3_qwen3_8b_thursday.sqlite",
+    "Qwen3-8B viernes": "abstract_evaluation/rubric_v3_qwen3_8b_friday.sqlite",
+    "Qwen3-8B fin de semana": "abstract_evaluation/rubric_v3_qwen3_8b_weekend.sqlite"
+  },
   "categories": {
     "astro-ph.CO": {
       "total": 7996,
       "current_week": [
-        5,
-        18,
-        11,
-        20,
-        0,
-        0,
-        0
+        {
+          "evaluated": 5,
+          "pending": 0
+        },
+        {
+          "evaluated": 15,
+          "pending": 3
+        },
+        {
+          "evaluated": 9,
+          "pending": 2
+        },
+        {
+          "evaluated": 14,
+          "pending": 6
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        41,
-        44,
-        26,
-        54,
-        21,
-        5,
-        0
+        {
+          "evaluated": 0,
+          "pending": 41
+        },
+        {
+          "evaluated": 0,
+          "pending": 44
+        },
+        {
+          "evaluated": 0,
+          "pending": 26
+        },
+        {
+          "evaluated": 8,
+          "pending": 46
+        },
+        {
+          "evaluated": 21,
+          "pending": 0
+        },
+        {
+          "evaluated": 5,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 5,
+          "pending": 0
+        },
+        {
+          "evaluated": 15,
+          "pending": 3
+        },
+        {
+          "evaluated": 9,
+          "pending": 2
+        },
+        {
+          "evaluated": 14,
+          "pending": 6
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 5,
+          "pending": 137
+        },
+        {
+          "evaluated": 15,
+          "pending": 146
+        },
+        {
+          "evaluated": 9,
+          "pending": 138
+        },
+        {
+          "evaluated": 22,
+          "pending": 176
+        },
+        {
+          "evaluated": 21,
+          "pending": 109
+        },
+        {
+          "evaluated": 5,
+          "pending": 32
+        },
+        {
+          "evaluated": 0,
+          "pending": 32
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 5,
+          "pending": 537
+        },
+        {
+          "evaluated": 15,
+          "pending": 533
+        },
+        {
+          "evaluated": 9,
+          "pending": 577
+        },
+        {
+          "evaluated": 22,
+          "pending": 537
+        },
+        {
+          "evaluated": 21,
+          "pending": 425
+        },
+        {
+          "evaluated": 5,
+          "pending": 121
+        },
+        {
+          "evaluated": 0,
+          "pending": 135
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 5,
+          "pending": 1101
+        },
+        {
+          "evaluated": 15,
+          "pending": 1148
+        },
+        {
+          "evaluated": 9,
+          "pending": 1130
+        },
+        {
+          "evaluated": 22,
+          "pending": 1037
+        },
+        {
+          "evaluated": 21,
+          "pending": 870
+        },
+        {
+          "evaluated": 5,
+          "pending": 283
+        },
+        {
+          "evaluated": 0,
+          "pending": 282
+        }
       ],
       "all_time": [
-        1498,
-        1574,
-        1540,
-        1402,
-        1198,
-        393,
-        391
+        {
+          "evaluated": 5,
+          "pending": 1493
+        },
+        {
+          "evaluated": 15,
+          "pending": 1559
+        },
+        {
+          "evaluated": 9,
+          "pending": 1531
+        },
+        {
+          "evaluated": 22,
+          "pending": 1380
+        },
+        {
+          "evaluated": 21,
+          "pending": 1177
+        },
+        {
+          "evaluated": 5,
+          "pending": 388
+        },
+        {
+          "evaluated": 0,
+          "pending": 391
+        }
       ]
     },
     "astro-ph.HE": {
-      "total": 8502,
+      "total": 9083,
       "current_week": [
-        29,
-        6,
-        16,
-        13,
-        0,
-        0,
-        0
+        {
+          "evaluated": 24,
+          "pending": 5
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        },
+        {
+          "evaluated": 15,
+          "pending": 1
+        },
+        {
+          "evaluated": 11,
+          "pending": 2
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        46,
-        54,
-        19,
-        53,
-        25,
-        6,
-        1
+        {
+          "evaluated": 0,
+          "pending": 46
+        },
+        {
+          "evaluated": 0,
+          "pending": 54
+        },
+        {
+          "evaluated": 0,
+          "pending": 19
+        },
+        {
+          "evaluated": 9,
+          "pending": 44
+        },
+        {
+          "evaluated": 24,
+          "pending": 1
+        },
+        {
+          "evaluated": 6,
+          "pending": 0
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 24,
+          "pending": 5
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        },
+        {
+          "evaluated": 15,
+          "pending": 1
+        },
+        {
+          "evaluated": 11,
+          "pending": 2
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 24,
+          "pending": 151
+        },
+        {
+          "evaluated": 5,
+          "pending": 175
+        },
+        {
+          "evaluated": 15,
+          "pending": 148
+        },
+        {
+          "evaluated": 20,
+          "pending": 182
+        },
+        {
+          "evaluated": 24,
+          "pending": 108
+        },
+        {
+          "evaluated": 6,
+          "pending": 51
+        },
+        {
+          "evaluated": 1,
+          "pending": 37
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 24,
+          "pending": 590
+        },
+        {
+          "evaluated": 5,
+          "pending": 611
+        },
+        {
+          "evaluated": 15,
+          "pending": 609
+        },
+        {
+          "evaluated": 20,
+          "pending": 576
+        },
+        {
+          "evaluated": 24,
+          "pending": 448
+        },
+        {
+          "evaluated": 6,
+          "pending": 162
+        },
+        {
+          "evaluated": 1,
+          "pending": 164
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 24,
+          "pending": 1186
+        },
+        {
+          "evaluated": 5,
+          "pending": 1223
+        },
+        {
+          "evaluated": 15,
+          "pending": 1186
+        },
+        {
+          "evaluated": 20,
+          "pending": 1152
+        },
+        {
+          "evaluated": 24,
+          "pending": 944
+        },
+        {
+          "evaluated": 6,
+          "pending": 380
+        },
+        {
+          "evaluated": 1,
+          "pending": 334
+        }
       ],
       "all_time": [
-        1585,
-        1649,
-        1545,
-        1525,
-        1265,
-        488,
-        445
+        {
+          "evaluated": 24,
+          "pending": 1663
+        },
+        {
+          "evaluated": 5,
+          "pending": 1742
+        },
+        {
+          "evaluated": 15,
+          "pending": 1640
+        },
+        {
+          "evaluated": 20,
+          "pending": 1618
+        },
+        {
+          "evaluated": 24,
+          "pending": 1329
+        },
+        {
+          "evaluated": 6,
+          "pending": 515
+        },
+        {
+          "evaluated": 1,
+          "pending": 481
+        }
       ]
     },
     "astro-ph.GA": {
-      "total": 10496,
+      "total": 11067,
       "current_week": [
-        15,
-        16,
-        25,
-        23,
-        0,
-        0,
-        0
+        {
+          "evaluated": 12,
+          "pending": 3
+        },
+        {
+          "evaluated": 16,
+          "pending": 0
+        },
+        {
+          "evaluated": 24,
+          "pending": 1
+        },
+        {
+          "evaluated": 22,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        44,
-        52,
-        37,
-        62,
-        31,
-        0,
-        0
+        {
+          "evaluated": 0,
+          "pending": 44
+        },
+        {
+          "evaluated": 0,
+          "pending": 52
+        },
+        {
+          "evaluated": 0,
+          "pending": 37
+        },
+        {
+          "evaluated": 11,
+          "pending": 51
+        },
+        {
+          "evaluated": 29,
+          "pending": 2
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 12,
+          "pending": 3
+        },
+        {
+          "evaluated": 16,
+          "pending": 0
+        },
+        {
+          "evaluated": 24,
+          "pending": 1
+        },
+        {
+          "evaluated": 22,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 12,
+          "pending": 164
+        },
+        {
+          "evaluated": 16,
+          "pending": 193
+        },
+        {
+          "evaluated": 24,
+          "pending": 187
+        },
+        {
+          "evaluated": 33,
+          "pending": 204
+        },
+        {
+          "evaluated": 29,
+          "pending": 137
+        },
+        {
+          "evaluated": 0,
+          "pending": 39
+        },
+        {
+          "evaluated": 0,
+          "pending": 54
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 12,
+          "pending": 643
+        },
+        {
+          "evaluated": 16,
+          "pending": 656
+        },
+        {
+          "evaluated": 24,
+          "pending": 672
+        },
+        {
+          "evaluated": 33,
+          "pending": 632
+        },
+        {
+          "evaluated": 29,
+          "pending": 515
+        },
+        {
+          "evaluated": 0,
+          "pending": 160
+        },
+        {
+          "evaluated": 0,
+          "pending": 170
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 12,
+          "pending": 1394
+        },
+        {
+          "evaluated": 16,
+          "pending": 1438
+        },
+        {
+          "evaluated": 24,
+          "pending": 1412
+        },
+        {
+          "evaluated": 33,
+          "pending": 1288
+        },
+        {
+          "evaluated": 29,
+          "pending": 1134
+        },
+        {
+          "evaluated": 0,
+          "pending": 325
+        },
+        {
+          "evaluated": 0,
+          "pending": 320
+        }
       ],
       "all_time": [
-        1989,
-        2087,
-        2040,
-        1858,
-        1570,
-        476,
-        476
+        {
+          "evaluated": 12,
+          "pending": 2069
+        },
+        {
+          "evaluated": 16,
+          "pending": 2192
+        },
+        {
+          "evaluated": 24,
+          "pending": 2132
+        },
+        {
+          "evaluated": 33,
+          "pending": 1921
+        },
+        {
+          "evaluated": 29,
+          "pending": 1639
+        },
+        {
+          "evaluated": 0,
+          "pending": 497
+        },
+        {
+          "evaluated": 0,
+          "pending": 503
+        }
       ]
     },
     "astro-ph.SR": {
       "total": 7651,
       "current_week": [
-        19,
-        13,
-        16,
-        17,
-        0,
-        0,
-        0
+        {
+          "evaluated": 13,
+          "pending": 6
+        },
+        {
+          "evaluated": 9,
+          "pending": 4
+        },
+        {
+          "evaluated": 15,
+          "pending": 1
+        },
+        {
+          "evaluated": 15,
+          "pending": 2
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        32,
-        27,
-        17,
-        21,
-        14,
-        0,
-        1
+        {
+          "evaluated": 0,
+          "pending": 32
+        },
+        {
+          "evaluated": 0,
+          "pending": 27
+        },
+        {
+          "evaluated": 0,
+          "pending": 17
+        },
+        {
+          "evaluated": 8,
+          "pending": 13
+        },
+        {
+          "evaluated": 13,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 13,
+          "pending": 6
+        },
+        {
+          "evaluated": 9,
+          "pending": 4
+        },
+        {
+          "evaluated": 15,
+          "pending": 1
+        },
+        {
+          "evaluated": 15,
+          "pending": 2
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 13,
+          "pending": 108
+        },
+        {
+          "evaluated": 9,
+          "pending": 124
+        },
+        {
+          "evaluated": 15,
+          "pending": 102
+        },
+        {
+          "evaluated": 23,
+          "pending": 108
+        },
+        {
+          "evaluated": 13,
+          "pending": 84
+        },
+        {
+          "evaluated": 0,
+          "pending": 30
+        },
+        {
+          "evaluated": 1,
+          "pending": 34
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 13,
+          "pending": 419
+        },
+        {
+          "evaluated": 9,
+          "pending": 425
+        },
+        {
+          "evaluated": 15,
+          "pending": 442
+        },
+        {
+          "evaluated": 23,
+          "pending": 393
+        },
+        {
+          "evaluated": 13,
+          "pending": 320
+        },
+        {
+          "evaluated": 0,
+          "pending": 116
+        },
+        {
+          "evaluated": 1,
+          "pending": 128
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 13,
+          "pending": 911
+        },
+        {
+          "evaluated": 9,
+          "pending": 917
+        },
+        {
+          "evaluated": 15,
+          "pending": 916
+        },
+        {
+          "evaluated": 23,
+          "pending": 840
+        },
+        {
+          "evaluated": 13,
+          "pending": 683
+        },
+        {
+          "evaluated": 0,
+          "pending": 238
+        },
+        {
+          "evaluated": 1,
+          "pending": 259
+        }
       ],
       "all_time": [
-        1478,
-        1505,
-        1444,
-        1328,
-        1091,
-        390,
-        415
+        {
+          "evaluated": 13,
+          "pending": 1465
+        },
+        {
+          "evaluated": 9,
+          "pending": 1496
+        },
+        {
+          "evaluated": 15,
+          "pending": 1429
+        },
+        {
+          "evaluated": 23,
+          "pending": 1305
+        },
+        {
+          "evaluated": 13,
+          "pending": 1078
+        },
+        {
+          "evaluated": 0,
+          "pending": 390
+        },
+        {
+          "evaluated": 1,
+          "pending": 414
+        }
       ]
     },
     "astro-ph.IM": {
       "total": 6532,
       "current_week": [
-        5,
-        1,
-        2,
-        0,
-        0,
-        0,
-        0
+        {
+          "evaluated": 4,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 1
+        },
+        {
+          "evaluated": 2,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        28,
-        28,
-        20,
-        43,
-        17,
-        3,
-        0
+        {
+          "evaluated": 0,
+          "pending": 28
+        },
+        {
+          "evaluated": 0,
+          "pending": 28
+        },
+        {
+          "evaluated": 0,
+          "pending": 20
+        },
+        {
+          "evaluated": 9,
+          "pending": 34
+        },
+        {
+          "evaluated": 13,
+          "pending": 4
+        },
+        {
+          "evaluated": 3,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 4,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 1
+        },
+        {
+          "evaluated": 2,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 4,
+          "pending": 99
+        },
+        {
+          "evaluated": 0,
+          "pending": 95
+        },
+        {
+          "evaluated": 2,
+          "pending": 116
+        },
+        {
+          "evaluated": 9,
+          "pending": 150
+        },
+        {
+          "evaluated": 13,
+          "pending": 82
+        },
+        {
+          "evaluated": 3,
+          "pending": 34
+        },
+        {
+          "evaluated": 0,
+          "pending": 31
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 4,
+          "pending": 390
+        },
+        {
+          "evaluated": 0,
+          "pending": 410
+        },
+        {
+          "evaluated": 2,
+          "pending": 453
+        },
+        {
+          "evaluated": 9,
+          "pending": 419
+        },
+        {
+          "evaluated": 13,
+          "pending": 317
+        },
+        {
+          "evaluated": 3,
+          "pending": 96
+        },
+        {
+          "evaluated": 0,
+          "pending": 121
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 4,
+          "pending": 825
+        },
+        {
+          "evaluated": 0,
+          "pending": 805
+        },
+        {
+          "evaluated": 2,
+          "pending": 819
+        },
+        {
+          "evaluated": 9,
+          "pending": 737
+        },
+        {
+          "evaluated": 13,
+          "pending": 673
+        },
+        {
+          "evaluated": 3,
+          "pending": 195
+        },
+        {
+          "evaluated": 0,
+          "pending": 209
+        }
       ],
       "all_time": [
-        1236,
-        1277,
-        1198,
-        1146,
-        1043,
-        310,
-        322
+        {
+          "evaluated": 4,
+          "pending": 1232
+        },
+        {
+          "evaluated": 0,
+          "pending": 1277
+        },
+        {
+          "evaluated": 2,
+          "pending": 1196
+        },
+        {
+          "evaluated": 9,
+          "pending": 1137
+        },
+        {
+          "evaluated": 13,
+          "pending": 1030
+        },
+        {
+          "evaluated": 3,
+          "pending": 307
+        },
+        {
+          "evaluated": 0,
+          "pending": 322
+        }
       ]
     },
     "gr-qc": {
       "total": 12418,
       "current_week": [
-        17,
-        4,
-        1,
-        3,
-        0,
-        0,
-        0
+        {
+          "evaluated": 14,
+          "pending": 3
+        },
+        {
+          "evaluated": 4,
+          "pending": 0
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        },
+        {
+          "evaluated": 2,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        60,
-        70,
-        43,
-        101,
-        49,
-        9,
-        6
+        {
+          "evaluated": 0,
+          "pending": 60
+        },
+        {
+          "evaluated": 0,
+          "pending": 70
+        },
+        {
+          "evaluated": 0,
+          "pending": 43
+        },
+        {
+          "evaluated": 9,
+          "pending": 92
+        },
+        {
+          "evaluated": 45,
+          "pending": 4
+        },
+        {
+          "evaluated": 8,
+          "pending": 1
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 14,
+          "pending": 3
+        },
+        {
+          "evaluated": 4,
+          "pending": 0
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        },
+        {
+          "evaluated": 2,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 14,
+          "pending": 233
+        },
+        {
+          "evaluated": 4,
+          "pending": 238
+        },
+        {
+          "evaluated": 1,
+          "pending": 206
+        },
+        {
+          "evaluated": 11,
+          "pending": 317
+        },
+        {
+          "evaluated": 45,
+          "pending": 186
+        },
+        {
+          "evaluated": 8,
+          "pending": 83
+        },
+        {
+          "evaluated": 5,
+          "pending": 76
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 14,
+          "pending": 858
+        },
+        {
+          "evaluated": 4,
+          "pending": 834
+        },
+        {
+          "evaluated": 1,
+          "pending": 904
+        },
+        {
+          "evaluated": 11,
+          "pending": 889
+        },
+        {
+          "evaluated": 45,
+          "pending": 652
+        },
+        {
+          "evaluated": 8,
+          "pending": 322
+        },
+        {
+          "evaluated": 5,
+          "pending": 304
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 14,
+          "pending": 1706
+        },
+        {
+          "evaluated": 4,
+          "pending": 1643
+        },
+        {
+          "evaluated": 1,
+          "pending": 1638
+        },
+        {
+          "evaluated": 11,
+          "pending": 1654
+        },
+        {
+          "evaluated": 45,
+          "pending": 1257
+        },
+        {
+          "evaluated": 8,
+          "pending": 622
+        },
+        {
+          "evaluated": 5,
+          "pending": 605
+        }
       ],
       "all_time": [
-        2291,
-        2216,
-        2216,
-        2196,
-        1765,
-        879,
-        855
+        {
+          "evaluated": 14,
+          "pending": 2277
+        },
+        {
+          "evaluated": 4,
+          "pending": 2212
+        },
+        {
+          "evaluated": 1,
+          "pending": 2215
+        },
+        {
+          "evaluated": 11,
+          "pending": 2185
+        },
+        {
+          "evaluated": 45,
+          "pending": 1720
+        },
+        {
+          "evaluated": 8,
+          "pending": 871
+        },
+        {
+          "evaluated": 5,
+          "pending": 850
+        }
       ]
     },
     "hep-th": {
-      "total": 14183,
+      "total": 14874,
       "current_week": [
-        15,
-        12,
-        1,
-        1,
-        0,
-        0,
-        0
+        {
+          "evaluated": 12,
+          "pending": 3
+        },
+        {
+          "evaluated": 9,
+          "pending": 3
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        81,
-        81,
-        50,
-        91,
-        57,
-        8,
-        9
+        {
+          "evaluated": 0,
+          "pending": 81
+        },
+        {
+          "evaluated": 0,
+          "pending": 82
+        },
+        {
+          "evaluated": 0,
+          "pending": 50
+        },
+        {
+          "evaluated": 8,
+          "pending": 83
+        },
+        {
+          "evaluated": 48,
+          "pending": 9
+        },
+        {
+          "evaluated": 4,
+          "pending": 5
+        },
+        {
+          "evaluated": 9,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 12,
+          "pending": 3
+        },
+        {
+          "evaluated": 9,
+          "pending": 3
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 9,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 12,
+          "pending": 310
+        },
+        {
+          "evaluated": 9,
+          "pending": 293
+        },
+        {
+          "evaluated": 1,
+          "pending": 271
+        },
+        {
+          "evaluated": 8,
+          "pending": 359
+        },
+        {
+          "evaluated": 48,
+          "pending": 237
+        },
+        {
+          "evaluated": 4,
+          "pending": 82
+        },
+        {
+          "evaluated": 9,
+          "pending": 78
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 12,
+          "pending": 1051
+        },
+        {
+          "evaluated": 9,
+          "pending": 951
+        },
+        {
+          "evaluated": 1,
+          "pending": 1002
+        },
+        {
+          "evaluated": 8,
+          "pending": 1030
+        },
+        {
+          "evaluated": 48,
+          "pending": 743
+        },
+        {
+          "evaluated": 4,
+          "pending": 315
+        },
+        {
+          "evaluated": 9,
+          "pending": 343
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 12,
+          "pending": 1995
+        },
+        {
+          "evaluated": 9,
+          "pending": 1869
+        },
+        {
+          "evaluated": 1,
+          "pending": 1874
+        },
+        {
+          "evaluated": 8,
+          "pending": 1938
+        },
+        {
+          "evaluated": 48,
+          "pending": 1437
+        },
+        {
+          "evaluated": 4,
+          "pending": 626
+        },
+        {
+          "evaluated": 9,
+          "pending": 650
+        }
       ],
       "all_time": [
-        2698,
-        2573,
-        2591,
-        2574,
-        1982,
-        828,
-        937
+        {
+          "evaluated": 12,
+          "pending": 2818
+        },
+        {
+          "evaluated": 9,
+          "pending": 2688
+        },
+        {
+          "evaluated": 1,
+          "pending": 2712
+        },
+        {
+          "evaluated": 8,
+          "pending": 2677
+        },
+        {
+          "evaluated": 48,
+          "pending": 2040
+        },
+        {
+          "evaluated": 4,
+          "pending": 875
+        },
+        {
+          "evaluated": 9,
+          "pending": 973
+        }
       ]
     },
     "hep-ph": {
       "total": 13948,
       "current_week": [
-        13,
-        11,
-        6,
-        8,
-        0,
-        0,
-        0
+        {
+          "evaluated": 12,
+          "pending": 1
+        },
+        {
+          "evaluated": 10,
+          "pending": 1
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        },
+        {
+          "evaluated": 7,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        79,
-        75,
-        53,
-        96,
-        47,
-        9,
-        7
+        {
+          "evaluated": 0,
+          "pending": 79
+        },
+        {
+          "evaluated": 0,
+          "pending": 75
+        },
+        {
+          "evaluated": 0,
+          "pending": 53
+        },
+        {
+          "evaluated": 10,
+          "pending": 86
+        },
+        {
+          "evaluated": 40,
+          "pending": 7
+        },
+        {
+          "evaluated": 6,
+          "pending": 3
+        },
+        {
+          "evaluated": 6,
+          "pending": 1
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 12,
+          "pending": 1
+        },
+        {
+          "evaluated": 10,
+          "pending": 1
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        },
+        {
+          "evaluated": 7,
+          "pending": 1
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 6,
+          "pending": 1
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 12,
+          "pending": 267
+        },
+        {
+          "evaluated": 10,
+          "pending": 256
+        },
+        {
+          "evaluated": 5,
+          "pending": 273
+        },
+        {
+          "evaluated": 17,
+          "pending": 314
+        },
+        {
+          "evaluated": 40,
+          "pending": 186
+        },
+        {
+          "evaluated": 6,
+          "pending": 73
+        },
+        {
+          "evaluated": 6,
+          "pending": 89
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 12,
+          "pending": 934
+        },
+        {
+          "evaluated": 10,
+          "pending": 970
+        },
+        {
+          "evaluated": 5,
+          "pending": 972
+        },
+        {
+          "evaluated": 17,
+          "pending": 911
+        },
+        {
+          "evaluated": 40,
+          "pending": 726
+        },
+        {
+          "evaluated": 6,
+          "pending": 310
+        },
+        {
+          "evaluated": 6,
+          "pending": 317
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 12,
+          "pending": 1821
+        },
+        {
+          "evaluated": 10,
+          "pending": 1843
+        },
+        {
+          "evaluated": 5,
+          "pending": 1856
+        },
+        {
+          "evaluated": 17,
+          "pending": 1793
+        },
+        {
+          "evaluated": 40,
+          "pending": 1428
+        },
+        {
+          "evaluated": 6,
+          "pending": 584
+        },
+        {
+          "evaluated": 6,
+          "pending": 609
+        }
       ],
       "all_time": [
-        2587,
-        2560,
-        2603,
-        2486,
-        2065,
-        798,
-        849
+        {
+          "evaluated": 12,
+          "pending": 2575
+        },
+        {
+          "evaluated": 10,
+          "pending": 2550
+        },
+        {
+          "evaluated": 5,
+          "pending": 2598
+        },
+        {
+          "evaluated": 17,
+          "pending": 2469
+        },
+        {
+          "evaluated": 40,
+          "pending": 2025
+        },
+        {
+          "evaluated": 6,
+          "pending": 792
+        },
+        {
+          "evaluated": 6,
+          "pending": 843
+        }
       ]
     },
     "hep-ex": {
       "total": 5913,
       "current_week": [
-        4,
-        6,
-        1,
-        3,
-        0,
-        0,
-        0
+        {
+          "evaluated": 4,
+          "pending": 0
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        },
+        {
+          "evaluated": 3,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        28,
-        33,
-        17,
-        28,
-        10,
-        4,
-        4
+        {
+          "evaluated": 0,
+          "pending": 28
+        },
+        {
+          "evaluated": 0,
+          "pending": 33
+        },
+        {
+          "evaluated": 0,
+          "pending": 17
+        },
+        {
+          "evaluated": 6,
+          "pending": 22
+        },
+        {
+          "evaluated": 7,
+          "pending": 3
+        },
+        {
+          "evaluated": 4,
+          "pending": 0
+        },
+        {
+          "evaluated": 4,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 4,
+          "pending": 0
+        },
+        {
+          "evaluated": 5,
+          "pending": 1
+        },
+        {
+          "evaluated": 1,
+          "pending": 0
+        },
+        {
+          "evaluated": 3,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 4,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 4,
+          "pending": 109
+        },
+        {
+          "evaluated": 5,
+          "pending": 93
+        },
+        {
+          "evaluated": 1,
+          "pending": 87
+        },
+        {
+          "evaluated": 9,
+          "pending": 113
+        },
+        {
+          "evaluated": 7,
+          "pending": 101
+        },
+        {
+          "evaluated": 4,
+          "pending": 26
+        },
+        {
+          "evaluated": 4,
+          "pending": 38
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 4,
+          "pending": 375
+        },
+        {
+          "evaluated": 5,
+          "pending": 364
+        },
+        {
+          "evaluated": 1,
+          "pending": 369
+        },
+        {
+          "evaluated": 9,
+          "pending": 372
+        },
+        {
+          "evaluated": 7,
+          "pending": 323
+        },
+        {
+          "evaluated": 4,
+          "pending": 105
+        },
+        {
+          "evaluated": 4,
+          "pending": 115
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 4,
+          "pending": 731
+        },
+        {
+          "evaluated": 5,
+          "pending": 712
+        },
+        {
+          "evaluated": 1,
+          "pending": 726
+        },
+        {
+          "evaluated": 9,
+          "pending": 732
+        },
+        {
+          "evaluated": 7,
+          "pending": 625
+        },
+        {
+          "evaluated": 4,
+          "pending": 221
+        },
+        {
+          "evaluated": 4,
+          "pending": 230
+        }
       ],
       "all_time": [
-        1110,
-        1084,
-        1063,
-        1083,
-        916,
-        327,
-        330
+        {
+          "evaluated": 4,
+          "pending": 1106
+        },
+        {
+          "evaluated": 5,
+          "pending": 1079
+        },
+        {
+          "evaluated": 1,
+          "pending": 1062
+        },
+        {
+          "evaluated": 9,
+          "pending": 1074
+        },
+        {
+          "evaluated": 7,
+          "pending": 909
+        },
+        {
+          "evaluated": 4,
+          "pending": 323
+        },
+        {
+          "evaluated": 4,
+          "pending": 326
+        }
       ]
     },
     "math-ph": {
       "total": 10868,
       "current_week": [
-        12,
-        9,
-        8,
-        5,
-        0,
-        0,
-        0
+        {
+          "evaluated": 2,
+          "pending": 10
+        },
+        {
+          "evaluated": 1,
+          "pending": 8
+        },
+        {
+          "evaluated": 2,
+          "pending": 6
+        },
+        {
+          "evaluated": 0,
+          "pending": 5
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        67,
-        69,
-        37,
-        81,
-        44,
-        5,
-        0
+        {
+          "evaluated": 0,
+          "pending": 67
+        },
+        {
+          "evaluated": 0,
+          "pending": 69
+        },
+        {
+          "evaluated": 0,
+          "pending": 37
+        },
+        {
+          "evaluated": 6,
+          "pending": 75
+        },
+        {
+          "evaluated": 19,
+          "pending": 25
+        },
+        {
+          "evaluated": 2,
+          "pending": 3
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 2,
+          "pending": 10
+        },
+        {
+          "evaluated": 1,
+          "pending": 8
+        },
+        {
+          "evaluated": 2,
+          "pending": 6
+        },
+        {
+          "evaluated": 0,
+          "pending": 5
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 2,
+          "pending": 247
+        },
+        {
+          "evaluated": 1,
+          "pending": 254
+        },
+        {
+          "evaluated": 2,
+          "pending": 208
+        },
+        {
+          "evaluated": 6,
+          "pending": 279
+        },
+        {
+          "evaluated": 19,
+          "pending": 212
+        },
+        {
+          "evaluated": 2,
+          "pending": 82
+        },
+        {
+          "evaluated": 0,
+          "pending": 89
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 2,
+          "pending": 756
+        },
+        {
+          "evaluated": 1,
+          "pending": 756
+        },
+        {
+          "evaluated": 2,
+          "pending": 744
+        },
+        {
+          "evaluated": 6,
+          "pending": 789
+        },
+        {
+          "evaluated": 19,
+          "pending": 604
+        },
+        {
+          "evaluated": 2,
+          "pending": 280
+        },
+        {
+          "evaluated": 0,
+          "pending": 321
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 2,
+          "pending": 1379
+        },
+        {
+          "evaluated": 1,
+          "pending": 1366
+        },
+        {
+          "evaluated": 2,
+          "pending": 1278
+        },
+        {
+          "evaluated": 6,
+          "pending": 1330
+        },
+        {
+          "evaluated": 19,
+          "pending": 1042
+        },
+        {
+          "evaluated": 2,
+          "pending": 515
+        },
+        {
+          "evaluated": 0,
+          "pending": 565
+        }
       ],
       "all_time": [
-        1949,
-        1963,
-        1868,
-        1939,
-        1561,
-        750,
-        838
+        {
+          "evaluated": 2,
+          "pending": 1947
+        },
+        {
+          "evaluated": 1,
+          "pending": 1962
+        },
+        {
+          "evaluated": 2,
+          "pending": 1866
+        },
+        {
+          "evaluated": 6,
+          "pending": 1933
+        },
+        {
+          "evaluated": 19,
+          "pending": 1542
+        },
+        {
+          "evaluated": 2,
+          "pending": 748
+        },
+        {
+          "evaluated": 0,
+          "pending": 838
+        }
       ]
     },
     "Total": {
-      "total": 68635,
+      "total": 69802,
       "current_week": [
-        107,
-        79,
-        69,
-        67,
-        0,
-        0,
-        0
+        {
+          "evaluated": 79,
+          "pending": 28
+        },
+        {
+          "evaluated": 57,
+          "pending": 22
+        },
+        {
+          "evaluated": 58,
+          "pending": 11
+        },
+        {
+          "evaluated": 50,
+          "pending": 17
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        }
       ],
       "previous_week": [
-        349,
-        374,
-        220,
-        444,
-        225,
-        31,
-        18
+        {
+          "evaluated": 0,
+          "pending": 349
+        },
+        {
+          "evaluated": 0,
+          "pending": 375
+        },
+        {
+          "evaluated": 0,
+          "pending": 220
+        },
+        {
+          "evaluated": 58,
+          "pending": 386
+        },
+        {
+          "evaluated": 174,
+          "pending": 51
+        },
+        {
+          "evaluated": 23,
+          "pending": 9
+        },
+        {
+          "evaluated": 16,
+          "pending": 2
+        }
+      ],
+      "current_month": [
+        {
+          "evaluated": 79,
+          "pending": 28
+        },
+        {
+          "evaluated": 57,
+          "pending": 22
+        },
+        {
+          "evaluated": 58,
+          "pending": 11
+        },
+        {
+          "evaluated": 50,
+          "pending": 17
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 0,
+          "pending": 0
+        },
+        {
+          "evaluated": 16,
+          "pending": 2
+        }
+      ],
+      "current_quarter": [
+        {
+          "evaluated": 79,
+          "pending": 1284
+        },
+        {
+          "evaluated": 57,
+          "pending": 1305
+        },
+        {
+          "evaluated": 58,
+          "pending": 1170
+        },
+        {
+          "evaluated": 108,
+          "pending": 1509
+        },
+        {
+          "evaluated": 174,
+          "pending": 1002
+        },
+        {
+          "evaluated": 23,
+          "pending": 388
+        },
+        {
+          "evaluated": 16,
+          "pending": 410
+        }
+      ],
+      "current_half_year": [
+        {
+          "evaluated": 79,
+          "pending": 4481
+        },
+        {
+          "evaluated": 57,
+          "pending": 4479
+        },
+        {
+          "evaluated": 58,
+          "pending": 4573
+        },
+        {
+          "evaluated": 108,
+          "pending": 4499
+        },
+        {
+          "evaluated": 174,
+          "pending": 3478
+        },
+        {
+          "evaluated": 23,
+          "pending": 1395
+        },
+        {
+          "evaluated": 16,
+          "pending": 1507
+        }
+      ],
+      "current_year": [
+        {
+          "evaluated": 79,
+          "pending": 8884
+        },
+        {
+          "evaluated": 57,
+          "pending": 8879
+        },
+        {
+          "evaluated": 58,
+          "pending": 8744
+        },
+        {
+          "evaluated": 108,
+          "pending": 8546
+        },
+        {
+          "evaluated": 174,
+          "pending": 6956
+        },
+        {
+          "evaluated": 23,
+          "pending": 2784
+        },
+        {
+          "evaluated": 16,
+          "pending": 2873
+        }
       ],
       "all_time": [
-        12751,
-        12860,
-        12554,
-        12164,
-        10136,
-        3993,
-        4177
+        {
+          "evaluated": 79,
+          "pending": 12870
+        },
+        {
+          "evaluated": 57,
+          "pending": 13045
+        },
+        {
+          "evaluated": 58,
+          "pending": 12716
+        },
+        {
+          "evaluated": 108,
+          "pending": 12258
+        },
+        {
+          "evaluated": 174,
+          "pending": 10144
+        },
+        {
+          "evaluated": 23,
+          "pending": 4040
+        },
+        {
+          "evaluated": 16,
+          "pending": 4214
+        }
       ]
     }
   }
