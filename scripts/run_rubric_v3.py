@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MODEL_KEY = os.environ.get("RUBRIC_MODEL", "qwen3_8b")
 MODELS = {
     "qwen3_8b": ("Qwen/Qwen3-8B-GGUF", "Qwen3-8B-Q4_K_M.gguf", "Qwen3-8B Q4_K_M"),
+    "qwen3_14b": ("Qwen/Qwen3-14B-GGUF", "Qwen3-14B-Q4_K_M.gguf", "Qwen3-14B Q4_K_M"),
     "openscholar_8b": ("QuantFactory/Llama-3.1_OpenScholar-8B-GGUF", "Llama-3.1_OpenScholar-8B.Q4_K_M.gguf", "OpenScholar-8B Q4_K_M"),
 }
 if MODEL_KEY not in MODELS:
@@ -117,7 +118,7 @@ def collect_candidates(db: sqlite3.Connection):
 
 
 def ordered_candidates(papers, categories):
-    priority_name = "priority_mod0.json" if MODEL_KEY == "qwen3_8b" else "priority_mod1.json"
+    priority_name = {"qwen3_8b": "priority_mod0.json", "openscholar_8b": "priority_mod1.json", "qwen3_14b": "priority_mod2.json"}[MODEL_KEY]
     path = ROOT / "abstract_evaluation" / priority_name
     requests = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
     if not isinstance(requests, list):
@@ -148,7 +149,7 @@ def ordered_candidates(papers, categories):
 
 def infer(model: Llama, grammar: LlamaGrammar, abstract: str, seed: int):
     message = prompt(abstract)
-    if MODEL_KEY == "qwen3_8b":
+    if MODEL_KEY in ("qwen3_8b", "qwen3_14b"):
         message = "/no_think\n" + message
     started = time.monotonic()
     output = model.create_chat_completion(
