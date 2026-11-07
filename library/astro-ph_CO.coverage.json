@@ -3,7 +3,7 @@
   "source": "arxiv",
   "category": "astro-ph.CO",
   "database": "library/astro-ph_CO.sqlite",
-  "generated_at_utc": "2026-11-06T22:12:19Z",
+  "generated_at_utc": "2026-11-07T04:25:20Z",
   "covered_day_count": 510,
   "paper_version_count": 7582,
   "days": [
@@ -5616,6 +5616,17 @@
       "page_requests": 1,
       "completed_at_utc": "2026-11-06T04:26:29Z",
       "error_message": null
+    },
+    {
+      "date_utc": "2026-11-06",
+      "query_string": "cat:astro-ph.CO AND submittedDate:[202611060000 TO 202611062359]",
+      "status": "error",
+      "api_total_results": null,
+      "papers_captured": null,
+      "successful_queries": 0,
+      "page_requests": 0,
+      "completed_at_utc": "2026-11-07T04:25:20Z",
+      "error_message": "No se obtuvo una respuesta válida: The read operation timed out"
     }
   ]
 }
