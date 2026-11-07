@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: arxiv-abstract-importance
+  group: arxiv-abstract-importance-qwen3-8b-monday
   cancel-in-progress: false
 
 jobs:
@@ -60,6 +60,7 @@ jobs:
         env:
           IMPORTANCE_DEADLINE_EPOCH: ${{ env.IMPORTANCE_DEADLINE_EPOCH }}
           RUBRIC_MODEL: qwen3_8b
+          RUBRIC_DAY_GROUP: monday
           RUBRIC_MAX_PAPERS: ${{ inputs.max_papers || '0' }}
         run: python -u scripts/run_rubric_v3.py
 

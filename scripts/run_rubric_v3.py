@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import datetime as dt
 import os
 import sqlite3
 import subprocess
@@ -28,6 +29,17 @@ if MODEL_KEY not in MODELS:
     raise ValueError("Unknown model")
 MODEL_REPO, MODEL_FILE, MODEL_LABEL = MODELS[MODEL_KEY]
 DB_PATH = ROOT / "abstract_evaluation" / f"rubric_v3_{MODEL_KEY}.sqlite"
+DAY_GROUP = os.environ.get("RUBRIC_DAY_GROUP", "monday")
+DAY_GROUPS = {"monday": (0,), "tuesday": (1,), "wednesday": (2,),
+              "thursday": (3,), "friday": (4,), "weekend": (5, 6)}
+if DAY_GROUP not in DAY_GROUPS:
+    raise ValueError(f"Unknown day group: {DAY_GROUP}")
+if MODEL_KEY == "qwen3_8b" and DAY_GROUP != "monday":
+    DB_PATH = ROOT / "abstract_evaluation" / f"rubric_v3_qwen3_8b_{DAY_GROUP}.sqlite"
+
+
+def effective_weekday(timestamp: str) -> int:
+    return dt.datetime.fromisoformat(timestamp.replace("Z", "+00:00")).astimezone(dt.timezone.utc).weekday()
 
 # The grammar enforces seven ordered choices. The parser independently verifies it.
 GRAMMAR = 'root ::= "T=" type "\\nQ1=" choice "\\nE1=\\\"" txt "\\\"\\nJ1=\\\"" txt "\\\"\\nQ2=" choice "\\nE2=\\\"" txt "\\\"\\nJ2=\\\"" txt "\\\"\\nQ3=" choice "\\nE3=\\\"" txt "\\\"\\nJ3=\\\"" txt "\\\"\\nQ4=" choice "\\nE4=\\\"" txt "\\\"\\nJ4=\\\"" txt "\\\""\nchoice ::= [AaBbCcDdUu]\ntype ::= [TtEeMmSsPpUu]\ntxt ::= [^"\\n]*\n'
@@ -110,6 +122,8 @@ def collect_candidates(db: sqlite3.Connection):
                 AND json_extract(primary_category_json,'$.term')=?
                 ORDER BY COALESCE(NULLIF(updated,''),published) DESC,arxiv_id DESC
             """, (category,)):
+                if MODEL_KEY == "qwen3_8b" and effective_weekday(timestamp) not in DAY_GROUPS[DAY_GROUP]:
+                    continue
                 if arxiv_id not in done and arxiv_id not in pending:
                     pending[arxiv_id] = (arxiv_id, abstract, timestamp, category)
         finally:
