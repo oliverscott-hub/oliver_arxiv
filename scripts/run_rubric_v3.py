@@ -95,7 +95,7 @@ def prompt(abstract: str) -> str:
 
 def collect_candidates(db: sqlite3.Connection):
     categories = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))["categories"]
-    done = {row[0] for row in db.execute("SELECT arxiv_id FROM evaluations WHERE validation_error IS NULL")}
+    done = {row[0] for row in db.execute("SELECT id FROM evaluations")}
     pending = {}
     for category in categories:
         path = ROOT / "library" / f"{category.replace('.', '_')}.sqlite"
@@ -207,9 +207,8 @@ def main():
                     raw,latency,input_tokens,output_tokens = infer(model,grammar,abstract,17+attempt-1)
                 except Exception as error:
                     raw,latency,input_tokens,output_tokens = f"INFERENCE_ERROR: {type(error).__name__}: {error}",None,None,None
-                record_id = save_response(db,arxiv_id=arxiv_id,model=MODEL_LABEL,abstract=abstract,
+                score,error = save_response(db,arxiv_id=arxiv_id,model=MODEL_LABEL,abstract=abstract,
                     raw=raw,latency_ms=latency,input_tokens=input_tokens,output_tokens=output_tokens)
-                score,error = db.execute("SELECT puntuacion_centesimas,validation_error FROM evaluations WHERE id=?",(record_id,)).fetchone()
                 print(f"{arxiv_id} {category} attempt={attempt} score={score} error={error}",flush=True)
                 if error is None:
                     valid += 1

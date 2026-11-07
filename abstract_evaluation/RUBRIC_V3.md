@@ -1,13 +1,9 @@
-# Rúbrica v3
+# Rúbrica v3: almacenamiento vigente
 
-La instrucción de producción está en `scripts/rubric_v3_prompt.txt`. Conserva la propuesta recibida, con la errata «nine lines» corregida a «thirteen lines» porque el formato contiene una línea `T` y tres líneas por cada una de las cuatro preguntas.
+Ambos modelos reciben la instrucción de `scripts/rubric_v3_prompt.txt` y solo el abstract. Las respuestas se normalizan antes de guardarse. Para cada `JX`, se retiran comillas externas simples o dobles, se sustituyen comillas dobles internas por simples y se conserva el texto. Para `QX=A`, `B` o `U`, `EX` y `JX` quedan como el texto literal `-`. Las evidencias de `EX` se conservan para trazabilidad sin exigir que coincidan literalmente con el abstract.
 
-Los dos modelos reciben solo la instrucción y el abstract. Responden `T`, `Q1/E1/J1`, ..., `Q4/E4/J4`. Las bases independientes `rubric_v3_qwen3_8b.sqlite` y `rubric_v3_openscholar_8b.sqlite` guardan esos campos en ese orden tras `arxiv_id`, `modelo` y `puntuacion_centesimas`. También conservan la respuesta original, errores, huella del abstract, hora, latencia, tokens, versión, pesos, cobertura e intervalo. Las SQLite anteriores son históricas y no se modifican.
+Una respuesta que no tenga exactamente trece líneas se descarta sin crear una fila. El artículo queda pendiente para otra ejecución. Las otras respuestas inválidas también se descartan. Los dos workflows mantienen sus cron, ejecución manual y `repository_dispatch`.
 
-El validador exige trece líneas, opciones permitidas, fragmentos exactos del abstract y la presencia de `J` solo para `C` o `D`. Una respuesta inválida se conserva sin puntuación. Las letras se aceptan sin distinguir mayúsculas y minúsculas.
+Cada base contiene una tabla `evaluations` con estas columnas, en orden: `id` (identificador arXiv, clave primaria), `modelo`, `version_rubrica`, `puntuacion`, `T`, `Q1`, `E1`, `J1`, `Q2`, `E2`, `J2`, `Q3`, `E3`, `J3`, `Q4`, `E4`, `J4`. `puntuacion` guarda centésimas de la escala 0–10 como entero de 0 a 1000. Si alguna `QX` es `U`, queda `NULL`. Los pesos son 20/40/20/20. La clasificación `T` no afecta la puntuación.
 
-Se permite una corrección mecánica y registrada: descartar `J` no solicitadas para A/B/U y extraer de una cita con puntos suspensivos un fragmento continuo de al menos 20 caracteres que aparezca literalmente en el abstract. Como último recurso se toma un tramo continuo de al menos 30 caracteres compartido por la cita y el abstract. La respuesta original siempre se conserva; `response_normalized` y `normalization_actions_json` explican cada cambio. Si no resulta una cita exacta, la evaluación permanece inválida. La corrección no altera T ni Q.
-
-La puntuación, cuando Q1–Q4 están determinados, es `10/3 × (20×nivel(Q1)+40×nivel(Q2)+20×nivel(Q3)+20×nivel(Q4))/100`, con A=0, B=1, C=2 y D=3. Se guarda redondeada a dos decimales en centésimas. Si hay alguna `U`, `puntuacion_centesimas` queda nula y se guardan cobertura, mínimo y máximo posibles. `T` no influye en la nota.
-
-Los workflows ejecutan la v3 por cron a las 02:00, 10:00 y 18:00 UTC; admiten ejecución manual y `repository_dispatch`. `max_papers` permite limitar una prueba manual.
+Las SQLite anteriores a esta corrección están archivadas en `informes/rubrica_v3_sqlite_historico_2026-11-07/` fuera del repositorio. Esas copias conservan las respuestas originales y los intentos fallidos.
