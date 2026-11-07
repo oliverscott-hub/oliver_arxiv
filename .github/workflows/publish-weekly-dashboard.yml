@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'dashboard/**'
+      - 'library/*.sqlite'
       - 'library/*.coverage.json'
       - '.github/workflows/publish-weekly-dashboard.yml'
   workflow_dispatch:
@@ -29,11 +30,19 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Assemble static dashboard and coverage data
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Build weekday summaries from collector databases
+        run: python scripts/build_weekday_dashboard.py
+
+      - name: Assemble static dashboard and summary data
         run: |
           mkdir -p _site/data
           cp dashboard/index.html _site/index.html
-          cp library/*.coverage.json _site/data/
+          cp dashboard/data/weekday_totals.json _site/data/
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4

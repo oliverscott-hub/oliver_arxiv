@@ -4,138 +4,44 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101827">
-  <title>Recolección arXiv por semanas</title>
+  <title>arXiv · Papers por día de la semana</title>
   <style>
-    :root { color-scheme: light; --ink:#182230; --muted:#64748b; --line:#e2e8f0; --accent:#2563eb; --panel:#fff; --bg:#f4f7fb; }
-    * { box-sizing:border-box }
-    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif }
-    main { width:min(1100px,100%); margin:auto; padding:24px 16px 48px }
-    h1 { margin:0 0 4px; font-size:clamp(1.45rem,5vw,2rem); letter-spacing:-.03em }
-    .sub { margin:0; color:var(--muted); font-size:.92rem }
-    nav { display:flex; gap:8px; overflow-x:auto; padding:18px 0 12px; scrollbar-width:thin; -webkit-overflow-scrolling:touch }
-    nav button { flex:0 0 auto; border:1px solid var(--line); border-radius:999px; background:#fff; color:#334155; padding:9px 14px; font:inherit; cursor:pointer }
-    nav button[aria-selected="true"] { border-color:var(--accent); background:var(--accent); color:#fff }
-    button:focus-visible { outline:3px solid #93c5fd; outline-offset:2px }
-    .summary { display:flex; align-items:center; gap:14px; margin:8px 0 16px; padding:16px 18px; border:1px solid var(--line); border-radius:16px; background:var(--panel) }
-    .total { font-size:clamp(1.8rem,7vw,2.7rem); font-weight:750; letter-spacing:-.04em; font-variant-numeric:tabular-nums }
-    .summary-label { color:#475569 }
-    .panel { border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:16px; box-shadow:0 4px 18px #0f172a08 }
-    .panel h2 { margin:0; font-size:1.12rem }
-    .chart-note { margin:3px 0 10px; color:var(--muted); font-size:.85rem }
-    .chart-scroll { overflow-x:auto; overflow-y:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); touch-action:pan-x }
-    svg { display:block; height:290px; max-width:none }
-    .axis { stroke:#cbd5e1; stroke-width:1 }
-    .grid { stroke:#edf1f6; stroke-width:1 }
-    .bar { fill:#3b82f6 }
-    .bar:hover { fill:#1d4ed8 }
-    .axis-text { fill:#64748b; font-size:11px }
-    .bar-count { fill:#334155; font-size:11px; font-weight:650 }
-    .week-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(142px,1fr)); gap:8px; margin:14px 0 0; padding:0; list-style:none }
-    .week-list li { display:flex; justify-content:space-between; gap:6px; padding:9px 10px; border:1px solid var(--line); border-radius:10px; font-size:.83rem }
-    .week-list time { color:#475569 }
-    .week-list strong { font-variant-numeric:tabular-nums }
-    .meta { margin:12px 2px 0; color:var(--muted); font-size:.8rem }
-    .state { padding:22px 4px; color:var(--muted) }
-    @media(max-width:560px) { main{padding:20px 12px 36px}.panel{padding:13px}.summary{padding:12px 15px}svg{height:250px}.week-list{grid-template-columns:repeat(2,minmax(0,1fr))} }
-    @media(prefers-reduced-motion:no-preference) { nav button,.bar{transition:background-color .15s,fill .15s} }
+    :root{color-scheme:light;--ink:#182230;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--panel:#fff;--bg:#f4f7fb}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{width:min(1100px,100%);margin:auto;padding:24px 16px 48px}h1{margin:0 0 4px;font-size:clamp(1.45rem,5vw,2rem);letter-spacing:-.03em}.sub{margin:0;color:var(--muted);font-size:.92rem}
+    nav{display:flex;gap:8px;overflow-x:auto;padding:18px 0 12px;-webkit-overflow-scrolling:touch}nav button{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:#fff;color:#334155;padding:9px 14px;font:inherit;cursor:pointer}nav button[aria-pressed=true]{border-color:var(--accent);background:var(--accent);color:white}button:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+    .summary{display:flex;align-items:center;gap:14px;margin:8px 0 16px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.total{font-size:clamp(1.8rem,7vw,2.7rem);font-weight:750;letter-spacing:-.04em;font-variant-numeric:tabular-nums}.summary-label{color:#475569}
+    .charts{display:grid;grid-template-columns:1fr;gap:14px}.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:16px;box-shadow:0 4px 18px #0f172a08}.panel h2{margin:0;font-size:1.12rem}.note{margin:3px 0 10px;color:var(--muted);font-size:.85rem}.chart-wrap{overflow-x:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}svg{display:block;width:100%;height:260px;min-width:310px}.axis{stroke:#cbd5e1;stroke-width:1}.grid{stroke:#edf1f6;stroke-width:1}.bar{fill:#3b82f6}.bar:hover{fill:#1d4ed8}.axis-text{fill:#64748b;font-size:11px}.bar-count{fill:#334155;font-size:11px;font-weight:650}.meta,.state{margin:12px 2px 0;color:var(--muted);font-size:.82rem}.state{padding:24px 4px;font-size:.95rem}
+    @media(min-width:760px){.charts{grid-template-columns:1fr 1fr}.panel:last-child{grid-column:1/-1}.panel:last-child svg{height:300px}}
+    @media(max-width:560px){main{padding:20px 12px 36px}.panel{padding:13px}.summary{padding:12px 15px}.panel:last-child svg{height:250px}}
   </style>
 </head>
 <body>
   <main>
-    <header>
-      <h1>Papers recolectados de arXiv</h1>
-      <p class="sub">Totales por semana UTC, de lunes a domingo</p>
-    </header>
-    <nav id="categories" aria-label="Categorías" role="tablist"></nav>
-    <section class="summary" aria-live="polite">
-      <div class="total" id="total">—</div>
-      <div class="summary-label"><strong id="category-name">Cargando…</strong><br>registros recolectados</div>
-    </section>
-    <section class="panel" aria-labelledby="chart-heading">
-      <h2 id="chart-heading">Recolección semanal</h2>
-      <p class="chart-note">Cada columna representa una semana completa de lunes a domingo. Desliza horizontalmente para ver más semanas.</p>
-      <div id="state" class="state">Cargando coberturas…</div>
-      <div id="chart-scroll" class="chart-scroll" hidden>
-        <svg id="chart" role="img" aria-label="Gráfica de columnas con registros recolectados por semana"></svg>
-      </div>
-      <ul id="week-list" class="week-list" aria-label="Totales semanales"></ul>
-    </section>
+    <header><h1>Papers de arXiv por día de la semana</h1><p class="sub">Fecha UTC efectiva: <code>updated</code>, y <code>published</code> cuando <code>updated</code> falta</p></header>
+    <nav id="categories" aria-label="Seleccionar categoría"></nav>
+    <section class="summary" aria-live="polite"><div class="total" id="total">—</div><div class="summary-label"><strong id="category-name">Cargando…</strong><br>papers únicos recolectados</div></section>
+    <div id="state" class="state">Cargando datos de los colectores…</div>
+    <div id="charts" class="charts" hidden>
+      <section class="panel"><h2>Semana actual</h2><p class="note" id="current-range"></p><div class="chart-wrap"><svg id="current-chart" role="img" aria-label="Papers por día en la semana UTC actual"></svg></div></section>
+      <section class="panel"><h2>Semana pasada</h2><p class="note" id="previous-range"></p><div class="chart-wrap"><svg id="previous-chart" role="img" aria-label="Papers por día en la semana UTC anterior"></svg></div></section>
+      <section class="panel"><h2>Total histórico</h2><p class="note">Todos los registros, agrupados por el día UTC de su fecha efectiva</p><div class="chart-wrap"><svg id="all-chart" role="img" aria-label="Papers históricos por día de la semana UTC"></svg></div></section>
+    </div>
     <p id="updated" class="meta"></p>
   </main>
   <script>
-    const categories = [
-      ["astro-ph.CO", "astro-ph_CO"], ["astro-ph.HE", "astro-ph_HE"],
-      ["astro-ph.GA", "astro-ph_GA"], ["astro-ph.SR", "astro-ph_SR"],
-      ["astro-ph.IM", "astro-ph_IM"], ["gr-qc", "gr-qc"],
-      ["hep-th", "hep-th"], ["hep-ph", "hep-ph"],
-      ["hep-ex", "hep-ex"], ["math-ph", "math-ph"]
-    ];
-    const fmt = new Intl.NumberFormat('es-ES');
-    const dateFmt = new Intl.DateTimeFormat('es-ES', {day:'2-digit',month:'short',timeZone:'UTC'});
-    const nav = document.querySelector('#categories');
-    let datasets = new Map();
-    let selected = categories[0][0];
-
-    function mondayOf(iso) {
-      const d = new Date(`${iso}T00:00:00Z`);
-      const weekday = (d.getUTCDay() + 6) % 7;
-      d.setUTCDate(d.getUTCDate() - weekday);
-      return d.toISOString().slice(0,10);
+    const fmt=new Intl.NumberFormat('es-ES');let data;let selected='Total';
+    const nav=document.querySelector('#categories');
+    function draw(id,values){
+      const svg=document.querySelector(`#${id}`),ns='http://www.w3.org/2000/svg',W=640,H=260,left=48,right=14,top=24,bottom=42,plotH=H-top-bottom;
+      svg.replaceChildren();svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+      const max=Math.max(1,...values),step=Math.max(1,Math.ceil(max/4)),ceiling=step*4;
+      for(let i=0;i<=4;i++){const value=ceiling*i/4,y=top+plotH-(value/ceiling)*plotH,line=document.createElementNS(ns,'line');line.setAttribute('x1',left);line.setAttribute('x2',W-right);line.setAttribute('y1',y);line.setAttribute('y2',y);line.setAttribute('class',i===0?'axis':'grid');svg.append(line);const label=document.createElementNS(ns,'text');label.setAttribute('x',left-8);label.setAttribute('y',y+4);label.setAttribute('text-anchor','end');label.setAttribute('class','axis-text');label.textContent=fmt.format(value);svg.append(label)}
+      values.forEach((v,i)=>{const slot=(W-left-right)/7,bw=Math.min(48,slot*.58),x=left+i*slot+(slot-bw)/2,h=(v/ceiling)*plotH,y=top+plotH-h,bar=document.createElementNS(ns,'rect');bar.setAttribute('x',x);bar.setAttribute('y',y);bar.setAttribute('width',bw);bar.setAttribute('height',Math.max(h,1));bar.setAttribute('rx',5);bar.setAttribute('class','bar');const title=document.createElementNS(ns,'title');title.textContent=`${data.weekdays[i]}: ${fmt.format(v)} papers`;bar.append(title);svg.append(bar);const count=document.createElementNS(ns,'text');count.setAttribute('x',x+bw/2);count.setAttribute('y',Math.max(top+12,y-6));count.setAttribute('text-anchor','middle');count.setAttribute('class','bar-count');count.textContent=fmt.format(v);svg.append(count);const day=document.createElementNS(ns,'text');day.setAttribute('x',left+i*slot+slot/2);day.setAttribute('y',H-14);day.setAttribute('text-anchor','middle');day.setAttribute('class','axis-text');day.textContent=data.weekdays[i].slice(0,3);svg.append(day)});
     }
-    function addDays(iso, days) {
-      const d = new Date(`${iso}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10);
-    }
-    function dateLabel(iso) { return dateFmt.format(new Date(`${iso}T00:00:00Z`)); }
-    function makeTabs() {
-      for (const [name] of categories) {
-        const b=document.createElement('button'); b.type='button'; b.role='tab'; b.id=`tab-${name}`;
-        b.textContent=name; b.setAttribute('aria-controls','chart-heading'); b.setAttribute('aria-selected',String(name===selected));
-        b.addEventListener('click',()=>selectCategory(name)); nav.append(b);
-      }
-    }
-    function selectCategory(name) {
-      selected=name;
-      for(const b of nav.children) b.setAttribute('aria-selected',String(b.textContent===name));
-      render();
-    }
-    function render() {
-      const data=datasets.get(selected); if(!data) return;
-      document.querySelector('#category-name').textContent=selected;
-      document.querySelector('#total').textContent=fmt.format(data.total);
-      document.querySelector('#updated').textContent=`Cobertura actualizada: ${new Date(data.generated).toLocaleString('es-ES',{dateStyle:'medium',timeStyle:'short',timeZone:'UTC'})} UTC · ${fmt.format(data.coveredDays)} días con consulta completada`;
-      document.querySelector('#state').hidden=true;
-      const scroll=document.querySelector('#chart-scroll'); scroll.hidden=false;
-      const svg=document.querySelector('#chart'); svg.replaceChildren();
-      const weeks=[...data.weeks.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
-      const W=Math.max(weeks.length*46+48,360), H=290, left=42, right=12, top=22, bottom=36, plotH=H-top-bottom;
-      svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.setAttribute('width',W); svg.setAttribute('height',H);
-      const max=Math.max(1,...weeks.map(([,v])=>v.count));
-      const nice=Math.max(1,Math.ceil(max/4)); const ceiling=nice*4;
-      for(let i=0;i<=4;i++) { const value=ceiling*i/4, y=top+plotH-(value/ceiling)*plotH;
-        const line=document.createElementNS('http://www.w3.org/2000/svg','line'); line.setAttribute('x1',left);line.setAttribute('x2',W-right);line.setAttribute('y1',y);line.setAttribute('y2',y);line.setAttribute('class',i===0?'axis':'grid');svg.append(line);
-        const label=document.createElementNS(svg.namespaceURI,'text');label.setAttribute('x',left-7);label.setAttribute('y',y+4);label.setAttribute('text-anchor','end');label.setAttribute('class','axis-text');label.textContent=fmt.format(value);svg.append(label);
-      }
-      weeks.forEach(([start,v],i)=>{ const x=left+i*46+8, bw=28, h=(v.count/ceiling)*plotH, y=top+plotH-h;
-        const rect=document.createElementNS(svg.namespaceURI,'rect');rect.setAttribute('x',x);rect.setAttribute('y',y);rect.setAttribute('width',bw);rect.setAttribute('height',Math.max(h,1));rect.setAttribute('rx',4);rect.setAttribute('class','bar');rect.setAttribute('tabindex','0');
-        const end=addDays(start,6), tip=document.createElementNS(svg.namespaceURI,'title');tip.textContent=`${start} a ${end}: ${fmt.format(v.count)} registros; ${v.days}/7 días completos`;rect.append(tip);svg.append(rect);
-        if(i%2===0||i===weeks.length-1){const label=document.createElementNS(svg.namespaceURI,'text');label.setAttribute('x',x+bw/2);label.setAttribute('y',H-12);label.setAttribute('text-anchor','middle');label.setAttribute('class','axis-text');label.textContent=dateLabel(start);svg.append(label)}
-      });
-      const list=document.querySelector('#week-list');list.replaceChildren();
-      for(const [start,v] of weeks.slice().reverse()) {const li=document.createElement('li'),time=document.createElement('time'),strong=document.createElement('strong');time.textContent=`${dateLabel(start)}–${dateLabel(addDays(start,6))}`;strong.textContent=`${fmt.format(v.count)} · ${v.days}/7`;li.append(time,strong);list.append(li)}
-    }
-    async function load() {
-      makeTabs();
-      const outcomes=await Promise.all(categories.map(async([name,slug])=>{
-        try { const response=await fetch(`data/${slug}.coverage.json`,{cache:'no-store'}); if(!response.ok) throw new Error(`HTTP ${response.status}`); const raw=await response.json();
-          const weeks=new Map(); for(const day of raw.days||[]){const start=mondayOf(day.date_utc);if(!weeks.has(start))weeks.set(start,{count:0,days:0});const w=weeks.get(start);if(day.status==='ok'){w.count+=Number(day.papers_captured||0);w.days++}}
-          return [name,{total:Number(raw.paper_version_count||0),coveredDays:Number(raw.covered_day_count||0),generated:raw.generated_at_utc,weeks}];
-        } catch(error){return [name,error]}
-      }));
-      for(const [name,value] of outcomes)if(!(value instanceof Error))datasets.set(name,value);
-      if(!datasets.size){document.querySelector('#state').textContent='No se pudieron cargar los datos. Inténtalo de nuevo más tarde.';return}
-      if(!datasets.has(selected))selected=datasets.keys().next().value;
-      selectCategory(selected);
-    }
+    function render(){const d=data.categories[selected];document.querySelector('#category-name').textContent=selected;document.querySelector('#total').textContent=fmt.format(d.total);draw('current-chart',d.current_week);draw('previous-chart',d.previous_week);draw('all-chart',d.all_time)}
+    function makeTabs(){for(const name of ['Total',...Object.keys(data.categories).filter(x=>x!=='Total')]){const b=document.createElement('button');b.type='button';b.textContent=name;b.setAttribute('aria-pressed',String(name===selected));b.addEventListener('click',()=>{selected=name;for(const el of nav.children)el.setAttribute('aria-pressed',String(el.textContent===selected));render()});nav.append(b)}}
+    async function load(){try{const r=await fetch('data/weekday_totals.json',{cache:'no-store'});if(!r.ok)throw Error(`HTTP ${r.status}`);data=await r.json();makeTabs();const dateFmt=new Intl.DateTimeFormat('es-ES',{day:'2-digit',month:'short',timeZone:'UTC'}),add=(iso,days)=>{const d=new Date(`${iso}T00:00:00Z`);d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)};document.querySelector('#current-range').textContent=`${dateFmt.format(new Date(data.week_start_utc+'T00:00:00Z'))} – ${dateFmt.format(new Date(add(data.week_start_utc,6)+'T00:00:00Z'))} UTC (acumulado hasta hoy)`;document.querySelector('#previous-range').textContent=`${dateFmt.format(new Date(data.previous_week_start_utc+'T00:00:00Z'))} – ${dateFmt.format(new Date(data.previous_week_end_utc+'T00:00:00Z'))} UTC`;document.querySelector('#state').hidden=true;document.querySelector('#charts').hidden=false;document.querySelector('#updated').textContent=`Datos generados ${new Date(data.generated_at_utc).toLocaleString('es-ES',{dateStyle:'medium',timeStyle:'short',timeZone:'UTC'})} UTC. La vista Total cuenta cada arXiv_id una vez.`;render()}catch(e){document.querySelector('#state').textContent='No se pudieron cargar los datos. Se actualizarán al publicarse una nueva versión del dashboard.'}}
     load();
   </script>
 </body>
