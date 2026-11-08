@@ -1,6 +1,8 @@
 """Phase-two rubric v2: complete extracted PDF text, except the RAG pilot."""
 import gc
+import json
 import os
+import sqlite3
 import subprocess
 import time
 from pathlib import Path
@@ -9,13 +11,43 @@ from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
 
 from pdf_review_v2_storage import normalize, open_db, save
-from review_arxiv_pdfs import MODELS, ROOT, candidates, fetch_pdf, page_text
+from review_arxiv_pdfs import MODELS, ROOT, fetch_pdf, page_text
 
 KEY = os.environ.get("PDF_REVIEW_MODEL", "qwen3_8b")
 REPO, FILE, LABEL = MODELS[KEY]
 DB = ROOT / "abstract_evaluation" / "v2" / f"pdf_review_{KEY}.sqlite"
 CONTEXT_TOKENS = 16384
 OUTPUT_TOKENS = 2000
+
+
+def candidates(db):
+    done = {row[0] for row in db.execute("SELECT id FROM evaluations")}
+    qualified = set()
+    for path in sorted((ROOT / "abstract_evaluation").glob("rubric_v3_qwen3_8b*.sqlite")):
+        source = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+        try:
+            for aid, score, q2, q3 in source.execute("SELECT id,puntuacion,Q2,Q3 FROM evaluations"):
+                if score is not None and (score > 800 or (700 < score <= 800 and q2 == "D" and q3 in ("C", "D"))):
+                    qualified.add(aid)
+        finally:
+            source.close()
+    found = {}
+    for path in sorted((ROOT / "library").glob("*.sqlite")):
+        source = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+        try:
+            for aid, stamp, links in source.execute(
+                "SELECT arxiv_id,COALESCE(NULLIF(updated,''),published),links_json FROM papers"
+            ):
+                if aid in done or aid not in qualified:
+                    continue
+                for link in json.loads(links):
+                    if link.get("type") == "application/pdf" and link.get("href", "").startswith("https://arxiv.org/pdf/"):
+                        if aid not in found or stamp > found[aid][0]:
+                            found[aid] = (stamp, link["href"])
+                        break
+        finally:
+            source.close()
+    return sorted(((stamp, aid, url) for aid, (stamp, url) in found.items()), reverse=True)
 
 
 def content_for_review(pages, instructions):
