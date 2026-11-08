@@ -20,6 +20,9 @@ MODELS = {
     "qwen3_8b": ("Qwen/Qwen3-8B-GGUF", "Qwen3-8B-Q4_K_M.gguf", "Qwen3-8B Q4_K_M"),
     "qwen3_14b": ("Qwen/Qwen3-14B-GGUF", "Qwen3-14B-Q4_K_M.gguf", "Qwen3-14B Q4_K_M"),
     "openscholar_8b": ("QuantFactory/Llama-3.1_OpenScholar-8B-GGUF", "Llama-3.1_OpenScholar-8B.Q4_K_M.gguf", "OpenScholar-8B Q4_K_M"),
+    "qwen3_vl_4b": ("Qwen/Qwen3-VL-4B-Instruct-GGUF", "Qwen3VL-4B-Instruct-Q4_K_M.gguf", "Qwen3-VL-4B Q4_K_M"),
+    "qwen3_vl_8b": ("Qwen/Qwen3-VL-8B-Instruct-GGUF", "Qwen3VL-8B-Instruct-Q4_K_M.gguf", "Qwen3-VL-8B Q4_K_M"),
+    "gemma3_4b": ("ggml-org/gemma-3-4b-it-qat-GGUF", "gemma-3-4b-it-qat-Q4_0.gguf", "Gemma 3 4B QAT Q4_0"),
 }
 REPO, FILE, LABEL = MODELS[KEY]
 DB = ROOT / "abstract_evaluation" / f"pdf_review_{KEY}.sqlite"
