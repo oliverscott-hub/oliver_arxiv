@@ -23,6 +23,8 @@ MODELS = {
     "qwen3_vl_4b": ("Qwen/Qwen3-VL-4B-Instruct-GGUF", "Qwen3VL-4B-Instruct-Q4_K_M.gguf", "Qwen3-VL-4B Q4_K_M"),
     "qwen3_vl_8b": ("Qwen/Qwen3-VL-8B-Instruct-GGUF", "Qwen3VL-8B-Instruct-Q4_K_M.gguf", "Qwen3-VL-8B Q4_K_M"),
     "gemma3_4b": ("ggml-org/gemma-3-4b-it-qat-GGUF", "gemma-3-4b-it-qat-Q4_0.gguf", "Gemma 3 4B QAT Q4_0"),
+    "phi4_14b": ("bartowski/phi-4-GGUF", "phi-4-Q4_K_M.gguf", "Phi-4 14B Q4_K_M"),
+    "deepseek_r1_14b": ("bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF", "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf", "DeepSeek-R1-Distill-Qwen-14B Q4_K_M"),
 }
 REPO, FILE, LABEL = MODELS[KEY]
 DB = ROOT / "abstract_evaluation" / f"pdf_review_{KEY}.sqlite"
@@ -141,11 +143,11 @@ def review_text(model, instructions, pages):
                "Use these extracted notes for your final assessment. Figure graphics "
                "may be unavailable; choose U when decisive visual evidence cannot be "
                "inspected. Never invent a page or claim.\n" + material)
-    if KEY != "openscholar_8b":
+    if KEY in ("qwen3_8b", "qwen3_14b"):
         request = "/no_think\n" + request
     result = model.create_chat_completion(
         messages=[{"role": "user", "content": request}], temperature=0.1,
-        max_tokens=1200)
+        max_tokens=3000 if KEY == "deepseek_r1_14b" else 1200)
     return result["choices"][0]["message"]["content"] or ""
 
 
@@ -234,7 +236,12 @@ def main():
             data = fetch_pdf(url)
             pages = page_text(data)
             raw = review_text(model, instructions, pages)
-            obj = validate(raw, pages)
+            parsed = raw
+            if KEY == "deepseek_r1_14b":
+                start, end = raw.find("{"), raw.rfind("}")
+                if start >= 0 and end > start:
+                    parsed = raw[start:end + 1]
+            obj = validate(parsed, pages)
             score = save_evaluation(db, aid, url, hashlib.sha256(data).hexdigest(), obj)
             outcome, error = "success", None
             print(f"{aid} score={score} coverage={db.execute('SELECT cobertura FROM evaluations WHERE arxiv_id=?',(aid,)).fetchone()[0]}", flush=True)
