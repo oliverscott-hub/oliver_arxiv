@@ -135,6 +135,8 @@ def main():
                 temperature=0.1, max_tokens=OUTPUT_TOKENS,
             )
             raw = result["choices"][0]["message"]["content"] or ""
+            if KEY == "openscholar_rag_8b":
+                print(f"--- MODEL RESPONSE BEGIN {aid} ---\n{raw}\n--- MODEL RESPONSE END {aid} ---", flush=True)
             values = normalize(response_text(raw), supplied_text)
             score = save(db, aid, LABEL, url, values)
             duration = time.monotonic() - started
