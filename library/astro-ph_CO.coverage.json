@@ -3,10 +3,32 @@
   "source": "arxiv",
   "category": "astro-ph.CO",
   "database": "library/astro-ph_CO.sqlite",
-  "generated_at_utc": "2026-11-07T22:06:56Z",
-  "covered_day_count": 600,
-  "paper_version_count": 8875,
+  "generated_at_utc": "2026-11-08T04:36:45Z",
+  "covered_day_count": 602,
+  "paper_version_count": 8877,
   "days": [
+    {
+      "date_utc": "2025-03-15",
+      "query_string": "cat:astro-ph.CO AND submittedDate:[202503150000 TO 202503152359]",
+      "status": "error",
+      "api_total_results": null,
+      "papers_captured": null,
+      "successful_queries": 0,
+      "page_requests": 0,
+      "completed_at_utc": "2026-11-08T04:36:45Z",
+      "error_message": "arXiv HTTP 429: Rate exceeded."
+    },
+    {
+      "date_utc": "2025-03-16",
+      "query_string": "cat:astro-ph.CO AND submittedDate:[202503160000 TO 202503162359]",
+      "status": "ok",
+      "api_total_results": 2,
+      "papers_captured": 2,
+      "successful_queries": 1,
+      "page_requests": 1,
+      "completed_at_utc": "2026-11-08T04:28:24Z",
+      "error_message": null
+    },
     {
       "date_utc": "2025-03-17",
       "query_string": "cat:astro-ph.CO AND submittedDate:[202503170000 TO 202503172359]",
@@ -6605,6 +6627,17 @@
       "successful_queries": 1,
       "page_requests": 1,
       "completed_at_utc": "2026-11-07T10:14:22Z",
+      "error_message": null
+    },
+    {
+      "date_utc": "2026-11-07",
+      "query_string": "cat:astro-ph.CO AND submittedDate:[202611070000 TO 202611072359]",
+      "status": "ok",
+      "api_total_results": 0,
+      "papers_captured": 0,
+      "successful_queries": 1,
+      "page_requests": 1,
+      "completed_at_utc": "2026-11-08T04:27:51Z",
       "error_message": null
     }
   ]
