@@ -97,6 +97,55 @@ def page_text(data):
     return pages
 
 
+def review_text(model, instructions, pages):
+    """Read every extracted page in bounded chunks, then synthesize the review."""
+    chunks = []
+    current = ""
+    for page in pages:
+        for start in range(0, len(page), 9000):
+            piece = page[start:start + 9000]
+            if current and len(current) + len(piece) > 12000:
+                chunks.append(current)
+                current = ""
+            current += "\n" + piece
+    if current:
+        chunks.append(current)
+    notes = []
+    for index, chunk in enumerate(chunks, 1):
+        request = ("Read this part of a scientific PDF. Record concrete results, methods, "
+                   "equations, figure captions, limitations, comparisons and exact page "
+                   "numbers. Distinguish what is shown from what is proposed. "
+                   "Write concise factual notes with page references; do not score. "
+                   f"Part {index}/{len(chunks)}:\n{chunk}")
+        response = model.create_chat_completion(
+            messages=[{"role": "user", "content": request}], temperature=0.1,
+            max_tokens=320)
+        notes.append(response["choices"][0]["message"]["content"] or "")
+    while len("\n".join(notes)) > 35000:
+        compact = []
+        for start in range(0, len(notes), 8):
+            group = notes[start:start + 8]
+            request = ("Consolidate these PDF reading notes without inventing facts. "
+                       "Preserve decisive findings, limitations and page references. "
+                       "Do not score.\n" + "\n".join(group))
+            response = model.create_chat_completion(
+                messages=[{"role": "user", "content": request}], temperature=0.1,
+                max_tokens=500)
+            compact.append(response["choices"][0]["message"]["content"] or "")
+        notes = compact
+    material = "\n\n".join(notes)
+    request = (instructions + "\nYou have read the page-labelled PDF text in parts. "
+               "Use these extracted notes for your final assessment. Figure graphics "
+               "may be unavailable; choose U when decisive visual evidence cannot be "
+               "inspected. Never invent a page or claim.\n" + material)
+    if KEY != "openscholar_8b":
+        request = "/no_think\n" + request
+    result = model.create_chat_completion(
+        messages=[{"role": "user", "content": request}], temperature=0.1,
+        max_tokens=1200)
+    return result["choices"][0]["message"]["content"] or ""
+
+
 def validate(raw, pages):
     obj = json.loads(raw)
     if set(obj) != {"main_claim", "result_type", "decisive_limitation", "expert_review", *(f"C{i}" for i in range(1, 7))}:
@@ -145,6 +194,8 @@ def save_evaluation(db, aid, url, digest, obj):
 def checkpoint(db):
     db.close()
     rel = DB.relative_to(ROOT).as_posix()
+    subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=ROOT, check=True)
+    subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
     subprocess.run(["git", "add", rel], cwd=ROOT, check=True)
     if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode == 0:
         return open_db()
@@ -179,15 +230,7 @@ def main():
         try:
             data = fetch_pdf(url)
             pages = page_text(data)
-            text = "\n\n".join(pages)
-            # The model receives page-labelled extracted text; visual-only figure content is unavailable.
-            if len(text) > 65000:
-                raise ValueError("PDF text exceeds model context budget; full review unavailable")
-            prompt = instructions + "\nPDF text extracted with page markers. Figure graphics may be unavailable; use U where decisive visual evidence cannot be inspected.\n" + text
-            if KEY != "openscholar_8b":
-                prompt = "/no_think\n" + prompt
-            result = model.create_chat_completion(messages=[{"role": "user", "content": prompt}], temperature=0.1, max_tokens=1200)
-            raw = result["choices"][0]["message"]["content"] or ""
+            raw = review_text(model, instructions, pages)
             obj = validate(raw, pages)
             score = save_evaluation(db, aid, url, hashlib.sha256(data).hexdigest(), obj)
             outcome, error = "success", None
