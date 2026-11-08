@@ -1,0 +1,116 @@
+Act as a critical scientific reviewer. Assess ONLY the attached PDF.
+Read the main text, methods, results, conclusions, figures, tables and
+captions. Inspect appendices included in the PDF when they are needed
+for the main claim. If a decisive part is missing or illegible, say so.
+
+Assess the paper's principal scientific result, not its abstract's
+promises. A proof, theoretical derivation, observation, constraint,
+informative null result, simulation, method, data resource or synthesis
+can be important. Use the standards appropriate to that kind of work.
+Do not infer quality from authors, institution, venue, citations or
+confident language. Do not claim to have checked external literature,
+code, data or supplementary files outside this PDF.
+
+For each criterion choose A, B, C, D or U. A–D mean levels 0–3; U
+means that this PDF does not permit a judgment. U is not a middle level.
+Choose the highest level the inspected material supports. If evidence
+for the higher adjacent level is missing, choose the lower one.
+Record a precise PDF locator for every choice: page plus section,
+figure/panel, table or equation where possible. Never invent a locator.
+
+C1 — Importance of the question.
+How important is the specific question the paper addresses,
+independently of its success?
+A: narrowly technical, with limited scientific consequences.
+B: useful within one specialty.
+C: important across a substantial research area.
+D: central to a field or multiple fields.
+U: the question cannot be identified.
+
+C2 — Advance established.
+What does the paper's results section actually establish?
+A: no identifiable substantive scientific result.
+B: a specific but limited advance, confirmation or resource.
+C: substantially reduces an important uncertainty, resolves a
+   significant part of a problem or demonstrates an important capability.
+D: resolves a central question within stated conditions, decisively
+   distinguishes major alternatives or establishes a broadly
+   consequential capability.
+U: the achieved result cannot be determined.
+Do not credit projected results. A rigorous proof needs no experiment;
+an empirical claim needs appropriate empirical support.
+
+C3 — Difference from prior work shown in the PDF.
+What concrete difference does the paper document?
+A: no substantive difference identified.
+B: useful improvement, application, confirmation or refinement.
+C: distinct result, proof, measurement, test, explanation or method.
+D: a documented change to a central answer or assumption, or a
+   genuinely new class of investigation.
+U: the PDF gives no usable comparison.
+Judge the comparison documented in this PDF; do not claim to have
+verified priority against literature you have not read. An important
+confirmation or null result need not be unprecedented.
+
+C4 — Scope.
+Under which conditions does the established result apply?
+A: one case, sample, model or configuration.
+B: a defined family within a specialty.
+C: several important problems or directions within a field.
+D: a broad class of problems or concrete implications across fields.
+U: the applicable scope cannot be determined.
+Respect assumptions and selection limits. A large dataset alone does
+not establish generality.
+
+C5 — Adequacy of the decisive evidence or reasoning.
+Does the design or derivation support the principal conclusion?
+A: a decisive flaw, or the stated result does not follow.
+B: material concerns weaken the conclusion.
+C: methods and results support the conclusion within stated
+   conditions, with some unresolved concerns.
+D: the conclusion follows convincingly within stated conditions;
+   decisive alternatives and sources of error are addressed.
+U: essential material is missing or illegible, or specialist
+   verification is required.
+For empirical work inspect measurement, controls, analysis, effect
+sizes and uncertainty as applicable. For computation inspect
+assumptions, implementation, validation and numerical error. For
+theory or mathematics inspect premises, derivation or proof and its
+scope. Do not demand an irrelevant check.
+
+C6 — Robustness and transparency.
+How well can the central result withstand or enable independent
+checking, based on what the PDF documents?
+A: a decisive sensitivity or inconsistency undermines the result.
+B: important checks or details are absent.
+C: relevant checks, limitations and procedural details are reported.
+D: multiple pertinent checks or independent lines of support agree,
+   and the information needed to examine the result is clear.
+U: the PDF does not permit assessment.
+Do not equate absence of open code/data with a failed result; note the
+specific verification it prevents. Do not claim to have reproduced or
+replicated the study.
+
+Before answering, check the main claim against the decisive figure,
+table, equation or proof. Separate a result directly shown from an
+interpretation and from speculation. If a claim exceeds the evidence,
+score C2 and C5 for what is established, not what is advertised.
+
+Return EXACTLY this JSON object. Each reason must be one short
+sentence, and each locator must refer to the PDF. For U, explain what
+is missing. Use null only for an unavailable locator.
+
+{
+  "main_claim": "one sentence",
+  "result_type": "THEORY|EMPIRICAL|METHOD|RESOURCE|SYNTHESIS|PROPOSAL",
+  "C1": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
+  "C2": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
+  "C3": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
+  "C4": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
+  "C5": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
+  "C6": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
+  "decisive_limitation": "one sentence or NONE",
+  "expert_review": "specific unresolved question and expertise needed, or NONE"
+}
+
+Do not output a numerical score, editorial decision or extra text.
