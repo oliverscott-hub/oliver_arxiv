@@ -25,6 +25,7 @@ MODELS = {
     "gemma3_4b": ("ggml-org/gemma-3-4b-it-qat-GGUF", "gemma-3-4b-it-qat-Q4_0.gguf", "Gemma 3 4B QAT Q4_0"),
     "phi4_14b": ("bartowski/phi-4-GGUF", "phi-4-Q4_K_M.gguf", "Phi-4 14B Q4_K_M"),
     "deepseek_r1_14b": ("bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF", "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf", "DeepSeek-R1-Distill-Qwen-14B Q4_K_M"),
+    "openscholar_rag_8b": ("QuantFactory/Llama-3.1_OpenScholar-8B-GGUF", "Llama-3.1_OpenScholar-8B.Q4_K_M.gguf", "OpenScholar-8B Q4_K_M + PDF RAG"),
 }
 REPO, FILE, LABEL = MODELS[KEY]
 DB = ROOT / "abstract_evaluation" / f"pdf_review_{KEY}.sqlite"
@@ -235,7 +236,11 @@ def main():
         try:
             data = fetch_pdf(url)
             pages = page_text(data)
-            raw = review_text(model, instructions, pages)
+            if KEY == "openscholar_rag_8b":
+                from pdf_local_rag import review_with_pdf_retrieval
+                raw = review_with_pdf_retrieval(model, instructions, pages)
+            else:
+                raw = review_text(model, instructions, pages)
             parsed = raw
             if KEY == "deepseek_r1_14b":
                 start, end = raw.find("{"), raw.rfind("}")
