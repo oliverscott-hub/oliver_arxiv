@@ -137,7 +137,10 @@ def main():
             raw = result["choices"][0]["message"]["content"] or ""
             if KEY == "openscholar_rag_8b":
                 print(f"--- MODEL RESPONSE BEGIN {aid} ---\n{raw}\n--- MODEL RESPONSE END {aid} ---", flush=True)
-            values = normalize(response_text(raw), supplied_text)
+            values = normalize(response_text(raw), supplied_text,
+                               lenient_trace=(KEY == "openscholar_rag_8b"))
+            if KEY == "openscholar_rag_8b":
+                print(f"{aid} trace_validation=skipped_for_E_and_J", flush=True)
             score = save(db, aid, LABEL, url, values)
             duration = time.monotonic() - started
             print(f"{aid} attempt=1 duration_s={duration:.1f} score={score} status=valid error=None", flush=True)

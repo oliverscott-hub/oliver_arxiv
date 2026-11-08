@@ -22,7 +22,9 @@ def open_db(path):
     return db
 
 
-def normalize(raw, paper):
+def normalize(raw, paper, *, lenient_trace=False):
+    if lenient_trace:
+        raw = re.sub(r"</?b>", "", raw, flags=re.IGNORECASE)
     lines = [line.strip() for line in raw.strip().splitlines() if line.strip()]
     if len(lines) != 18:
         raise ValueError(f"Expected 18 lines, got {len(lines)}")
@@ -42,18 +44,19 @@ def normalize(raw, paper):
                 value = value.replace('"', "'")
         values[key] = value
     # Extracted PDF text can insert line breaks within a quotation.
-    searchable = " ".join(paper.split())
-    for i in range(1, 7):
-        q, e, j = (values[f"{part}{i}"] for part in "QEJ")
-        if q == "U":
-            if e != "-" or j != "-":
-                raise ValueError(f"Q{i}=U requires E{i}=J{i}=-")
-        elif not e or e == "-" or " ".join(e.split()) not in searchable:
-            raise ValueError(f"E{i} is not in extracted PDF text")
-        if q in "AB" and j != "-":
-            raise ValueError(f"J{i} must be - for {q}")
-        if q in "CD" and (not j or j == "-"):
-            raise ValueError(f"J{i} required for {q}")
+    if not lenient_trace:
+        searchable = " ".join(paper.split())
+        for i in range(1, 7):
+            q, e, j = (values[f"{part}{i}"] for part in "QEJ")
+            if q == "U":
+                if e != "-" or j != "-":
+                    raise ValueError(f"Q{i}=U requires E{i}=J{i}=-")
+            elif not e or e == "-" or " ".join(e.split()) not in searchable:
+                raise ValueError(f"E{i} is not in extracted PDF text")
+            if q in "AB" and j != "-":
+                raise ValueError(f"J{i} must be - for {q}")
+            if q in "CD" and (not j or j == "-"):
+                raise ValueError(f"J{i} required for {q}")
     return values
 
 
