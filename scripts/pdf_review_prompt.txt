@@ -1,116 +1,89 @@
-Act as a critical scientific reviewer. Assess ONLY the attached PDF.
-Read the main text, methods, results, conclusions, figures, tables and
-captions. Inspect appendices included in the PDF when they are needed
-for the main claim. If a decisive part is missing or illegible, say so.
+You are given the complete text extracted from a scientific paper's PDF.
+In these instructions, "the paper" means that supplied text.
+Evaluate only the paper, including its tables, captions and relevant
+appendices. Judge what the reported results actually establish.
 
-Assess the paper's principal scientific result, not its abstract's
-promises. A proof, theoretical derivation, observation, constraint,
-informative null result, simulation, method, data resource or synthesis
-can be important. Use the standards appropriate to that kind of work.
-Do not infer quality from authors, institution, venue, citations or
-confident language. Do not claim to have checked external literature,
-code, data or supplementary files outside this PDF.
+Then answer Q1–Q6. Choose exactly one option A, B, C, D, or U for each question. A–D are ordered from lower to higher. U means the paper lacks the information needed for that question. U is never a middle score.
 
-For each criterion choose A, B, C, D or U. A–D mean levels 0–3; U
-means that this PDF does not permit a judgment. U is not a middle level.
-Choose the highest level the inspected material supports. If evidence
-for the higher adjacent level is missing, choose the lower one.
-Record a precise PDF locator for every choice: page plus section,
-figure/panel, table or equation where possible. Never invent a locator.
+Q1. How widely does the paper's specific question matter, regardless of the result?
+A: Only for a narrow technical task.
+B: For one research specialty.
+C: For a major problem within a field.
+D: For a central problem of a field or several fields.
+U: The specific question is unclear.
+Judge the question actually studied, not its broad topic.
 
-C1 — Importance of the question.
-How important is the specific question the paper addresses,
-independently of its success?
-A: narrowly technical, with limited scientific consequences.
-B: useful within one specialty.
-C: important across a substantial research area.
-D: central to a field or multiple fields.
-U: the question cannot be identified.
+Q2. How far does the paper's achieved result advance its question?
+A: No specific new result.
+B: A limited result or useful resource.
+C: Substantial progress on an important question, or an important new capability.
+D: Resolves a central question, rules out major alternatives, or enables a broad new class of work.
+U: The achieved result is unclear.
+Count completed proofs, observations, null results and methods; not future plans.
 
-C2 — Advance established.
-What does the paper's results section actually establish?
-A: no identifiable substantive scientific result.
-B: a specific but limited advance, confirmation or resource.
-C: substantially reduces an important uncertainty, resolves a
-   significant part of a problem or demonstrates an important capability.
-D: resolves a central question within stated conditions, decisively
-   distinguishes major alternatives or establishes a broadly
-   consequential capability.
-U: the achieved result cannot be determined.
-Do not credit projected results. A rigorous proof needs no experiment;
-an empirical claim needs appropriate empirical support.
+Q3. What difference from prior work does the paper document?
+A: It compares with prior work and shows no substantive change.
+B: It improves, extends or confirms prior work.
+C: It establishes a distinct result, test, proof or method.
+D: It changes a central answer or opens a new line of research.
+U: It gives no usable comparison with prior work.
+Judge only the difference documented in the paper.
 
-C3 — Difference from prior work shown in the PDF.
-What concrete difference does the paper document?
-A: no substantive difference identified.
-B: useful improvement, application, confirmation or refinement.
-C: distinct result, proof, measurement, test, explanation or method.
-D: a documented change to a central answer or assumption, or a
-   genuinely new class of investigation.
-U: the PDF gives no usable comparison.
-Judge the comparison documented in this PDF; do not claim to have
-verified priority against literature you have not read. An important
-confirmation or null result need not be unprecedented.
+Q4. How broadly does the established result apply?
+A: Only to the studied case or configuration.
+B: To a defined family within one specialty.
+C: To several problems within one field.
+D: To a broad class of problems or multiple fields.
+U: The paper does not establish its scope.
+Judge the supported implications, not the number of objects studied.
 
-C4 — Scope.
-Under which conditions does the established result apply?
-A: one case, sample, model or configuration.
-B: a defined family within a specialty.
-C: several important problems or directions within a field.
-D: a broad class of problems or concrete implications across fields.
-U: the applicable scope cannot be determined.
-Respect assumptions and selection limits. A large dataset alone does
-not establish generality.
+Q5. Do the paper's methods and results support its main conclusion?
+A: A concrete flaw makes the conclusion unsupported.
+B: Serious unresolved concerns weaken it.
+C: Supported within stated conditions, with some uncertainty.
+D: Convincingly supported; key alternatives and errors are addressed.
+U: Essential evidence is unavailable or cannot be assessed.
+Apply checks relevant to the paper's empirical, computational or theoretical method.
 
-C5 — Adequacy of the decisive evidence or reasoning.
-Does the design or derivation support the principal conclusion?
-A: a decisive flaw, or the stated result does not follow.
-B: material concerns weaken the conclusion.
-C: methods and results support the conclusion within stated
-   conditions, with some unresolved concerns.
-D: the conclusion follows convincingly within stated conditions;
-   decisive alternatives and sources of error are addressed.
-U: essential material is missing or illegible, or specialist
-   verification is required.
-For empirical work inspect measurement, controls, analysis, effect
-sizes and uncertainty as applicable. For computation inspect
-assumptions, implementation, validation and numerical error. For
-theory or mathematics inspect premises, derivation or proof and its
-scope. Do not demand an irrelevant check.
+Q6. How well does the paper document checks of its main result?
+A: A reported check reveals a serious inconsistency.
+B: Important checks or details are missing.
+C: Relevant checks and limitations are reported.
+D: Several pertinent checks agree, with enough detail to examine them.
+U: The paper gives too little information to judge.
+Judge the checks reported; do not claim to have repeated them.
 
-C6 — Robustness and transparency.
-How well can the central result withstand or enable independent
-checking, based on what the PDF documents?
-A: a decisive sensitivity or inconsistency undermines the result.
-B: important checks or details are absent.
-C: relevant checks, limitations and procedural details are reported.
-D: multiple pertinent checks or independent lines of support agree,
-   and the information needed to examine the result is clear.
-U: the PDF does not permit assessment.
-Do not equate absence of open code/data with a failed result; note the
-specific verification it prevents. Do not claim to have reproduced or
-replicated the study.
+For every Q answer, copy one SHORT, EXACT excerpt from the paper
+that supports it. For U, write "-" instead of an excerpt.
 
-Before answering, check the main claim against the decisive figure,
-table, equation or proof. Separate a result directly shown from an
+For C or D, also write ONE short sentence naming the concrete feature
+that warrants the chosen level over the level immediately below it.
+For A, B, or U, write "-" instead of a sentence.
+
+Before answering, check the main claim. Separate a result directly shown from an
 interpretation and from speculation. If a claim exceeds the evidence,
-score C2 and C5 for what is established, not what is advertised.
+score Q2 and Q5 for what is established, not what is advertised. Choose the highest level supported by concrete text. If the text
+does not establish the feature that separates two adjacent levels,
+choose the lower level.
 
-Return EXACTLY this JSON object. Each reason must be one short
-sentence, and each locator must refer to the PDF. For U, explain what
-is missing. Use null only for an unavailable locator.
+Return exactly these 18 lines, in this order. Do not output a
+numerical score or any other text:
 
-{
-  "main_claim": "one sentence",
-  "result_type": "THEORY|EMPIRICAL|METHOD|RESOURCE|SYNTHESIS|PROPOSAL",
-  "C1": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
-  "C2": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
-  "C3": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
-  "C4": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
-  "C5": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
-  "C6": {"choice": "A|B|C|D|U", "locator": "string|null", "reason": "string"},
-  "decisive_limitation": "one sentence or NONE",
-  "expert_review": "specific unresolved question and expertise needed, or NONE"
-}
-
-Do not output a numerical score, editorial decision or extra text.
+Q1=<A|B|C|D|U>
+E1="<exact excerpt or ->"
+J1="<one sentence if Q1 is C or D; otherwise ->"
+Q2=<A|B|C|D|U>
+E2="<exact excerpt or ->"
+J2="<one sentence if Q2 is C or D; otherwise ->"
+Q3=<A|B|C|D|U>
+E3="<exact excerpt or ->"
+J3="<one sentence if Q3 is C or D; otherwise ->"
+Q4=<A|B|C|D|U>
+E4="<exact excerpt or ->"
+J4="<one sentence if Q4 is C or D; otherwise ->"
+Q5=<A|B|C|D|U>
+E5="<exact excerpt or ->"
+J5="<one sentence if Q5 is C or D; otherwise ->"
+Q6=<A|B|C|D|U>
+E6="<exact excerpt or ->"
+J6="<one sentence if Q6 is C or D; otherwise ->"
