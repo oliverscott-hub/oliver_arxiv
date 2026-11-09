@@ -4,11 +4,6 @@ on:
   schedule:
     - cron: '50 3,9,15,21 * * *'
   workflow_dispatch:
-    inputs:
-      max_papers:
-        description: 'Maximum papers to review (0 = unlimited)'
-        required: false
-        default: '0'
   repository_dispatch:
     types: [run-arxiv-pdf-review-deepseek-r1-14b]
 
@@ -43,17 +38,16 @@ jobs:
       - name: Review PDFs
         env:
           PDF_REVIEW_MODEL: deepseek_r1_14b
-          PDF_REVIEW_MAX_PAPERS: ${{ inputs.max_papers || '0' }}
-        run: python -u scripts/review_arxiv_pdfs_v2.py
+        run: python -u scripts/review_arxiv_pdfs_open.py
       - name: Save SQLite
         if: always()
         run: |
           if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then git rebase --abort; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add abstract_evaluation/v2/pdf_review_deepseek_r1_14b.sqlite
+          git add abstract_evaluation/open_answers_v1/pdf_answers_deepseek_r1_14b.sqlite
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Save PDF reviews deepseek_r1_14b'
+          git commit -m 'Save open PDF answers deepseek_r1_14b'
           for attempt in 1 2 3; do
             git pull --rebase origin main
             if git push origin HEAD:main; then exit 0; fi

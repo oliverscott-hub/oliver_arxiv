@@ -1,0 +1,20 @@
+The supplied text was extracted from a scientific paper's PDF.
+In these instructions, "the paper" means only the supplied text.
+
+Answer using only information in the supplied text. Do not use outside knowledge or fill gaps with assumptions. If the text does not provide enough information to answer a question, say so.
+Answer each question at whatever length is needed for an accurate and complete answer. Describe what the paper reports without presuming that its results are important, unimportant, strong, weak, novel, or reliable.
+
+1. How widely does the paper's specific question matter, regardless of the result? Judge the question actually studied, not its broad topic.
+2. How far does the paper's achieved result advance its question? Count completed proofs, observations, null results and methods; not future plans.
+3. What difference from prior work does the paper document? Judge only the difference documented in the supplied text.
+4. How broadly does the established result apply? Judge the supported implications, not the number of objects studied.
+5. Do the paper's methods and results support its main conclusion? Apply checks relevant to the paper's empirical, computational or theoretical method.
+6. How well does the paper document checks of its main result? Describe the checks reported; do not claim to have repeated them.
+
+Return six numbered answers in order. Do not add an introduction or conclusion.
+1. [Answer]
+2. [Answer]
+3. [Answer]
+4. [Answer]
+5. [Answer]
+6. [Answer]

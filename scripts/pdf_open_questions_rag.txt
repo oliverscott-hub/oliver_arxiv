@@ -1,0 +1,20 @@
+You are given passages retrieved from one scientific paper's PDF.
+In these instructions, "the supplied text" means only those passages. They may omit relevant parts of the paper.
+
+Answer using only information in the supplied text. Do not use outside knowledge or fill gaps with assumptions. If the passages do not provide enough information to answer a question, say so. Do not treat information absent from the supplied passages as absent from the complete paper.
+Answer each question at whatever length is needed for an accurate and complete answer. Describe what the supplied text reports without presuming that the results are important, unimportant, strong, weak, novel, or reliable.
+
+1. How widely does the paper's specific question matter, regardless of the result? Judge the question actually studied, not its broad topic.
+2. How far does the paper's achieved result advance its question? Count completed proofs, observations, null results and methods; not future plans.
+3. What difference from prior work does the paper document? Judge only the difference stated in the supplied text.
+4. How broadly does the established result apply? Judge only the implications supported by the supplied text, not the number of objects studied.
+5. Do the methods and results described in the supplied text support the paper's main conclusion? Apply checks relevant to the empirical, computational or theoretical method.
+6. What checks of the main result are described in the supplied text? Do not claim to have repeated them.
+
+Return six numbered answers in order. Do not add an introduction or conclusion.
+1. [Answer]
+2. [Answer]
+3. [Answer]
+4. [Answer]
+5. [Answer]
+6. [Answer]
