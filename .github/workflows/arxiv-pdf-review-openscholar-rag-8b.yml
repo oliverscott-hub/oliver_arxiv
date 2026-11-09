@@ -51,7 +51,7 @@ jobs:
           if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then git rebase --abort; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add abstract_evaluation/v2/pdf_review_openscholar_rag_8b.sqlite
+          git add abstract_evaluation/v3/pdf_review_openscholar_rag_8b.sqlite
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'Save PDF reviews openscholar_rag_8b'
           for attempt in 1 2 3; do

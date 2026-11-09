@@ -15,7 +15,8 @@ from review_arxiv_pdfs import MODELS, ROOT, fetch_pdf, page_text
 
 KEY = os.environ.get("PDF_REVIEW_MODEL", "qwen3_8b")
 REPO, FILE, LABEL = MODELS[KEY]
-DB = ROOT / "abstract_evaluation" / "v2" / f"pdf_review_{KEY}.sqlite"
+RUBRIC_VERSION = 3 if KEY == "openscholar_rag_8b" else 2
+DB = ROOT / "abstract_evaluation" / f"v{RUBRIC_VERSION}" / f"pdf_review_{KEY}.sqlite"
 CONTEXT_TOKENS = 16384
 OUTPUT_TOKENS = 2000
 
@@ -93,12 +94,12 @@ def push_result(db):
     subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
     subprocess.run(["git", "add", rel], cwd=ROOT, check=True)
     if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode == 0:
-        return open_db(DB)
-    subprocess.run(["git", "commit", "-m", f"Save PDF rubric v2 {KEY}"], cwd=ROOT, check=True)
+        return open_db(DB, RUBRIC_VERSION)
+    subprocess.run(["git", "commit", "-m", f"Save PDF rubric v{RUBRIC_VERSION} {KEY}"], cwd=ROOT, check=True)
     for attempt in range(1, 5):
         subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
         if subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=ROOT).returncode == 0:
-            return open_db(DB)
+            return open_db(DB, RUBRIC_VERSION)
         time.sleep(3 * attempt)
     raise RuntimeError("Could not push valid PDF review")
 
@@ -106,16 +107,17 @@ def push_result(db):
 def main():
     deadline = int(os.environ.get("PDF_REVIEW_DEADLINE_EPOCH", str(int(time.time()) + 345 * 60)))
     limit = int(os.environ.get("PDF_REVIEW_MAX_PAPERS", "0"))
-    db = open_db(DB)
+    db = open_db(DB, RUBRIC_VERSION)
     papers = candidates(db)
-    print(f"{LABEL}: {len(papers)} papers pending; rubric v2", flush=True)
+    print(f"{LABEL}: {len(papers)} papers pending; rubric v{RUBRIC_VERSION}", flush=True)
     if not papers:
         db.close()
         return
     model_path = hf_hub_download(repo_id=REPO, filename=FILE)
     model = Llama(model_path=model_path, n_ctx=CONTEXT_TOKENS, n_threads=min(4, os.cpu_count() or 1),
                   n_batch=256, verbose=False)
-    instructions = (ROOT / "scripts" / "pdf_review_prompt.txt").read_text(encoding="utf-8-sig")
+    prompt_file = "pdf_review_prompt_v3.txt" if RUBRIC_VERSION == 3 else "pdf_review_prompt.txt"
+    instructions = (ROOT / "scripts" / prompt_file).read_text(encoding="utf-8-sig")
     processed = 0
     for _, aid, url in papers:
         if time.time() >= deadline or (limit and processed >= limit):
@@ -141,7 +143,7 @@ def main():
                                lenient_trace=(KEY == "openscholar_rag_8b"))
             if KEY == "openscholar_rag_8b":
                 print(f"{aid} trace_validation=skipped_for_E_and_J", flush=True)
-            score = save(db, aid, LABEL, url, values)
+            score = save(db, aid, LABEL, url, values, RUBRIC_VERSION)
             duration = time.monotonic() - started
             print(f"{aid} attempt=1 duration_s={duration:.1f} score={score} status=valid error=None", flush=True)
         except Exception as exc:

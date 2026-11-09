@@ -8,14 +8,14 @@ LINES = tuple(key for i in range(1, 7) for key in (f"Q{i}", f"E{i}", f"J{i}"))
 COLUMNS = ("id", "modelo", "version_rubrica", "puntuacion", "pdf_url", *LINES)
 
 
-def open_db(path):
+def open_db(path, rubric_version=2):
     path.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(path, timeout=30)
     db.execute("PRAGMA busy_timeout=30000")
     fields = ", ".join(f"{key} TEXT NOT NULL" for key in LINES)
     db.execute(f"""CREATE TABLE IF NOT EXISTS evaluations (
         id TEXT PRIMARY KEY, modelo TEXT NOT NULL,
-        version_rubrica INTEGER NOT NULL CHECK(version_rubrica=2),
+        version_rubrica INTEGER NOT NULL CHECK(version_rubrica={rubric_version}),
         puntuacion INTEGER CHECK(puntuacion BETWEEN 0 AND 1000),
         pdf_url TEXT NOT NULL, {fields})""")
     db.commit()
@@ -67,9 +67,9 @@ def score_cents(values):
     return int((Decimal(weighted) * Decimal(10) / Decimal(3)).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
 
 
-def save(db, aid, model, url, values):
+def save(db, aid, model, url, values, rubric_version=2):
     score = score_cents(values)
-    row = (aid, model, 2, score, url, *(values[key] for key in LINES))
+    row = (aid, model, rubric_version, score, url, *(values[key] for key in LINES))
     db.execute(
         f"INSERT OR IGNORE INTO evaluations ({','.join(COLUMNS)}) VALUES ({','.join('?' for _ in COLUMNS)})",
         row,

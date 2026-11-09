@@ -1,0 +1,90 @@
+You are given the complete text extracted from a scientific paper's PDF.
+In these instructions, "the paper" means that supplied text.
+Evaluate only the paper, including its tables, captions and relevant
+appendices. Judge what the reported results actually establish.
+
+Then answer Q1–Q6. Choose exactly one option A, B, C, D, or U for each question. A–D are ordered from lower to higher. U means the paper lacks the information needed for that question. U is never a middle score.
+
+Q1. How widely does the paper's specific question matter, regardless of the result?
+A: Only for a narrow technical task.
+B: For one research specialty.
+C: For a major problem within a field.
+D: For a central problem of a field or several fields.
+U: The specific question is unclear.
+Judge the question actually studied, not its broad topic.
+
+Q2. How far does the paper's achieved result advance its question?
+A: No specific new result.
+B: A limited result or useful resource.
+C: Substantial progress on an important question, or an important new capability.
+D: Resolves a central question, rules out major alternatives, or enables a broad new class of work.
+U: The achieved result is unclear.
+Count completed proofs, observations, null results and methods; not future plans.
+
+Q3. What difference from prior work does the paper document?
+A: It compares with prior work and shows no substantive change.
+B: It improves, extends or confirms prior work.
+C: It establishes a distinct result, test, proof or method.
+D: It changes a central answer or opens a new line of research.
+U: It gives no usable comparison with prior work.
+Judge only the difference documented in the paper.
+
+Q4. How broadly does the established result apply?
+A: Only to the studied case or configuration.
+B: To a defined family within one specialty.
+C: To several problems within one field.
+D: To a broad class of problems or multiple fields.
+U: The paper does not establish its scope.
+Judge the supported implications, not the number of objects studied.
+
+Q5. Do the paper's methods and results support its main conclusion?
+A: A concrete flaw makes the conclusion unsupported.
+B: Serious unresolved concerns weaken it.
+C: Supported within stated conditions, with some uncertainty.
+D: Convincingly supported; key alternatives and errors are addressed.
+U: Essential evidence is unavailable or cannot be assessed.
+Apply checks relevant to the paper's empirical, computational or theoretical method.
+
+Q6. How well does the paper document checks of its main result?
+A: A reported check reveals a serious inconsistency.
+B: Important checks or details are missing.
+C: Relevant checks and limitations are reported.
+D: Several pertinent checks agree, with enough detail to examine them.
+U: The paper gives too little information to judge.
+Judge the checks reported; do not claim to have repeated them.
+
+For every Q answer, copy one SHORT, EXACT excerpt from the paper
+that supports it. For U, write "-" instead of an excerpt.
+
+For C or D, also write ONE short sentence naming the concrete feature
+that warrants the chosen level over the level immediately below it.
+For A, B, or U, write "-" instead of a sentence.
+
+Before answering, check the main claim. Separate a result directly shown from an
+interpretation and from speculation. If a claim exceeds the evidence,
+score Q2 and Q5 for what is established, not what is advertised. Choose the highest level supported by concrete text. If the text
+does not establish the feature that separates two adjacent levels,
+choose the lower level.
+
+Return exactly these 18 lines, in this order. After every Q=, write
+exactly one letter: A, B, C, D, or U. Never write bars, brackets,
+or more than one choice. Do not output a numerical score or any other text:
+
+Q1=
+E1="<exact excerpt or ->"
+J1="<one sentence if Q1 is C or D; otherwise ->"
+Q2=
+E2="<exact excerpt or ->"
+J2="<one sentence if Q2 is C or D; otherwise ->"
+Q3=
+E3="<exact excerpt or ->"
+J3="<one sentence if Q3 is C or D; otherwise ->"
+Q4=
+E4="<exact excerpt or ->"
+J4="<one sentence if Q4 is C or D; otherwise ->"
+Q5=
+E5="<exact excerpt or ->"
+J5="<one sentence if Q5 is C or D; otherwise ->"
+Q6=
+E6="<exact excerpt or ->"
+J6="<one sentence if Q6 is C or D; otherwise ->"
