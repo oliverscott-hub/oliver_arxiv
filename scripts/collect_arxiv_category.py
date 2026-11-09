@@ -420,7 +420,8 @@ def run(max_days, category):
     connection.row_factory = sqlite3.Row
     init_db(connection)
     now = utc_now()
-    # Exclude the current UTC day: only dates through yesterday are eligible.
+    # Today's query is provisional; only dates through yesterday can be covered.
+    today = now.date()
     target = now.date() - timedelta(days=1)
     run_id = str(uuid.uuid4())
     started = iso_utc(now)
@@ -437,6 +438,12 @@ def run(max_days, category):
     day = target
     try:
         archive_start = archive_start_day(connection, client)
+        # Query today on every run, but never insert it into day_coverage.
+        today_query, today_total, today_captured, today_requests = fetch_day(connection, client, today)
+        processed.append({"date_utc": today.isoformat(), "status": "partial",
+                          "api_total_results": today_total, "papers_captured": today_captured,
+                          "successful_queries": 1, "page_requests": today_requests,
+                          "query_string": today_query})
         # Fill the closest uncovered date first, then continue backwards. This
         # naturally retries failed days and fills holes between prior ranges.
         rows = connection.execute(
@@ -445,7 +452,8 @@ def run(max_days, category):
         ).fetchall()
         covered = {date.fromisoformat(row["day_utc"]) for row in rows}
         day = target
-        while len(processed) < max_days:
+        complete_days_processed = 0
+        while complete_days_processed < max_days:
             if day < archive_start:
                 break
             if day not in covered:
@@ -467,6 +475,7 @@ def run(max_days, category):
                     error = message
                     break
                 processed.append(result)
+                complete_days_processed += 1
             day -= timedelta(days=1)
         status = "error" if error else "ok"
     except Exception as exc:
@@ -500,6 +509,7 @@ def run(max_days, category):
         "started_at_utc": started,
         "completed_at_utc": completed,
         "eligible_through_utc_day": target.isoformat(),
+        "provisional_utc_day": today.isoformat(),
         "backfill_complete": archive_start is not None and day < archive_start,
         "days_processed": len(processed),
         "days": processed,
