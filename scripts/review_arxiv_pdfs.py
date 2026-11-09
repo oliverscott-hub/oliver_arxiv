@@ -27,6 +27,7 @@ MODELS = {
     "deepseek_r1_14b": ("bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF", "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf", "DeepSeek-R1-Distill-Qwen-14B Q4_K_M"),
     "openscholar_rag_8b": ("QuantFactory/Llama-3.1_OpenScholar-8B-GGUF", "Llama-3.1_OpenScholar-8B.Q4_K_M.gguf", "OpenScholar-8B Q4_K_M + PDF RAG"),
     "qwen3_rag_8b": ("Qwen/Qwen3-8B-GGUF", "Qwen3-8B-Q4_K_M.gguf", "Qwen3-8B Q4_K_M + PDF RAG"),
+    "qwen3_rag_14b": ("Qwen/Qwen3-14B-GGUF", "Qwen3-14B-Q4_K_M.gguf", "Qwen3-14B Q4_K_M + PDF RAG"),
 }
 REPO, FILE, LABEL = MODELS[KEY]
 DB = ROOT / "abstract_evaluation" / f"pdf_review_{KEY}.sqlite"

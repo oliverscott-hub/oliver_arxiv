@@ -15,7 +15,7 @@ from review_arxiv_pdfs import MODELS, ROOT, fetch_pdf, page_text
 
 KEY = os.environ.get("PDF_REVIEW_MODEL", "qwen3_8b")
 REPO, FILE, LABEL = MODELS[KEY]
-RAG = KEY.endswith("_rag_8b")
+RAG = "_rag_" in KEY
 DB = ROOT / "abstract_evaluation" / "open_answers_v1" / f"pdf_answers_{KEY}.sqlite"
 CONTEXT_TOKENS = 16384
 OUTPUT_TOKENS = 3500
@@ -47,9 +47,9 @@ def candidates(db):
                     url = link.get("href", "")
                     if link.get("type") == "application/pdf" and url.startswith("https://arxiv.org/pdf/"):
                         if aid not in found or stamp > found[aid][0]:
-                            found[aid] = (stamp, url)
+                            found[aid] = (stamp, url, path.stem.replace("_", "."))
                         break
-    return sorted(((stamp, aid, url) for aid, (stamp, url) in found.items()), reverse=True)
+    return sorted(((stamp, aid, url, category) for aid, (stamp, url, category) in found.items()), reverse=True)
 
 
 def supplied_text(pages):
@@ -113,7 +113,7 @@ def main():
                   n_threads=min(4, os.cpu_count() or 1), n_batch=256, verbose=False)
     prompt_file = "pdf_open_questions_rag.txt" if RAG else "pdf_open_questions_full.txt"
     instructions = (ROOT / "scripts" / prompt_file).read_text(encoding="utf-8-sig")
-    for _, aid, url in papers:
+    for _, aid, url, category in papers:
         if time.time() >= deadline:
             break
         started = time.monotonic()
@@ -137,11 +137,12 @@ def main():
                 (aid, LABEL, 1, url, "rag" if RAG else "full_text", *answers, raw,
                  dt.datetime.now(dt.timezone.utc).isoformat()))
             db.commit()
-            print(f"{aid} duration_s={time.monotonic()-started:.1f} status=valid", flush=True)
+            print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
+                  "score=None error=None status=valid", flush=True)
             db = push_result(db)
         except Exception as exc:
-            print(f"{aid} duration_s={time.monotonic()-started:.1f} status=error "
-                  f"error={type(exc).__name__}: {exc}", flush=True)
+            print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
+                  f"score=None error={type(exc).__name__}: {exc} status=error", flush=True)
         finally:
             gc.collect()
     db.close()
