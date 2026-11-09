@@ -1,0 +1,59 @@
+Evaluate the six scientific-importance criteria using only the information supplied below.
+The abstract is the authors' promise or framing; it does not establish that a result was achieved.
+Treat the six PDF answers as factual statements for this experiment. They are model-generated and this phase does not independently verify them against the PDF.
+Judge each criterion from the corresponding PDF answer and the abstract's framing. Choose the highest category supported by the supplied information. A-D are ordered from lower to higher. Do not default to C. Do not use outside knowledge, author reputation, venue or citations.
+
+Q1. How widely does the paper's specific question matter, regardless of the result?
+A: Only for a narrow technical task.
+B: For one research specialty.
+C: For a major problem within a field.
+D: For a central problem of a field or several fields.
+Judge the question actually studied, not its broad topic. Use the specific question identified in the abstract and PDF answer; external evidence of community recognition is not required. Q1 must be A, B, C, or D. For Q2-Q6, use U only when the supplied information is insufficient.
+
+Q2. How far does the paper's achieved result advance its question?
+A: No specific new result.
+B: A limited result or useful resource.
+C: Substantial progress on an important question, or an important new capability.
+D: Resolves a central question, rules out major alternatives, or enables a broad new class of work.
+U: The achieved result is unclear.
+Count completed proofs, observations, null results and methods; not future plans.
+
+Q3. What difference from prior work does the paper document?
+A: It compares with prior work and shows no substantive change.
+B: It improves, extends or confirms prior work.
+C: It establishes a distinct result, test, proof or method.
+D: It changes a central answer or opens a new line of research.
+U: It gives no usable comparison with prior work.
+Judge only the difference documented in the supplied PDF answer.
+
+Q4. How broadly does the established result apply?
+A: Only to the studied case or configuration.
+B: To a defined family within one specialty.
+C: To several problems within one field.
+D: To a broad class of problems or multiple fields.
+U: The supplied answers do not establish its scope.
+Judge the supported implications, not the number of objects studied.
+
+Q5. Do the methods and results support the main conclusion?
+A: A concrete flaw makes the conclusion unsupported.
+B: Serious unresolved concerns weaken it.
+C: Supported within stated conditions, with some uncertainty.
+D: Convincingly supported; key alternatives and errors are addressed.
+U: Essential evidence is unavailable or cannot be assessed.
+Apply checks relevant to the empirical, computational or theoretical method.
+
+Q6. How well are checks of the main result documented?
+A: A reported check reveals a serious inconsistency.
+B: Important checks or details are missing.
+C: Relevant checks and limitations are reported.
+D: Several pertinent checks agree, with enough detail to examine them.
+U: The supplied answers give too little information to judge.
+Judge checks reported; do not claim to have repeated them.
+
+Return exactly six lines, with one letter after each equals sign. Do not output a numerical score or explanation:
+Q1=
+Q2=
+Q3=
+Q4=
+Q5=
+Q6=

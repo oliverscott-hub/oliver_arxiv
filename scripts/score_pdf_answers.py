@@ -1,7 +1,6 @@
 """Phase 3: score a model's own six open PDF answers with its abstract."""
 import datetime as dt
 import os
-import re
 import sqlite3
 import subprocess
 import time
@@ -10,16 +9,18 @@ from huggingface_hub import hf_hub_download
 from llama_cpp import Llama, LlamaGrammar
 
 from review_arxiv_pdfs import MODELS, ROOT
+from phase3_policy import POLICIES, grammar_for, parse_response
 
 KEY = os.environ["PDF_SCORE_MODEL"]
+POLICY = os.environ.get("PDF_SCORE_POLICY", "standard")
+if POLICY not in POLICIES or (KEY != "qwen3_8b" and POLICY != "standard"):
+    raise ValueError(f"Unsupported phase 3 model/policy: {KEY}/{POLICY}")
 SOURCE_KEY = {"qwen3_8b": "qwen3_rag_8b", "openscholar_8b": "openscholar_rag_8b"}[KEY]
 REPO, FILE, LABEL = MODELS[KEY]
 SOURCE = ROOT / "abstract_evaluation" / "open_answers_v1" / f"pdf_answers_{SOURCE_KEY}.sqlite"
-DB = ROOT / "abstract_evaluation" / "phase3" / f"pdf_score_{KEY}.sqlite"
-WEIGHTS = (15, 30, 15, 10, 20, 10)
-GRAMMAR = LlamaGrammar.from_string(
-    'root ::= "Q1=" choice "\\nQ2=" choice "\\nQ3=" choice "\\nQ4=" choice "\\nQ5=" choice "\\nQ6=" choice\n'
-    'choice ::= [ABCDU]\n', verbose=False)
+DB = ROOT / "abstract_evaluation" / "phase3" / (
+    f"pdf_score_{KEY}_all_no_u.sqlite" if POLICY == "all_no_u" else f"pdf_score_{KEY}.sqlite")
+GRAMMAR = LlamaGrammar.from_string(grammar_for(POLICY), verbose=False)
 
 
 def open_db():
@@ -52,18 +53,6 @@ def papers(db):
     return sorted(pending, reverse=True)
 
 
-def parse(raw):
-    matches = re.fullmatch(r"Q1=([ABCDU])\nQ2=([ABCDU])\nQ3=([ABCDU])\nQ4=([ABCDU])\nQ5=([ABCDU])\nQ6=([ABCDU])", raw.strip())
-    if not matches:
-        raise ValueError("Expected six single-letter Q answers")
-    choices = matches.groups()
-    score = None
-    if "U" not in choices:
-        weighted = sum(weight * "ABCD".index(choice) for weight, choice in zip(WEIGHTS, choices))
-        score = (weighted * 10 + 1) // 3
-    return choices, score
-
-
 def push_result(db):
     db.close()
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=ROOT, check=True)
@@ -86,7 +75,8 @@ def main():
     if not pending:
         db.close()
         return
-    prompt = (ROOT / "scripts" / "pdf_answers_score_prompt.txt").read_text(encoding="utf-8")
+    prompt_name = "pdf_answers_score_prompt.txt" if POLICY == "standard" else f"pdf_answers_score_prompt_{POLICY}.txt"
+    prompt = (ROOT / "scripts" / prompt_name).read_text(encoding="utf-8")
     model_path = hf_hub_download(repo_id=REPO, filename=FILE)
     model = Llama(model_path=model_path, n_ctx=8192, n_threads=min(4, os.cpu_count() or 1),
                   n_batch=256, verbose=False)
@@ -106,7 +96,7 @@ def main():
                 messages=[{"role": "user", "content": request}], temperature=0,
                 max_tokens=128, grammar=GRAMMAR)
             raw = result["choices"][0]["message"]["content"] or ""
-            choices, score = parse(raw)
+            choices, score = parse_response(raw, POLICY)
             db.execute("""INSERT OR IGNORE INTO evaluations
                 (id,modelo,version_rubrica,source_model,puntuacion,Q1,Q2,Q3,Q4,Q5,Q6,raw_response,completed_at_utc)
                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",

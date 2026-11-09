@@ -1,4 +1,4 @@
-name: arXiv phase 3 Qwen3-8B
+name: arXiv phase 3 Qwen3-8B Q1 without U
 
 on:
   schedule:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: arxiv-phase3-qwen3-8b
+  group: arxiv-phase3-qwen3-8b-q1-no-u
   cancel-in-progress: false
 
 jobs:
@@ -38,6 +38,7 @@ jobs:
       - name: Score PDF answers
         env:
           PDF_SCORE_MODEL: qwen3_8b
+          PDF_SCORE_POLICY: q1_no_u
         run: python -u scripts/score_pdf_answers.py
       - name: Save SQLite
         if: always()

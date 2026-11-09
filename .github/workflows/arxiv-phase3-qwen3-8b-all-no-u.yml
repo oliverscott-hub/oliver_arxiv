@@ -1,0 +1,57 @@
+name: arXiv phase 3 Qwen3-8B Q1-Q6 without U
+
+on:
+  schedule:
+    - cron: '30 5,11,17,23 * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [run-arxiv-phase3-qwen3-8b-all-no-u]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: arxiv-phase3-qwen3-8b-all-no-u
+  cancel-in-progress: false
+
+jobs:
+  score:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - name: Set deadline
+        run: echo "PDF_SCORE_DEADLINE_EPOCH=$(date -u -d '+345 minutes' +%s)" >> "$GITHUB_ENV"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v5
+        with:
+          path: ~/.cache/huggingface/hub
+          key: qwen3-8b-q4km-v1
+      - name: Install CPU inference dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --only-binary=:all: 'llama-cpp-python==0.3.36' --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+          python -m pip install --disable-pip-version-check 'huggingface_hub==2.4.0' 'PyMuPDF==1.26.5'
+      - name: Score PDF answers
+        env:
+          PDF_SCORE_MODEL: qwen3_8b
+          PDF_SCORE_POLICY: all_no_u
+        run: python -u scripts/score_pdf_answers.py
+      - name: Save SQLite
+        if: always()
+        run: |
+          if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then git rebase --abort; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add abstract_evaluation/phase3/pdf_score_qwen3_8b_all_no_u.sqlite
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Save phase 3 PDF scores qwen3_8b_all_no_u'
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 3
+          done
+          exit 1
