@@ -1,10 +1,7 @@
 """Page-by-page multimodal PDF pilot using llama.cpp server."""
 import base64
-import datetime as dt
-import hashlib
 import json
 import os
-import sqlite3
 import subprocess
 import time
 import urllib.request
@@ -13,8 +10,9 @@ from pathlib import Path
 import fitz
 from huggingface_hub import hf_hub_download
 
-from review_arxiv_pdfs import (ROOT, KEY, MODELS, DB, candidates, checkpoint,
-                               fetch_pdf, open_db, save_evaluation, validate)
+from review_arxiv_pdfs import ROOT, KEY, MODELS, fetch_pdf
+from review_arxiv_pdfs_v2 import DB, candidates, push_result, response_text
+from pdf_review_v2_storage import normalize, open_db, save
 
 PROJECTORS = {
     "qwen3_vl_4b": "mmproj-Qwen3VL-4B-Instruct-Q8_0.gguf",
@@ -64,7 +62,7 @@ def review_pdf(data, instructions):
         picture = page.get_pixmap(matrix=fitz.Matrix(0.8, 0.8), alpha=False).tobytes("png")
         image = "data:image/png;base64," + base64.b64encode(picture).decode("ascii")
         content = [
-            {"type": "text", "text": f"PDF page {index}/{len(doc)}. Read its text AND image. Record only decisive scientific claims, data, figures, equations, limitations and comparisons with this exact page number. Do not score.\n{text[:11000]}"},
+            {"type": "text", "text": f"PDF page {index}/{len(doc)}. Read its text AND image. Record decisive scientific claims, data, figures, equations, limitations and comparisons. Preserve short verbatim text excerpts for later citation. Do not score.\n{text[:11000]}"},
             {"type": "image_url", "image_url": {"url": image}},
         ]
         notes.append(chat(content, 320))
@@ -72,13 +70,21 @@ def review_pdf(data, instructions):
     while len(material) > 24000:
         parts = [material[i:i + 10000] for i in range(0, len(material), 10000)]
         material = "\n".join(chat("Consolidate these PDF page notes. Preserve exact page numbers, decisive results, limitations and figure evidence. Do not score.\n" + part, 500) for part in parts)
-    return chat(instructions + "\nAssess only the inspected PDF pages using these page-labelled observations. Never invent a locator.\n" + material, 1300), len(doc)
+    instructions = instructions.replace(
+        "You are given the complete text extracted from a scientific paper's PDF.\n"
+        'In these instructions, "the paper" means that supplied text.',
+        "You have inspected all PDF pages through text and images. The final assessment uses "
+        "the page notes below. They may omit details; choose U when decisive evidence is unavailable.",
+    )
+    raw = chat(instructions + "\nAssess only the inspected PDF pages using these page notes. "
+               "For E1–E6, copy a verbatim excerpt preserved in the notes; do not invent a quote.\n" + material, 1500)
+    return raw, "\n\n".join(page.get_text(sort=True) for page in doc)
 
 
 def main():
     deadline = int(os.environ.get("PDF_REVIEW_DEADLINE_EPOCH", str(int(time.time()) + 345 * 60)))
     limit = int(os.environ.get("PDF_REVIEW_MAX_PAPERS", "0"))
-    db = open_db()
+    db = open_db(DB)
     papers = candidates(db)
     print(f"{KEY}: {len(papers)} qualifying candidates", flush=True)
     if not papers:
@@ -86,32 +92,30 @@ def main():
         return
     server = launch_server()
     instructions = (ROOT / "scripts" / "pdf_review_prompt.txt").read_text(encoding="utf-8")
-    next_save = time.monotonic() + 1800
     processed = 0
     try:
         for _, aid, url in papers:
             if time.time() >= deadline or (limit and processed >= limit):
                 break
             processed += 1
-            raw = None
+            started = time.monotonic()
+            data = None
             try:
                 data = fetch_pdf(url)
-                raw, count = review_pdf(data, instructions)
-                obj = validate(raw, [None] * count)
-                score = save_evaluation(db, aid, url, hashlib.sha256(data).hexdigest(), obj)
-                outcome, error = "success", None
-                print(f"{aid} score={score}", flush=True)
+                raw, paper_text = review_pdf(data, instructions)
+                values = normalize(response_text(raw), paper_text)
+                score = save(db, aid, MODELS[KEY][2], url, values)
+                print(f"{aid} attempt=1 duration_s={time.monotonic()-started:.1f} "
+                      f"score={score} status=valid error=None", flush=True)
             except Exception as exc:
-                outcome, error = "error", f"{type(exc).__name__}: {exc}"
-                print(f"{aid} error={error}", flush=True)
-            db.execute("INSERT INTO attempts(arxiv_id,attempted_at_utc,pdf_url,outcome,error,raw_model_response) VALUES (?,?,?,?,?,?)", (aid, dt.datetime.now(dt.timezone.utc).isoformat(), url, outcome, error, raw))
-            db.commit()
-            if time.monotonic() >= next_save:
-                db = checkpoint(db)
-                next_save = time.monotonic() + 1800
-        checkpoint(db).close()
+                print(f"{aid} attempt=1 duration_s={time.monotonic()-started:.1f} "
+                      f"score=None status=error error={type(exc).__name__}: {exc}", flush=True)
+            else:
+                db = push_result(db)
+        db.close()
     finally:
         server.terminate()
+        server.wait(timeout=30)
 
 
 if __name__ == "__main__":
