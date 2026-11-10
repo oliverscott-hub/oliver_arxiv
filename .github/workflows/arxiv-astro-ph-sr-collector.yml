@@ -39,7 +39,7 @@ jobs:
           if [ ! -f library/astro-ph_SR.sqlite ]; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add library/astro-ph_SR.sqlite library/astro-ph_SR.coverage.json
+          git add library/astro-ph_SR.sqlite library/astro-ph_SR.coverage.sqlite
           if ! git diff --cached --quiet; then
             git commit -m 'Actualizar biblioteca arXiv astro-ph.SR'
             for attempt in 1 2 3; do

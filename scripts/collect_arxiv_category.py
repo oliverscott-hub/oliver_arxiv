@@ -23,7 +23,7 @@ OPEN_SEARCH = "http://a9.com/-/spec/opensearch/1.1/"
 ARXIV = "http://arxiv.org/schemas/atom"
 CATEGORY = "astro-ph.CO"
 DB_PATH = ROOT / "library" / "astro-ph_CO.sqlite"
-COVERAGE_JSON_PATH = ROOT / "library" / "astro-ph_CO.coverage.json"
+COVERAGE_SQLITE_PATH = ROOT / "library" / "astro-ph_CO.coverage.sqlite"
 MIN_INTERVAL = 3.2
 MAX_PER_PAGE = 2000
 MAX_PER_QUERY = 30000
@@ -386,31 +386,42 @@ def daily_counts(connection):
             """)]
 
 
-def write_coverage_json(connection):
-    coverage = daily_counts(connection)
-    payload = {
-        "schema_version": 1,
-        "source": "arxiv",
-        "category": CATEGORY,
-        "database": DB_PATH.relative_to(ROOT).as_posix(),
-        "generated_at_utc": iso_utc(utc_now()),
-        "covered_day_count": sum(1 for row in coverage if row["status"] == "ok"),
+def write_coverage_sqlite(connection):
+    """Publish OpenAlex-compatible daily coverage from completed arXiv days."""
+    rows = connection.execute("""
+        SELECT day_utc, papers_captured, completed_at_utc
+        FROM day_coverage WHERE status='ok' ORDER BY day_utc
+    """).fetchall()
+    COVERAGE_SQLITE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    temp = COVERAGE_SQLITE_PATH.with_suffix(".sqlite.tmp")
+    if temp.exists():
+        temp.unlink()
+    coverage_db = sqlite3.connect(temp)
+    try:
+        coverage_db.execute("""CREATE TABLE daily_coverage (
+            day TEXT PRIMARY KEY,
+            articles INTEGER NOT NULL CHECK(articles>=0),
+            last_scan TEXT NOT NULL)""")
+        coverage_db.executemany(
+            "INSERT INTO daily_coverage VALUES(?,?,?)",
+            ((day, captured, completed[:10]) for day, captured, completed in rows),
+        )
+        coverage_db.commit()
+    finally:
+        coverage_db.close()
+    temp.replace(COVERAGE_SQLITE_PATH)
+    return {
+        "covered_day_count": len(rows),
         "paper_version_count": connection.execute("SELECT COUNT(*) FROM papers").fetchone()[0],
-        "days": coverage,
     }
-    COVERAGE_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
-    temp = COVERAGE_JSON_PATH.with_suffix(".json.tmp")
-    temp.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    temp.replace(COVERAGE_JSON_PATH)
-    return payload
 
 
 def configure_category(category):
-    global CATEGORY, DB_PATH, COVERAGE_JSON_PATH
+    global CATEGORY, DB_PATH, COVERAGE_SQLITE_PATH
     CATEGORY = category
     slug = category.replace(".", "_")
     DB_PATH = ROOT / "library" / f"{slug}.sqlite"
-    COVERAGE_JSON_PATH = ROOT / "library" / f"{slug}.coverage.json"
+    COVERAGE_SQLITE_PATH = ROOT / "library" / f"{slug}.coverage.sqlite"
 
 
 def run(max_days, category):
@@ -500,7 +511,7 @@ def run(max_days, category):
     """, (run_from, run_to, json_text(run_queries), completed, status,
           sum(row.get("papers_captured", 0) for row in processed), error, run_id))
     connection.commit()
-    coverage = write_coverage_json(connection)
+    coverage = write_coverage_sqlite(connection)
     result = {
         "event": "collector_run",
         "run_id": run_id,
@@ -516,7 +527,7 @@ def run(max_days, category):
         "covered_day_count": coverage["covered_day_count"],
         "paper_version_count": coverage["paper_version_count"],
         "database": DB_PATH.relative_to(ROOT).as_posix(),
-        "coverage_json": COVERAGE_JSON_PATH.relative_to(ROOT).as_posix(),
+        "coverage_sqlite": COVERAGE_SQLITE_PATH.relative_to(ROOT).as_posix(),
         "error": error,
     }
     connection.close()
