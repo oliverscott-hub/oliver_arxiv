@@ -1,17 +1,17 @@
-name: arXiv PDF review OpenScholar-8B PDF RAG
+name: arXiv PDF review Qwen3-8B PDF RAG Tuesday
 
 on:
   schedule:
-    - cron: '10 4,10,16,22 * * *'
+    - cron: '20 4,10,16,22 * * *'
   workflow_dispatch:
   repository_dispatch:
-    types: [run-arxiv-pdf-review-openscholar-rag-8b]
+    types: [run-arxiv-pdf-review-qwen3-rag-8b-tuesday]
 
 permissions:
   contents: write
 
 concurrency:
-  group: arxiv-pdf-review-openscholar-rag-8b
+  group: arxiv-pdf-review-qwen3-rag-8b-tuesday
   cancel-in-progress: false
 
 jobs:
@@ -30,14 +30,15 @@ jobs:
       - uses: actions/cache@v5
         with:
           path: ~/.cache/huggingface/hub
-          key: openscholar-rag-8b-q4km-v1
+          key: qwen3-8b-q4km-v1
       - name: Install inference and PDF dependencies
         run: |
           python -m pip install --disable-pip-version-check --only-binary=:all: 'llama-cpp-python==0.3.36' --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
           python -m pip install --disable-pip-version-check 'huggingface_hub==2.4.0' 'PyMuPDF==1.26.5'
       - name: Review PDFs
         env:
-          PDF_REVIEW_MODEL: openscholar_rag_8b
+          PDF_REVIEW_MODEL: qwen3_rag_8b
+          PDF_REVIEW_DAY_GROUP: tuesday
         run: python -u scripts/review_arxiv_pdfs_open.py
       - name: Save SQLite
         if: always()
@@ -45,9 +46,9 @@ jobs:
           if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then git rebase --abort; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add abstract_evaluation/open_answers_v1/pdf_answers_openscholar_rag_8b.sqlite
+          git add abstract_evaluation/open_answers_v1/pdf_answers_qwen3_rag_8b_tuesday.sqlite
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Save open PDF answers openscholar_rag_8b'
+          git commit -m 'Save open PDF answers qwen3_rag_8b'
           for attempt in 1 2 3; do
             git pull --rebase origin main
             if git push origin HEAD:main; then exit 0; fi

@@ -1,21 +1,21 @@
-name: arXiv phase 3 Qwen3-8B Q1-Q6 without U
+name: arXiv PDF review Qwen3-8B PDF RAG Thursday
 
 on:
   schedule:
-    - cron: '30 5,11,17,23 * * *'
+    - cron: '20 0,6,12,18 * * *'
   workflow_dispatch:
   repository_dispatch:
-    types: [run-arxiv-phase3-qwen3-8b-all-no-u]
+    types: [run-arxiv-pdf-review-qwen3-rag-8b-thursday]
 
 permissions:
   contents: write
 
 concurrency:
-  group: arxiv-phase3-qwen3-8b-all-no-u
+  group: arxiv-pdf-review-qwen3-rag-8b-thursday
   cancel-in-progress: false
 
 jobs:
-  score:
+  review:
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     steps:
@@ -23,7 +23,7 @@ jobs:
         with:
           ref: main
       - name: Set deadline
-        run: echo "PDF_SCORE_DEADLINE_EPOCH=$(date -u -d '+345 minutes' +%s)" >> "$GITHUB_ENV"
+        run: echo "PDF_REVIEW_DEADLINE_EPOCH=$(date -u -d '+345 minutes' +%s)" >> "$GITHUB_ENV"
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
@@ -31,24 +31,24 @@ jobs:
         with:
           path: ~/.cache/huggingface/hub
           key: qwen3-8b-q4km-v1
-      - name: Install CPU inference dependencies
+      - name: Install inference and PDF dependencies
         run: |
           python -m pip install --disable-pip-version-check --only-binary=:all: 'llama-cpp-python==0.3.36' --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
           python -m pip install --disable-pip-version-check 'huggingface_hub==2.4.0' 'PyMuPDF==1.26.5'
-      - name: Score PDF answers
+      - name: Review PDFs
         env:
-          PDF_SCORE_MODEL: qwen3_8b
-          PDF_SCORE_POLICY: all_no_u
-        run: python -u scripts/score_pdf_answers.py
+          PDF_REVIEW_MODEL: qwen3_rag_8b
+          PDF_REVIEW_DAY_GROUP: thursday
+        run: python -u scripts/review_arxiv_pdfs_open.py
       - name: Save SQLite
         if: always()
         run: |
           if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then git rebase --abort; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add abstract_evaluation/phase3/pdf_score_qwen3_8b_all_no_u.sqlite
+          git add abstract_evaluation/open_answers_v1/pdf_answers_qwen3_rag_8b_thursday.sqlite
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Save phase 3 PDF scores qwen3_8b_all_no_u'
+          git commit -m 'Save open PDF answers qwen3_rag_8b'
           for attempt in 1 2 3; do
             git pull --rebase origin main
             if git push origin HEAD:main; then exit 0; fi

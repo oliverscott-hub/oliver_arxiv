@@ -12,23 +12,42 @@ from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
 
 from review_arxiv_pdfs import MODELS, ROOT, fetch_pdf, page_text
+from pdf_weekday import DAY_GROUPS, group_for_timestamp, qwen_pdf_db
 
 KEY = os.environ.get("PDF_REVIEW_MODEL", "qwen3_8b")
 REPO, FILE, LABEL = MODELS[KEY]
 RAG = "_rag_" in KEY
-DB = ROOT / "abstract_evaluation" / "open_answers_v1" / f"pdf_answers_{KEY}.sqlite"
+DAY_GROUP = os.environ.get("PDF_REVIEW_DAY_GROUP", "monday") if KEY == "qwen3_rag_8b" else None
+DB = (qwen_pdf_db(ROOT, DAY_GROUP) if DAY_GROUP is not None else
+      ROOT / "abstract_evaluation" / "open_answers_v1" / f"pdf_answers_{KEY}.sqlite")
 CONTEXT_TOKENS = 16384
 OUTPUT_TOKENS = 3500
 
 
 def open_db():
+    DB.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(DB, timeout=30)
     db.execute("PRAGMA busy_timeout=30000")
+    db.execute("""CREATE TABLE IF NOT EXISTS answers (
+      id TEXT PRIMARY KEY, modelo TEXT NOT NULL,
+      version_preguntas INTEGER NOT NULL CHECK(version_preguntas=1),
+      pdf_url TEXT NOT NULL, modalidad TEXT NOT NULL CHECK(modalidad IN ('full_text','rag')),
+      answer1 TEXT NOT NULL, answer2 TEXT NOT NULL, answer3 TEXT NOT NULL,
+      answer4 TEXT NOT NULL, answer5 TEXT NOT NULL, answer6 TEXT NOT NULL,
+      raw_response TEXT NOT NULL, completed_at_utc TEXT NOT NULL)""")
+    db.commit()
     return db
 
 
 def candidates(db):
     done = {row[0] for row in db.execute("SELECT id FROM answers")}
+    if DAY_GROUP is not None:
+        for group in DAY_GROUPS:
+            path = qwen_pdf_db(ROOT, group)
+            if path == DB or not path.exists():
+                continue
+            with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as other:
+                done.update(row[0] for row in other.execute("SELECT id FROM answers"))
     qualified = set()
     for path in sorted((ROOT / "abstract_evaluation").glob("rubric_v3_qwen3_8b*.sqlite")):
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as source:
@@ -49,7 +68,8 @@ def candidates(db):
                         if aid not in found or stamp > found[aid][0]:
                             found[aid] = (stamp, url, path.stem.replace("_", "."))
                         break
-    return sorted(((stamp, aid, url, category) for aid, (stamp, url, category) in found.items()), reverse=True)
+    return sorted(((stamp, aid, url, category) for aid, (stamp, url, category) in found.items()
+                   if DAY_GROUP is None or group_for_timestamp(stamp) == DAY_GROUP), reverse=True)
 
 
 def supplied_text(pages):
@@ -92,11 +112,11 @@ def push_result(db):
     if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode == 0:
         return open_db()
     subprocess.run(["git", "commit", "-m", f"Save open PDF answers {KEY}"], cwd=ROOT, check=True)
-    for attempt in range(1, 5):
+    for attempt in range(1, 9):
         subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
         if subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=ROOT).returncode == 0:
             return open_db()
-        time.sleep(3 * attempt)
+        time.sleep(min(15, 3 * attempt))
     raise RuntimeError("Could not push PDF answers")
 
 
@@ -104,7 +124,7 @@ def main():
     deadline = int(os.environ.get("PDF_REVIEW_DEADLINE_EPOCH", str(int(time.time()) + 345 * 60)))
     db = open_db()
     papers = candidates(db)
-    print(f"{LABEL}: {len(papers)} papers pending; open answers v1", flush=True)
+    print(f"{LABEL} {DAY_GROUP or 'all days'}: {len(papers)} papers pending; open answers v1", flush=True)
     if not papers:
         db.close()
         return

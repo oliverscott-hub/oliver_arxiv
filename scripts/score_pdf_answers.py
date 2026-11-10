@@ -10,6 +10,7 @@ from llama_cpp import Llama, LlamaGrammar
 
 from review_arxiv_pdfs import MODELS, ROOT
 from phase3_policy import POLICIES, grammar_for, parse_response
+from pdf_weekday import DAY_GROUPS, qwen_pdf_db
 
 KEY = os.environ["PDF_SCORE_MODEL"]
 POLICY = os.environ.get("PDF_SCORE_POLICY", "standard")
@@ -17,7 +18,8 @@ if POLICY not in POLICIES or (KEY != "qwen3_8b" and POLICY != "standard"):
     raise ValueError(f"Unsupported phase 3 model/policy: {KEY}/{POLICY}")
 SOURCE_KEY = {"qwen3_8b": "qwen3_rag_8b", "openscholar_8b": "openscholar_rag_8b"}[KEY]
 REPO, FILE, LABEL = MODELS[KEY]
-SOURCE = ROOT / "abstract_evaluation" / "open_answers_v1" / f"pdf_answers_{SOURCE_KEY}.sqlite"
+SOURCES = ([qwen_pdf_db(ROOT, group) for group in DAY_GROUPS] if KEY == "qwen3_8b" else
+           [ROOT / "abstract_evaluation" / "open_answers_v1" / f"pdf_answers_{SOURCE_KEY}.sqlite"])
 DB = ROOT / "abstract_evaluation" / "phase3" / (
     f"pdf_score_{KEY}_all_no_u.sqlite" if POLICY == "all_no_u" else f"pdf_score_{KEY}.sqlite")
 GRAMMAR = LlamaGrammar.from_string(grammar_for(POLICY), verbose=False)
@@ -46,10 +48,18 @@ def papers(db):
                 "SELECT arxiv_id,summary,COALESCE(NULLIF(updated,''),published) FROM papers"):
                 if aid not in metadata or stamp > metadata[aid][1]:
                     metadata[aid] = (abstract, stamp, path.stem.replace("_", "."))
-    with sqlite3.connect(f"file:{SOURCE.as_posix()}?mode=ro", uri=True) as source:
-        rows = source.execute("SELECT id,modelo,answer1,answer2,answer3,answer4,answer5,answer6 FROM answers")
-        pending = [(metadata[row[0]][1], row[0], metadata[row[0]][2], metadata[row[0]][0], row[1], row[2:])
-                   for row in rows if row[0] not in done and row[0] in metadata and metadata[row[0]][0].strip()]
+    pending = []
+    seen = set()
+    for path in SOURCES:
+        if not path.exists():
+            continue
+        with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as source:
+            for row in source.execute("SELECT id,modelo,answer1,answer2,answer3,answer4,answer5,answer6 FROM answers"):
+                if row[0] in done or row[0] in seen or row[0] not in metadata or not metadata[row[0]][0].strip():
+                    continue
+                seen.add(row[0])
+                pending.append((metadata[row[0]][1], row[0], metadata[row[0]][2],
+                                metadata[row[0]][0], row[1], row[2:]))
     return sorted(pending, reverse=True)
 
 
@@ -59,11 +69,11 @@ def push_result(db):
     subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
     subprocess.run(["git", "add", DB.relative_to(ROOT).as_posix()], cwd=ROOT, check=True)
     subprocess.run(["git", "commit", "-m", f"Save phase 3 PDF score {KEY}"], cwd=ROOT, check=True)
-    for attempt in range(1, 5):
+    for attempt in range(1, 9):
         subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
         if subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=ROOT).returncode == 0:
             return open_db()
-        time.sleep(3 * attempt)
+        time.sleep(min(15, 3 * attempt))
     raise RuntimeError("Could not push phase 3 score")
 
 
@@ -80,6 +90,8 @@ def main():
     model_path = hf_hub_download(repo_id=REPO, filename=FILE)
     model = Llama(model_path=model_path, n_ctx=8192, n_threads=min(4, os.cpu_count() or 1),
                   n_batch=256, verbose=False)
+    last_push = time.monotonic()
+    unsaved = 0
     for _, aid, category, abstract, source_model, answers in pending:
         if time.time() >= deadline:
             break
@@ -103,12 +115,20 @@ def main():
                 (aid, LABEL, 1, source_model, score, *choices, raw,
                  dt.datetime.now(dt.timezone.utc).isoformat()))
             db.commit()
+            unsaved += 1
             print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
                   f"score={score} error=None", flush=True)
-            db = push_result(db)
         except Exception as exc:
             print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
                   f"score=None error={type(exc).__name__}: {exc}", flush=True)
+        if unsaved and time.monotonic() - last_push >= 30 * 60:
+            print(f"Saving {unsaved} phase 3 evaluations to GitHub", flush=True)
+            db = push_result(db)
+            unsaved = 0
+            last_push = time.monotonic()
+    if unsaved:
+        print(f"Saving final {unsaved} phase 3 evaluations to GitHub", flush=True)
+        db = push_result(db)
     db.close()
 
 

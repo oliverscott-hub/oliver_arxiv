@@ -1,4 +1,4 @@
-name: arXiv PDF review Qwen3-8B PDF RAG
+name: arXiv PDF review Qwen3-8B PDF RAG Monday
 
 on:
   schedule:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: arxiv-pdf-review-qwen3-rag-8b
+  group: arxiv-pdf-review-qwen3-rag-8b-monday
   cancel-in-progress: false
 
 jobs:
@@ -38,6 +38,7 @@ jobs:
       - name: Review PDFs
         env:
           PDF_REVIEW_MODEL: qwen3_rag_8b
+          PDF_REVIEW_DAY_GROUP: monday
         run: python -u scripts/review_arxiv_pdfs_open.py
       - name: Save SQLite
         if: always()
