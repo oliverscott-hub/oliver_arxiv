@@ -53,27 +53,48 @@ def read_category(slug: str) -> dict[str, dt.date]:
         db.close()
 
 
-def evaluated_ids() -> set[str]:
-    result = set()
+def phase_ids() -> tuple[set[str], set[str], set[str]]:
+    phase1, phase2, phase3 = set(), set(), set()
     for filename in EVALUATION_DATABASES:
         path = ROOT / "abstract_evaluation" / filename
         if not path.exists():
             continue
         db = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
         try:
-            result.update(row[0] for row in db.execute("SELECT id FROM evaluations"))
+            phase1.update(row[0] for row in db.execute(
+                "SELECT id FROM evaluations WHERE puntuacion IS NOT NULL"
+            ))
         finally:
             db.close()
-    return result
+    for path in sorted((ROOT / "abstract_evaluation" / "open_answers_v1").glob(
+        "pdf_answers_qwen3_rag_8b*.sqlite"
+    )):
+        db = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+        try:
+            phase2.update(row[0] for row in db.execute("SELECT id FROM answers"))
+        finally:
+            db.close()
+    path = ROOT / "abstract_evaluation" / "phase3" / "pdf_score_qwen3_8b.sqlite"
+    if path.exists():
+        db = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+        try:
+            phase3.update(row[0] for row in db.execute(
+                "SELECT id FROM evaluations WHERE puntuacion IS NOT NULL"
+            ))
+        finally:
+            db.close()
+    return phase1, phase2, phase3
 
 
-def counts(records: dict[str, dt.date], evaluated: set[str], start: dt.date | None, end: dt.date | None):
-    result = [{"evaluated": 0, "pending": 0} for _ in range(7)]
+def counts(records: dict[str, dt.date], phase_ids, start: dt.date | None, end: dt.date | None):
+    phase1, phase2, phase3 = phase_ids
+    result = [{"phase3": 0, "phase2": 0, "phase1": 0, "collected": 0} for _ in range(7)]
     for arxiv_id, value in records.items():
         if start is not None and not start <= value <= end:
             continue
         slot = result[value.weekday()]
-        slot["evaluated" if arxiv_id in evaluated else "pending"] += 1
+        stage = "phase3" if arxiv_id in phase3 else "phase2" if arxiv_id in phase2 else "phase1" if arxiv_id in phase1 else "collected"
+        slot[stage] += 1
     return result
 
 
@@ -88,7 +109,7 @@ def main() -> None:
     quarter_start = today.replace(month=quarter_month, day=1)
     half_start = today.replace(month=1 if today.month <= 6 else 7, day=1)
     year_start = today.replace(month=1, day=1)
-    evaluated = evaluated_ids()
+    stages = phase_ids()
 
     categories = {}
     all_records: dict[str, dt.date] = {}
@@ -96,13 +117,13 @@ def main() -> None:
         papers = read_category(slug)
         categories[name] = {
             "total": len(papers),
-            "current_week": counts(papers, evaluated, monday, today),
-            "previous_week": counts(papers, evaluated, previous_monday, previous_sunday),
-            "current_month": counts(papers, evaluated, month_start, today),
-            "current_quarter": counts(papers, evaluated, quarter_start, today),
-            "current_half_year": counts(papers, evaluated, half_start, today),
-            "current_year": counts(papers, evaluated, year_start, today),
-            "all_time": counts(papers, evaluated, None, None),
+            "current_week": counts(papers, stages, monday, today),
+            "previous_week": counts(papers, stages, previous_monday, previous_sunday),
+            "current_month": counts(papers, stages, month_start, today),
+            "current_quarter": counts(papers, stages, quarter_start, today),
+            "current_half_year": counts(papers, stages, half_start, today),
+            "current_year": counts(papers, stages, year_start, today),
+            "all_time": counts(papers, stages, None, None),
         }
         # A paper present in multiple collector categories is counted once in the combined view.
         for arxiv_id, date in papers.items():
@@ -111,13 +132,13 @@ def main() -> None:
 
     categories["Total"] = {
         "total": len(all_records),
-        "current_week": counts(all_records, evaluated, monday, today),
-        "previous_week": counts(all_records, evaluated, previous_monday, previous_sunday),
-        "current_month": counts(all_records, evaluated, month_start, today),
-        "current_quarter": counts(all_records, evaluated, quarter_start, today),
-        "current_half_year": counts(all_records, evaluated, half_start, today),
-        "current_year": counts(all_records, evaluated, year_start, today),
-        "all_time": counts(all_records, evaluated, None, None),
+        "current_week": counts(all_records, stages, monday, today),
+        "previous_week": counts(all_records, stages, previous_monday, previous_sunday),
+        "current_month": counts(all_records, stages, month_start, today),
+        "current_quarter": counts(all_records, stages, quarter_start, today),
+        "current_half_year": counts(all_records, stages, half_start, today),
+        "current_year": counts(all_records, stages, year_start, today),
+        "all_time": counts(all_records, stages, None, None),
     }
     payload = {
         "generated_at_utc": now.replace(microsecond=0).isoformat().replace("+00:00", "Z"),

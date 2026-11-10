@@ -1,9 +1,9 @@
 {
-  "generated_at_utc": "2026-11-07T11:28:03Z",
-  "today_utc": "2026-11-07",
-  "week_start_utc": "2026-11-02",
-  "previous_week_start_utc": "2026-10-26",
-  "previous_week_end_utc": "2026-11-01",
+  "generated_at_utc": "2026-11-10T22:00:32Z",
+  "today_utc": "2026-11-10",
+  "week_start_utc": "2026-11-09",
+  "previous_week_start_utc": "2026-11-02",
+  "previous_week_end_utc": "2026-11-08",
   "month_start_utc": "2026-11-01",
   "quarter_start_utc": "2026-10-01",
   "half_year_start_utc": "2026-07-01",
@@ -28,2345 +28,3423 @@
   },
   "categories": {
     "astro-ph.CO": {
-      "total": 7996,
+      "total": 11835,
       "current_week": [
         {
-          "evaluated": 5,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 15,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 9,
-          "pending": 2
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 14,
-          "pending": 6
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 41
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 5,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 44
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 13,
+          "collected": 4
         },
         {
-          "evaluated": 0,
-          "pending": 26
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 8,
+          "collected": 2
         },
         {
-          "evaluated": 8,
-          "pending": 46
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 14,
+          "collected": 5
         },
         {
-          "evaluated": 21,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 5,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 5,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 5,
+          "collected": 0
         },
         {
-          "evaluated": 15,
-          "pending": 3
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 13,
+          "collected": 4
         },
         {
-          "evaluated": 9,
-          "pending": 2
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 8,
+          "collected": 2
         },
         {
-          "evaluated": 14,
-          "pending": 6
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 14,
+          "collected": 5
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 5,
-          "pending": 137
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 133,
+          "collected": 3
         },
         {
-          "evaluated": 15,
-          "pending": 146
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 138,
+          "collected": 9
         },
         {
-          "evaluated": 9,
-          "pending": 138
+          "phase3": 19,
+          "phase2": 1,
+          "phase1": 123,
+          "collected": 5
         },
         {
-          "evaluated": 22,
-          "pending": 176
+          "phase3": 18,
+          "phase2": 0,
+          "phase1": 177,
+          "collected": 7
         },
         {
-          "evaluated": 21,
-          "pending": 109
+          "phase3": 11,
+          "phase2": 0,
+          "phase1": 120,
+          "collected": 3
         },
         {
-          "evaluated": 5,
-          "pending": 32
+          "phase3": 5,
+          "phase2": 0,
+          "phase1": 32,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 32
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 30,
+          "collected": 0
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 5,
-          "pending": 537
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 334,
+          "collected": 215
         },
         {
-          "evaluated": 15,
-          "pending": 533
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 314,
+          "collected": 232
         },
         {
-          "evaluated": 9,
-          "pending": 577
+          "phase3": 19,
+          "phase2": 1,
+          "phase1": 349,
+          "collected": 232
         },
         {
-          "evaluated": 22,
-          "pending": 537
+          "phase3": 18,
+          "phase2": 0,
+          "phase1": 359,
+          "collected": 195
         },
         {
-          "evaluated": 21,
-          "pending": 425
+          "phase3": 11,
+          "phase2": 0,
+          "phase1": 330,
+          "collected": 119
         },
         {
-          "evaluated": 5,
-          "pending": 121
+          "phase3": 5,
+          "phase2": 0,
+          "phase1": 123,
+          "collected": 6
         },
         {
-          "evaluated": 0,
-          "pending": 135
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 134,
+          "collected": 2
         }
       ],
       "current_year": [
         {
-          "evaluated": 5,
-          "pending": 1101
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 334,
+          "collected": 824
         },
         {
-          "evaluated": 15,
-          "pending": 1148
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 314,
+          "collected": 897
         },
         {
-          "evaluated": 9,
-          "pending": 1130
+          "phase3": 19,
+          "phase2": 1,
+          "phase1": 349,
+          "collected": 822
         },
         {
-          "evaluated": 22,
-          "pending": 1037
+          "phase3": 18,
+          "phase2": 0,
+          "phase1": 359,
+          "collected": 759
         },
         {
-          "evaluated": 21,
-          "pending": 870
+          "phase3": 11,
+          "phase2": 0,
+          "phase1": 330,
+          "collected": 588
         },
         {
-          "evaluated": 5,
-          "pending": 283
+          "phase3": 5,
+          "phase2": 0,
+          "phase1": 123,
+          "collected": 184
         },
         {
-          "evaluated": 0,
-          "pending": 282
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 134,
+          "collected": 154
         }
       ],
       "all_time": [
         {
-          "evaluated": 5,
-          "pending": 1493
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 334,
+          "collected": 1881
         },
         {
-          "evaluated": 15,
-          "pending": 1559
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 314,
+          "collected": 1996
         },
         {
-          "evaluated": 9,
-          "pending": 1531
+          "phase3": 19,
+          "phase2": 1,
+          "phase1": 349,
+          "collected": 1849
         },
         {
-          "evaluated": 22,
-          "pending": 1380
+          "phase3": 18,
+          "phase2": 0,
+          "phase1": 359,
+          "collected": 1706
         },
         {
-          "evaluated": 21,
-          "pending": 1177
+          "phase3": 11,
+          "phase2": 0,
+          "phase1": 330,
+          "collected": 1439
         },
         {
-          "evaluated": 5,
-          "pending": 388
+          "phase3": 5,
+          "phase2": 0,
+          "phase1": 123,
+          "collected": 498
         },
         {
-          "evaluated": 0,
-          "pending": 391
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 134,
+          "collected": 444
         }
       ]
     },
     "astro-ph.HE": {
-      "total": 9083,
+      "total": 14864,
       "current_week": [
         {
-          "evaluated": 24,
-          "pending": 5
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 15,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 11,
-          "pending": 2
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 46
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 23,
+          "collected": 5
         },
         {
-          "evaluated": 0,
-          "pending": 54
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 6,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 19
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 13,
+          "collected": 2
         },
         {
-          "evaluated": 9,
-          "pending": 44
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 12,
+          "collected": 2
         },
         {
-          "evaluated": 24,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 6,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 24,
-          "pending": 5
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 23,
+          "collected": 5
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 6,
+          "collected": 2
         },
         {
-          "evaluated": 15,
-          "pending": 1
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 13,
+          "collected": 2
         },
         {
-          "evaluated": 11,
-          "pending": 2
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 12,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 24,
-          "pending": 151
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 160,
+          "collected": 11
         },
         {
-          "evaluated": 5,
-          "pending": 175
+          "phase3": 17,
+          "phase2": 1,
+          "phase1": 152,
+          "collected": 17
         },
         {
-          "evaluated": 15,
-          "pending": 148
+          "phase3": 13,
+          "phase2": 2,
+          "phase1": 139,
+          "collected": 10
         },
         {
-          "evaluated": 20,
-          "pending": 182
+          "phase3": 15,
+          "phase2": 4,
+          "phase1": 176,
+          "collected": 12
         },
         {
-          "evaluated": 24,
-          "pending": 108
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 113,
+          "collected": 9
         },
         {
-          "evaluated": 6,
-          "pending": 51
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 54,
+          "collected": 1
         },
         {
-          "evaluated": 1,
-          "pending": 37
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 29,
+          "collected": 6
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 24,
-          "pending": 590
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 384,
+          "collected": 236
         },
         {
-          "evaluated": 5,
-          "pending": 611
+          "phase3": 17,
+          "phase2": 1,
+          "phase1": 331,
+          "collected": 284
         },
         {
-          "evaluated": 15,
-          "pending": 609
+          "phase3": 13,
+          "phase2": 2,
+          "phase1": 367,
+          "collected": 253
         },
         {
-          "evaluated": 20,
-          "pending": 576
+          "phase3": 15,
+          "phase2": 4,
+          "phase1": 348,
+          "collected": 241
         },
         {
-          "evaluated": 24,
-          "pending": 448
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 334,
+          "collected": 133
         },
         {
-          "evaluated": 6,
-          "pending": 162
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 153,
+          "collected": 15
         },
         {
-          "evaluated": 1,
-          "pending": 164
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 152,
+          "collected": 11
         }
       ],
       "current_year": [
         {
-          "evaluated": 24,
-          "pending": 1186
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 384,
+          "collected": 869
         },
         {
-          "evaluated": 5,
-          "pending": 1223
+          "phase3": 17,
+          "phase2": 1,
+          "phase1": 331,
+          "collected": 956
         },
         {
-          "evaluated": 15,
-          "pending": 1186
+          "phase3": 13,
+          "phase2": 2,
+          "phase1": 367,
+          "collected": 871
         },
         {
-          "evaluated": 20,
-          "pending": 1152
+          "phase3": 15,
+          "phase2": 4,
+          "phase1": 348,
+          "collected": 853
         },
         {
-          "evaluated": 24,
-          "pending": 944
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 334,
+          "collected": 654
         },
         {
-          "evaluated": 6,
-          "pending": 380
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 153,
+          "collected": 249
         },
         {
-          "evaluated": 1,
-          "pending": 334
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 152,
+          "collected": 187
         }
       ],
       "all_time": [
         {
-          "evaluated": 24,
-          "pending": 1663
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 384,
+          "collected": 2375
         },
         {
-          "evaluated": 5,
-          "pending": 1742
+          "phase3": 17,
+          "phase2": 1,
+          "phase1": 331,
+          "collected": 2499
         },
         {
-          "evaluated": 15,
-          "pending": 1640
+          "phase3": 13,
+          "phase2": 2,
+          "phase1": 367,
+          "collected": 2391
         },
         {
-          "evaluated": 20,
-          "pending": 1618
+          "phase3": 15,
+          "phase2": 4,
+          "phase1": 348,
+          "collected": 2303
         },
         {
-          "evaluated": 24,
-          "pending": 1329
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 334,
+          "collected": 1824
         },
         {
-          "evaluated": 6,
-          "pending": 515
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 153,
+          "collected": 685
         },
         {
-          "evaluated": 1,
-          "pending": 481
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 152,
+          "collected": 642
         }
       ]
     },
     "astro-ph.GA": {
-      "total": 11067,
+      "total": 17355,
       "current_week": [
         {
-          "evaluated": 12,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 10,
+          "collected": 7
         },
         {
-          "evaluated": 16,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 24,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 22,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 44
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 10,
+          "collected": 3
         },
         {
-          "evaluated": 0,
-          "pending": 52
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 15,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 37
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 22,
+          "collected": 3
         },
         {
-          "evaluated": 11,
-          "pending": 51
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 23,
+          "collected": 1
         },
         {
-          "evaluated": 29,
-          "pending": 2
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 12,
-          "pending": 3
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 20,
+          "collected": 10
         },
         {
-          "evaluated": 16,
-          "pending": 0
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 15,
+          "collected": 0
         },
         {
-          "evaluated": 24,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 22,
+          "collected": 3
         },
         {
-          "evaluated": 22,
-          "pending": 1
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 23,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 12,
-          "pending": 164
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 173,
+          "collected": 17
         },
         {
-          "evaluated": 16,
-          "pending": 193
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 184,
+          "collected": 10
         },
         {
-          "evaluated": 24,
-          "pending": 187
+          "phase3": 12,
+          "phase2": 4,
+          "phase1": 190,
+          "collected": 7
         },
         {
-          "evaluated": 33,
-          "pending": 204
+          "phase3": 27,
+          "phase2": 3,
+          "phase1": 200,
+          "collected": 13
         },
         {
-          "evaluated": 29,
-          "pending": 137
+          "phase3": 10,
+          "phase2": 0,
+          "phase1": 152,
+          "collected": 7
         },
         {
-          "evaluated": 0,
-          "pending": 39
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 37,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 54
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 45,
+          "collected": 6
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 12,
-          "pending": 643
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 418,
+          "collected": 255
         },
         {
-          "evaluated": 16,
-          "pending": 656
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 393,
+          "collected": 271
         },
         {
-          "evaluated": 24,
-          "pending": 672
+          "phase3": 12,
+          "phase2": 4,
+          "phase1": 429,
+          "collected": 260
         },
         {
-          "evaluated": 33,
-          "pending": 632
+          "phase3": 27,
+          "phase2": 3,
+          "phase1": 410,
+          "collected": 234
         },
         {
-          "evaluated": 29,
-          "pending": 515
+          "phase3": 10,
+          "phase2": 0,
+          "phase1": 408,
+          "collected": 132
         },
         {
-          "evaluated": 0,
-          "pending": 160
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 153,
+          "collected": 12
         },
         {
-          "evaluated": 0,
-          "pending": 170
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 155,
+          "collected": 13
         }
       ],
       "current_year": [
         {
-          "evaluated": 12,
-          "pending": 1394
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 418,
+          "collected": 1037
         },
         {
-          "evaluated": 16,
-          "pending": 1438
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 393,
+          "collected": 1085
         },
         {
-          "evaluated": 24,
-          "pending": 1412
+          "phase3": 12,
+          "phase2": 4,
+          "phase1": 429,
+          "collected": 1023
         },
         {
-          "evaluated": 33,
-          "pending": 1288
+          "phase3": 27,
+          "phase2": 3,
+          "phase1": 410,
+          "collected": 912
         },
         {
-          "evaluated": 29,
-          "pending": 1134
+          "phase3": 10,
+          "phase2": 0,
+          "phase1": 408,
+          "collected": 774
         },
         {
-          "evaluated": 0,
-          "pending": 325
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 153,
+          "collected": 187
         },
         {
-          "evaluated": 0,
-          "pending": 320
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 155,
+          "collected": 170
         }
       ],
       "all_time": [
         {
-          "evaluated": 12,
-          "pending": 2069
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 418,
+          "collected": 2884
         },
         {
-          "evaluated": 16,
-          "pending": 2192
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 393,
+          "collected": 3029
         },
         {
-          "evaluated": 24,
-          "pending": 2132
+          "phase3": 12,
+          "phase2": 4,
+          "phase1": 429,
+          "collected": 2879
         },
         {
-          "evaluated": 33,
-          "pending": 1921
+          "phase3": 27,
+          "phase2": 3,
+          "phase1": 410,
+          "collected": 2609
         },
         {
-          "evaluated": 29,
-          "pending": 1639
+          "phase3": 10,
+          "phase2": 0,
+          "phase1": 408,
+          "collected": 2242
         },
         {
-          "evaluated": 0,
-          "pending": 497
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 153,
+          "collected": 634
         },
         {
-          "evaluated": 0,
-          "pending": 503
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 155,
+          "collected": 626
         }
       ]
     },
     "astro-ph.SR": {
-      "total": 7651,
+      "total": 12445,
       "current_week": [
         {
-          "evaluated": 13,
-          "pending": 6
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 7,
+          "collected": 3
         },
         {
-          "evaluated": 9,
-          "pending": 4
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 15,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 15,
-          "pending": 2
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 32
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 14,
+          "collected": 6
         },
         {
-          "evaluated": 0,
-          "pending": 27
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 7,
+          "collected": 4
         },
         {
-          "evaluated": 0,
-          "pending": 17
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 14,
+          "collected": 2
         },
         {
-          "evaluated": 8,
-          "pending": 13
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 16,
+          "collected": 2
         },
         {
-          "evaluated": 13,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 13,
-          "pending": 6
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 21,
+          "collected": 9
         },
         {
-          "evaluated": 9,
-          "pending": 4
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 7,
+          "collected": 4
         },
         {
-          "evaluated": 15,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 14,
+          "collected": 2
         },
         {
-          "evaluated": 15,
-          "pending": 2
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 16,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 13,
-          "pending": 108
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 106,
+          "collected": 23
         },
         {
-          "evaluated": 9,
-          "pending": 124
+          "phase3": 6,
+          "phase2": 0,
+          "phase1": 106,
+          "collected": 21
         },
         {
-          "evaluated": 15,
-          "pending": 102
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 95,
+          "collected": 15
         },
         {
-          "evaluated": 23,
-          "pending": 108
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 107,
+          "collected": 14
         },
         {
-          "evaluated": 13,
-          "pending": 84
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 76,
+          "collected": 11
         },
         {
-          "evaluated": 0,
-          "pending": 30
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 20,
+          "collected": 8
         },
         {
-          "evaluated": 1,
-          "pending": 34
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 29,
+          "collected": 5
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 13,
-          "pending": 419
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 236,
+          "collected": 206
         },
         {
-          "evaluated": 9,
-          "pending": 425
+          "phase3": 6,
+          "phase2": 0,
+          "phase1": 216,
+          "collected": 214
         },
         {
-          "evaluated": 15,
-          "pending": 442
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 235,
+          "collected": 216
         },
         {
-          "evaluated": 23,
-          "pending": 393
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 217,
+          "collected": 192
         },
         {
-          "evaluated": 13,
-          "pending": 320
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 214,
+          "collected": 110
         },
         {
-          "evaluated": 0,
-          "pending": 116
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 88,
+          "collected": 26
         },
         {
-          "evaluated": 1,
-          "pending": 128
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 112,
+          "collected": 17
         }
       ],
       "current_year": [
         {
-          "evaluated": 13,
-          "pending": 911
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 236,
+          "collected": 705
         },
         {
-          "evaluated": 9,
-          "pending": 917
+          "phase3": 6,
+          "phase2": 0,
+          "phase1": 216,
+          "collected": 716
         },
         {
-          "evaluated": 15,
-          "pending": 916
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 235,
+          "collected": 703
         },
         {
-          "evaluated": 23,
-          "pending": 840
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 217,
+          "collected": 647
         },
         {
-          "evaluated": 13,
-          "pending": 683
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 214,
+          "collected": 482
         },
         {
-          "evaluated": 0,
-          "pending": 238
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 88,
+          "collected": 154
         },
         {
-          "evaluated": 1,
-          "pending": 259
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 112,
+          "collected": 148
         }
       ],
       "all_time": [
         {
-          "evaluated": 13,
-          "pending": 1465
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 236,
+          "collected": 2142
         },
         {
-          "evaluated": 9,
-          "pending": 1496
+          "phase3": 6,
+          "phase2": 0,
+          "phase1": 216,
+          "collected": 2194
         },
         {
-          "evaluated": 15,
-          "pending": 1429
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 235,
+          "collected": 2071
         },
         {
-          "evaluated": 23,
-          "pending": 1305
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 217,
+          "collected": 1983
         },
         {
-          "evaluated": 13,
-          "pending": 1078
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 214,
+          "collected": 1605
         },
         {
-          "evaluated": 0,
-          "pending": 390
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 88,
+          "collected": 557
         },
         {
-          "evaluated": 1,
-          "pending": 414
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 112,
+          "collected": 532
         }
       ]
     },
     "astro-ph.IM": {
-      "total": 6532,
+      "total": 9873,
       "current_week": [
         {
-          "evaluated": 4,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 2,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 28
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 3,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 28
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 20
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 1
         },
         {
-          "evaluated": 9,
-          "pending": 34
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 13,
-          "pending": 4
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 3,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 4,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 3,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 2
         },
         {
-          "evaluated": 2,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 4,
-          "pending": 99
+          "phase3": 2,
+          "phase2": 1,
+          "phase1": 76,
+          "collected": 26
         },
         {
-          "evaluated": 0,
-          "pending": 95
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 60,
+          "collected": 34
         },
         {
-          "evaluated": 2,
-          "pending": 116
+          "phase3": 10,
+          "phase2": 2,
+          "phase1": 83,
+          "collected": 24
         },
         {
-          "evaluated": 9,
-          "pending": 150
+          "phase3": 12,
+          "phase2": 3,
+          "phase1": 99,
+          "collected": 45
         },
         {
-          "evaluated": 13,
-          "pending": 82
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 63,
+          "collected": 26
         },
         {
-          "evaluated": 3,
-          "pending": 34
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 28,
+          "collected": 8
         },
         {
-          "evaluated": 0,
-          "pending": 31
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 22,
+          "collected": 8
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 4,
-          "pending": 390
+          "phase3": 2,
+          "phase2": 1,
+          "phase1": 180,
+          "collected": 219
         },
         {
-          "evaluated": 0,
-          "pending": 410
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 157,
+          "collected": 252
         },
         {
-          "evaluated": 2,
-          "pending": 453
+          "phase3": 10,
+          "phase2": 2,
+          "phase1": 194,
+          "collected": 254
         },
         {
-          "evaluated": 9,
-          "pending": 419
+          "phase3": 12,
+          "phase2": 3,
+          "phase1": 184,
+          "collected": 232
         },
         {
-          "evaluated": 13,
-          "pending": 317
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 172,
+          "collected": 159
         },
         {
-          "evaluated": 3,
-          "pending": 96
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 62,
+          "collected": 37
         },
         {
-          "evaluated": 0,
-          "pending": 121
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 85,
+          "collected": 36
         }
       ],
       "current_year": [
         {
-          "evaluated": 4,
-          "pending": 825
+          "phase3": 2,
+          "phase2": 1,
+          "phase1": 180,
+          "collected": 663
         },
         {
-          "evaluated": 0,
-          "pending": 805
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 157,
+          "collected": 659
         },
         {
-          "evaluated": 2,
-          "pending": 819
+          "phase3": 10,
+          "phase2": 2,
+          "phase1": 194,
+          "collected": 632
         },
         {
-          "evaluated": 9,
-          "pending": 737
+          "phase3": 12,
+          "phase2": 3,
+          "phase1": 184,
+          "collected": 557
         },
         {
-          "evaluated": 13,
-          "pending": 673
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 172,
+          "collected": 528
         },
         {
-          "evaluated": 3,
-          "pending": 195
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 62,
+          "collected": 138
         },
         {
-          "evaluated": 0,
-          "pending": 209
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 85,
+          "collected": 129
         }
       ],
       "all_time": [
         {
-          "evaluated": 4,
-          "pending": 1232
+          "phase3": 2,
+          "phase2": 1,
+          "phase1": 180,
+          "collected": 1676
         },
         {
-          "evaluated": 0,
-          "pending": 1277
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 157,
+          "collected": 1758
         },
         {
-          "evaluated": 2,
-          "pending": 1196
+          "phase3": 10,
+          "phase2": 2,
+          "phase1": 194,
+          "collected": 1597
         },
         {
-          "evaluated": 9,
-          "pending": 1137
+          "phase3": 12,
+          "phase2": 3,
+          "phase1": 184,
+          "collected": 1535
         },
         {
-          "evaluated": 13,
-          "pending": 1030
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 172,
+          "collected": 1420
         },
         {
-          "evaluated": 3,
-          "pending": 307
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 62,
+          "collected": 404
         },
         {
-          "evaluated": 0,
-          "pending": 322
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 85,
+          "collected": 403
         }
       ]
     },
     "gr-qc": {
-      "total": 12418,
+      "total": 20356,
       "current_week": [
         {
-          "evaluated": 14,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 4,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 2,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 60
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 11,
+          "collected": 3
         },
         {
-          "evaluated": 0,
-          "pending": 70
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 4,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 43
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 9,
-          "pending": 92
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 0
         },
         {
-          "evaluated": 45,
-          "pending": 4
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 8,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 14,
-          "pending": 3
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 12,
+          "collected": 3
         },
         {
-          "evaluated": 4,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 4,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 2,
-          "pending": 1
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 6,
+          "collected": 1
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 14,
-          "pending": 233
+          "phase3": 16,
+          "phase2": 2,
+          "phase1": 219,
+          "collected": 14
         },
         {
-          "evaluated": 4,
-          "pending": 238
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 201,
+          "collected": 19
         },
         {
-          "evaluated": 1,
-          "pending": 206
+          "phase3": 19,
+          "phase2": 2,
+          "phase1": 175,
+          "collected": 15
         },
         {
-          "evaluated": 11,
-          "pending": 317
+          "phase3": 35,
+          "phase2": 3,
+          "phase1": 282,
+          "collected": 18
         },
         {
-          "evaluated": 45,
-          "pending": 186
+          "phase3": 24,
+          "phase2": 1,
+          "phase1": 183,
+          "collected": 28
         },
         {
-          "evaluated": 8,
-          "pending": 83
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 79,
+          "collected": 9
         },
         {
-          "evaluated": 5,
-          "pending": 76
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 71,
+          "collected": 7
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 14,
-          "pending": 858
+          "phase3": 16,
+          "phase2": 2,
+          "phase1": 499,
+          "collected": 375
         },
         {
-          "evaluated": 4,
-          "pending": 834
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 458,
+          "collected": 373
         },
         {
-          "evaluated": 1,
-          "pending": 904
+          "phase3": 19,
+          "phase2": 2,
+          "phase1": 517,
+          "collected": 395
         },
         {
-          "evaluated": 11,
-          "pending": 889
+          "phase3": 35,
+          "phase2": 3,
+          "phase1": 565,
+          "collected": 330
         },
         {
-          "evaluated": 45,
-          "pending": 652
+          "phase3": 24,
+          "phase2": 1,
+          "phase1": 487,
+          "collected": 201
         },
         {
-          "evaluated": 8,
-          "pending": 322
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 298,
+          "collected": 38
         },
         {
-          "evaluated": 5,
-          "pending": 304
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 285,
+          "collected": 25
         }
       ],
       "current_year": [
         {
-          "evaluated": 14,
-          "pending": 1706
+          "phase3": 16,
+          "phase2": 2,
+          "phase1": 499,
+          "collected": 1282
         },
         {
-          "evaluated": 4,
-          "pending": 1643
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 458,
+          "collected": 1266
         },
         {
-          "evaluated": 1,
-          "pending": 1638
+          "phase3": 19,
+          "phase2": 2,
+          "phase1": 517,
+          "collected": 1191
         },
         {
-          "evaluated": 11,
-          "pending": 1654
+          "phase3": 35,
+          "phase2": 3,
+          "phase1": 565,
+          "collected": 1157
         },
         {
-          "evaluated": 45,
-          "pending": 1257
+          "phase3": 24,
+          "phase2": 1,
+          "phase1": 487,
+          "collected": 858
         },
         {
-          "evaluated": 8,
-          "pending": 622
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 298,
+          "collected": 362
         },
         {
-          "evaluated": 5,
-          "pending": 605
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 285,
+          "collected": 349
         }
       ],
       "all_time": [
         {
-          "evaluated": 14,
-          "pending": 2277
+          "phase3": 16,
+          "phase2": 2,
+          "phase1": 499,
+          "collected": 3237
         },
         {
-          "evaluated": 4,
-          "pending": 2212
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 458,
+          "collected": 3244
         },
         {
-          "evaluated": 1,
-          "pending": 2215
+          "phase3": 19,
+          "phase2": 2,
+          "phase1": 517,
+          "collected": 3011
         },
         {
-          "evaluated": 11,
-          "pending": 2185
+          "phase3": 35,
+          "phase2": 3,
+          "phase1": 565,
+          "collected": 2986
         },
         {
-          "evaluated": 45,
-          "pending": 1720
+          "phase3": 24,
+          "phase2": 1,
+          "phase1": 487,
+          "collected": 2434
         },
         {
-          "evaluated": 8,
-          "pending": 871
+          "phase3": 9,
+          "phase2": 0,
+          "phase1": 298,
+          "collected": 1080
         },
         {
-          "evaluated": 5,
-          "pending": 850
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 285,
+          "collected": 1114
         }
       ]
     },
     "hep-th": {
-      "total": 14874,
+      "total": 22584,
       "current_week": [
         {
-          "evaluated": 12,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 9,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 81
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 13,
+          "collected": 3
         },
         {
-          "evaluated": 0,
-          "pending": 82
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 9,
+          "collected": 3
         },
         {
-          "evaluated": 0,
-          "pending": 50
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 0
         },
         {
-          "evaluated": 8,
-          "pending": 83
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 48,
-          "pending": 9
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 4,
-          "pending": 5
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 9,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 12,
-          "pending": 3
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 14,
+          "collected": 3
         },
         {
-          "evaluated": 9,
-          "pending": 3
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 9,
+          "collected": 3
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 9,
-          "pending": 0
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 10,
+          "collected": 1
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 12,
-          "pending": 310
+          "phase3": 17,
+          "phase2": 4,
+          "phase1": 257,
+          "collected": 55
         },
         {
-          "evaluated": 9,
-          "pending": 293
+          "phase3": 23,
+          "phase2": 1,
+          "phase1": 218,
+          "collected": 66
         },
         {
-          "evaluated": 1,
-          "pending": 271
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 223,
+          "collected": 39
         },
         {
-          "evaluated": 8,
-          "pending": 359
+          "phase3": 31,
+          "phase2": 2,
+          "phase1": 293,
+          "collected": 47
         },
         {
-          "evaluated": 48,
-          "pending": 237
+          "phase3": 22,
+          "phase2": 4,
+          "phase1": 214,
+          "collected": 48
         },
         {
-          "evaluated": 4,
-          "pending": 82
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 59,
+          "collected": 27
         },
         {
-          "evaluated": 9,
-          "pending": 78
+          "phase3": 7,
+          "phase2": 1,
+          "phase1": 63,
+          "collected": 20
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 12,
-          "pending": 1051
+          "phase3": 17,
+          "phase2": 4,
+          "phase1": 583,
+          "collected": 484
         },
         {
-          "evaluated": 9,
-          "pending": 951
+          "phase3": 23,
+          "phase2": 1,
+          "phase1": 469,
+          "collected": 490
         },
         {
-          "evaluated": 1,
-          "pending": 1002
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 538,
+          "collected": 475
         },
         {
-          "evaluated": 8,
-          "pending": 1030
+          "phase3": 31,
+          "phase2": 2,
+          "phase1": 566,
+          "collected": 460
         },
         {
-          "evaluated": 48,
-          "pending": 743
+          "phase3": 22,
+          "phase2": 4,
+          "phase1": 512,
+          "collected": 271
         },
         {
-          "evaluated": 4,
-          "pending": 315
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 259,
+          "collected": 65
         },
         {
-          "evaluated": 9,
-          "pending": 343
+          "phase3": 7,
+          "phase2": 1,
+          "phase1": 280,
+          "collected": 70
         }
       ],
       "current_year": [
         {
-          "evaluated": 12,
-          "pending": 1995
+          "phase3": 17,
+          "phase2": 4,
+          "phase1": 583,
+          "collected": 1479
         },
         {
-          "evaluated": 9,
-          "pending": 1869
+          "phase3": 23,
+          "phase2": 1,
+          "phase1": 469,
+          "collected": 1463
         },
         {
-          "evaluated": 1,
-          "pending": 1874
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 538,
+          "collected": 1403
         },
         {
-          "evaluated": 8,
-          "pending": 1938
+          "phase3": 31,
+          "phase2": 2,
+          "phase1": 566,
+          "collected": 1423
         },
         {
-          "evaluated": 48,
-          "pending": 1437
+          "phase3": 22,
+          "phase2": 4,
+          "phase1": 512,
+          "collected": 1017
         },
         {
-          "evaluated": 4,
-          "pending": 626
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 259,
+          "collected": 396
         },
         {
-          "evaluated": 9,
-          "pending": 650
+          "phase3": 7,
+          "phase2": 1,
+          "phase1": 280,
+          "collected": 402
         }
       ],
       "all_time": [
         {
-          "evaluated": 12,
-          "pending": 2818
+          "phase3": 17,
+          "phase2": 4,
+          "phase1": 583,
+          "collected": 3662
         },
         {
-          "evaluated": 9,
-          "pending": 2688
+          "phase3": 23,
+          "phase2": 1,
+          "phase1": 469,
+          "collected": 3666
         },
         {
-          "evaluated": 1,
-          "pending": 2712
+          "phase3": 13,
+          "phase2": 1,
+          "phase1": 538,
+          "collected": 3467
         },
         {
-          "evaluated": 8,
-          "pending": 2677
+          "phase3": 31,
+          "phase2": 2,
+          "phase1": 566,
+          "collected": 3463
         },
         {
-          "evaluated": 48,
-          "pending": 2040
+          "phase3": 22,
+          "phase2": 4,
+          "phase1": 512,
+          "collected": 2742
         },
         {
-          "evaluated": 4,
-          "pending": 875
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 259,
+          "collected": 1080
         },
         {
-          "evaluated": 9,
-          "pending": 973
+          "phase3": 7,
+          "phase2": 1,
+          "phase1": 280,
+          "collected": 1167
         }
       ]
     },
     "hep-ph": {
-      "total": 13948,
+      "total": 22514,
       "current_week": [
         {
-          "evaluated": 12,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 10,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 7,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 79
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 10,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 75
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 10,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 53
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 5,
+          "collected": 2
         },
         {
-          "evaluated": 10,
-          "pending": 86
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 7,
+          "collected": 2
         },
         {
-          "evaluated": 40,
-          "pending": 7
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 6,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 6,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 12,
-          "pending": 1
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 10,
+          "collected": 2
         },
         {
-          "evaluated": 10,
-          "pending": 1
+          "phase3": 2,
+          "phase2": 0,
+          "phase1": 10,
+          "collected": 1
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 5,
+          "collected": 2
         },
         {
-          "evaluated": 7,
-          "pending": 1
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 7,
+          "collected": 2
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 6,
-          "pending": 1
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 7,
+          "collected": 1
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 12,
-          "pending": 267
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 237,
+          "collected": 31
         },
         {
-          "evaluated": 10,
-          "pending": 256
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 218,
+          "collected": 32
         },
         {
-          "evaluated": 5,
-          "pending": 273
+          "phase3": 20,
+          "phase2": 1,
+          "phase1": 233,
+          "collected": 28
         },
         {
-          "evaluated": 17,
-          "pending": 314
+          "phase3": 19,
+          "phase2": 5,
+          "phase1": 279,
+          "collected": 36
         },
         {
-          "evaluated": 40,
-          "pending": 186
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 190,
+          "collected": 28
         },
         {
-          "evaluated": 6,
-          "pending": 73
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 65,
+          "collected": 13
         },
         {
-          "evaluated": 6,
-          "pending": 89
+          "phase3": 9,
+          "phase2": 1,
+          "phase1": 73,
+          "collected": 15
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 12,
-          "pending": 934
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 542,
+          "collected": 413
         },
         {
-          "evaluated": 10,
-          "pending": 970
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 516,
+          "collected": 469
         },
         {
-          "evaluated": 5,
-          "pending": 972
+          "phase3": 20,
+          "phase2": 1,
+          "phase1": 599,
+          "collected": 379
         },
         {
-          "evaluated": 17,
-          "pending": 911
+          "phase3": 19,
+          "phase2": 5,
+          "phase1": 570,
+          "collected": 363
         },
         {
-          "evaluated": 40,
-          "pending": 726
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 511,
+          "collected": 257
         },
         {
-          "evaluated": 6,
-          "pending": 310
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 269,
+          "collected": 58
         },
         {
-          "evaluated": 6,
-          "pending": 317
+          "phase3": 9,
+          "phase2": 1,
+          "phase1": 277,
+          "collected": 46
         }
       ],
       "current_year": [
         {
-          "evaluated": 12,
-          "pending": 1821
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 542,
+          "collected": 1366
         },
         {
-          "evaluated": 10,
-          "pending": 1843
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 516,
+          "collected": 1401
         },
         {
-          "evaluated": 5,
-          "pending": 1856
+          "phase3": 20,
+          "phase2": 1,
+          "phase1": 599,
+          "collected": 1330
         },
         {
-          "evaluated": 17,
-          "pending": 1793
+          "phase3": 19,
+          "phase2": 5,
+          "phase1": 570,
+          "collected": 1303
         },
         {
-          "evaluated": 40,
-          "pending": 1428
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 511,
+          "collected": 1007
         },
         {
-          "evaluated": 6,
-          "pending": 584
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 269,
+          "collected": 361
         },
         {
-          "evaluated": 6,
-          "pending": 609
+          "phase3": 9,
+          "phase2": 1,
+          "phase1": 277,
+          "collected": 361
         }
       ],
       "all_time": [
         {
-          "evaluated": 12,
-          "pending": 2575
+          "phase3": 15,
+          "phase2": 1,
+          "phase1": 542,
+          "collected": 3602
         },
         {
-          "evaluated": 10,
-          "pending": 2550
+          "phase3": 21,
+          "phase2": 1,
+          "phase1": 516,
+          "collected": 3668
         },
         {
-          "evaluated": 5,
-          "pending": 2598
+          "phase3": 20,
+          "phase2": 1,
+          "phase1": 599,
+          "collected": 3531
         },
         {
-          "evaluated": 17,
-          "pending": 2469
+          "phase3": 19,
+          "phase2": 5,
+          "phase1": 570,
+          "collected": 3374
         },
         {
-          "evaluated": 40,
-          "pending": 2025
+          "phase3": 11,
+          "phase2": 1,
+          "phase1": 511,
+          "collected": 2817
         },
         {
-          "evaluated": 6,
-          "pending": 792
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 269,
+          "collected": 1064
         },
         {
-          "evaluated": 6,
-          "pending": 843
+          "phase3": 9,
+          "phase2": 1,
+          "phase1": 277,
+          "collected": 1065
         }
       ]
     },
     "hep-ex": {
-      "total": 5913,
+      "total": 9440,
       "current_week": [
         {
-          "evaluated": 4,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 3,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 28
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 3,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 33
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 6,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 17
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 6,
-          "pending": 22
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 3,
+          "collected": 1
         },
         {
-          "evaluated": 7,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 4,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 4,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 4,
-          "pending": 0
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 3,
+          "collected": 0
         },
         {
-          "evaluated": 5,
-          "pending": 1
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 6,
+          "collected": 1
         },
         {
-          "evaluated": 1,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 3,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 3,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 4,
-          "pending": 0
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 3,
+          "collected": 0
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 4,
-          "pending": 109
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 89,
+          "collected": 23
         },
         {
-          "evaluated": 5,
-          "pending": 93
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 69,
+          "collected": 22
         },
         {
-          "evaluated": 1,
-          "pending": 87
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 60,
+          "collected": 22
         },
         {
-          "evaluated": 9,
-          "pending": 113
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 88,
+          "collected": 30
         },
         {
-          "evaluated": 7,
-          "pending": 101
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 76,
+          "collected": 28
         },
         {
-          "evaluated": 4,
-          "pending": 26
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 23,
+          "collected": 6
         },
         {
-          "evaluated": 4,
-          "pending": 38
+          "phase3": 3,
+          "phase2": 1,
+          "phase1": 32,
+          "collected": 6
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 4,
-          "pending": 375
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 202,
+          "collected": 180
         },
         {
-          "evaluated": 5,
-          "pending": 364
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 174,
+          "collected": 196
         },
         {
-          "evaluated": 1,
-          "pending": 369
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 185,
+          "collected": 186
         },
         {
-          "evaluated": 9,
-          "pending": 372
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 195,
+          "collected": 188
         },
         {
-          "evaluated": 7,
-          "pending": 323
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 201,
+          "collected": 133
         },
         {
-          "evaluated": 4,
-          "pending": 105
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 76,
+          "collected": 35
         },
         {
-          "evaluated": 4,
-          "pending": 115
+          "phase3": 3,
+          "phase2": 1,
+          "phase1": 91,
+          "collected": 24
         }
       ],
       "current_year": [
         {
-          "evaluated": 4,
-          "pending": 731
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 202,
+          "collected": 551
         },
         {
-          "evaluated": 5,
-          "pending": 712
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 174,
+          "collected": 564
         },
         {
-          "evaluated": 1,
-          "pending": 726
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 185,
+          "collected": 562
         },
         {
-          "evaluated": 9,
-          "pending": 732
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 195,
+          "collected": 564
         },
         {
-          "evaluated": 7,
-          "pending": 625
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 201,
+          "collected": 450
         },
         {
-          "evaluated": 4,
-          "pending": 221
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 76,
+          "collected": 164
         },
         {
-          "evaluated": 4,
-          "pending": 230
+          "phase3": 3,
+          "phase2": 1,
+          "phase1": 91,
+          "collected": 146
         }
       ],
       "all_time": [
         {
-          "evaluated": 4,
-          "pending": 1106
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 202,
+          "collected": 1511
         },
         {
-          "evaluated": 5,
-          "pending": 1079
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 174,
+          "collected": 1573
         },
         {
-          "evaluated": 1,
-          "pending": 1062
+          "phase3": 6,
+          "phase2": 1,
+          "phase1": 185,
+          "collected": 1537
         },
         {
-          "evaluated": 9,
-          "pending": 1074
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 195,
+          "collected": 1485
         },
         {
-          "evaluated": 7,
-          "pending": 909
+          "phase3": 4,
+          "phase2": 0,
+          "phase1": 201,
+          "collected": 1296
         },
         {
-          "evaluated": 4,
-          "pending": 323
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 76,
+          "collected": 466
         },
         {
-          "evaluated": 4,
-          "pending": 326
+          "phase3": 3,
+          "phase2": 1,
+          "phase1": 91,
+          "collected": 412
         }
       ]
     },
     "math-ph": {
-      "total": 10868,
+      "total": 16541,
       "current_week": [
         {
-          "evaluated": 2,
-          "pending": 10
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 1,
-          "pending": 8
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 2,
-          "pending": 6
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 5
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 67
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 10
         },
         {
-          "evaluated": 0,
-          "pending": 69
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 10
         },
         {
-          "evaluated": 0,
-          "pending": 37
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 9
         },
         {
-          "evaluated": 6,
-          "pending": 75
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 7
         },
         {
-          "evaluated": 19,
-          "pending": 25
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 1
         },
         {
-          "evaluated": 2,
-          "pending": 3
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 2,
-          "pending": 10
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 10
         },
         {
-          "evaluated": 1,
-          "pending": 8
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 10
         },
         {
-          "evaluated": 2,
-          "pending": 6
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 2,
+          "collected": 9
         },
         {
-          "evaluated": 0,
-          "pending": 5
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 7
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 2
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 2,
-          "pending": 247
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 84,
+          "collected": 160
         },
         {
-          "evaluated": 1,
-          "pending": 254
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 75,
+          "collected": 179
         },
         {
-          "evaluated": 2,
-          "pending": 208
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 78,
+          "collected": 130
         },
         {
-          "evaluated": 6,
-          "pending": 279
+          "phase3": 12,
+          "phase2": 0,
+          "phase1": 87,
+          "collected": 197
         },
         {
-          "evaluated": 19,
-          "pending": 212
+          "phase3": 12,
+          "phase2": 2,
+          "phase1": 72,
+          "collected": 150
         },
         {
-          "evaluated": 2,
-          "pending": 82
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 27,
+          "collected": 54
         },
         {
-          "evaluated": 0,
-          "pending": 89
+          "phase3": 5,
+          "phase2": 1,
+          "phase1": 23,
+          "collected": 66
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 2,
-          "pending": 756
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 198,
+          "collected": 574
         },
         {
-          "evaluated": 1,
-          "pending": 756
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 173,
+          "collected": 598
         },
         {
-          "evaluated": 2,
-          "pending": 744
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 182,
+          "collected": 585
         },
         {
-          "evaluated": 6,
-          "pending": 789
+          "phase3": 12,
+          "phase2": 0,
+          "phase1": 193,
+          "collected": 620
         },
         {
-          "evaluated": 19,
-          "pending": 604
+          "phase3": 12,
+          "phase2": 2,
+          "phase1": 192,
+          "collected": 446
         },
         {
-          "evaluated": 2,
-          "pending": 280
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 108,
+          "collected": 176
         },
         {
-          "evaluated": 0,
-          "pending": 321
+          "phase3": 5,
+          "phase2": 1,
+          "phase1": 109,
+          "collected": 221
         }
       ],
       "current_year": [
         {
-          "evaluated": 2,
-          "pending": 1379
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 198,
+          "collected": 1262
         },
         {
-          "evaluated": 1,
-          "pending": 1366
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 173,
+          "collected": 1260
         },
         {
-          "evaluated": 2,
-          "pending": 1278
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 182,
+          "collected": 1171
         },
         {
-          "evaluated": 6,
-          "pending": 1330
+          "phase3": 12,
+          "phase2": 0,
+          "phase1": 193,
+          "collected": 1218
         },
         {
-          "evaluated": 19,
-          "pending": 1042
+          "phase3": 12,
+          "phase2": 2,
+          "phase1": 192,
+          "collected": 941
         },
         {
-          "evaluated": 2,
-          "pending": 515
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 108,
+          "collected": 435
         },
         {
-          "evaluated": 0,
-          "pending": 565
+          "phase3": 5,
+          "phase2": 1,
+          "phase1": 109,
+          "collected": 482
         }
       ],
       "all_time": [
         {
-          "evaluated": 2,
-          "pending": 1947
+          "phase3": 8,
+          "phase2": 1,
+          "phase1": 198,
+          "collected": 2768
         },
         {
-          "evaluated": 1,
-          "pending": 1962
+          "phase3": 10,
+          "phase2": 1,
+          "phase1": 173,
+          "collected": 2759
         },
         {
-          "evaluated": 2,
-          "pending": 1866
+          "phase3": 12,
+          "phase2": 1,
+          "phase1": 182,
+          "collected": 2577
         },
         {
-          "evaluated": 6,
-          "pending": 1933
+          "phase3": 12,
+          "phase2": 0,
+          "phase1": 193,
+          "collected": 2758
         },
         {
-          "evaluated": 19,
-          "pending": 1542
+          "phase3": 12,
+          "phase2": 2,
+          "phase1": 192,
+          "collected": 2239
         },
         {
-          "evaluated": 2,
-          "pending": 748
+          "phase3": 4,
+          "phase2": 1,
+          "phase1": 108,
+          "collected": 1068
         },
         {
-          "evaluated": 0,
-          "pending": 838
+          "phase3": 5,
+          "phase2": 1,
+          "phase1": 109,
+          "collected": 1147
         }
       ]
     },
     "Total": {
-      "total": 69802,
+      "total": 108954,
       "current_week": [
         {
-          "evaluated": 79,
-          "pending": 28
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 17,
+          "collected": 9
         },
         {
-          "evaluated": 57,
-          "pending": 22
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 58,
-          "pending": 11
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 50,
-          "pending": 17
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "previous_week": [
         {
-          "evaluated": 0,
-          "pending": 349
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 73,
+          "collected": 30
         },
         {
-          "evaluated": 0,
-          "pending": 375
+          "phase3": 7,
+          "phase2": 0,
+          "phase1": 54,
+          "collected": 26
         },
         {
-          "evaluated": 0,
-          "pending": 220
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 54,
+          "collected": 17
         },
         {
-          "evaluated": 58,
-          "pending": 386
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 53,
+          "collected": 19
         },
         {
-          "evaluated": 174,
-          "pending": 51
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 1
         },
         {
-          "evaluated": 23,
-          "pending": 9
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 16,
-          "pending": 2
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 0
         }
       ],
       "current_month": [
         {
-          "evaluated": 79,
-          "pending": 28
+          "phase3": 8,
+          "phase2": 0,
+          "phase1": 90,
+          "collected": 39
         },
         {
-          "evaluated": 57,
-          "pending": 22
+          "phase3": 7,
+          "phase2": 0,
+          "phase1": 54,
+          "collected": 26
         },
         {
-          "evaluated": 58,
-          "pending": 11
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 54,
+          "collected": 17
         },
         {
-          "evaluated": 50,
-          "pending": 17
+          "phase3": 3,
+          "phase2": 0,
+          "phase1": 53,
+          "collected": 19
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 0,
+          "collected": 1
         },
         {
-          "evaluated": 0,
-          "pending": 0
+          "phase3": 0,
+          "phase2": 0,
+          "phase1": 1,
+          "collected": 0
         },
         {
-          "evaluated": 16,
-          "pending": 2
+          "phase3": 1,
+          "phase2": 0,
+          "phase1": 20,
+          "collected": 5
         }
       ],
       "current_quarter": [
         {
-          "evaluated": 79,
-          "pending": 1284
+          "phase3": 55,
+          "phase2": 6,
+          "phase1": 1030,
+          "collected": 324
         },
         {
-          "evaluated": 57,
-          "pending": 1305
+          "phase3": 84,
+          "phase2": 4,
+          "phase1": 961,
+          "collected": 339
         },
         {
-          "evaluated": 58,
-          "pending": 1170
+          "phase3": 76,
+          "phase2": 9,
+          "phase1": 911,
+          "collected": 253
         },
         {
-          "evaluated": 108,
-          "pending": 1509
+          "phase3": 114,
+          "phase2": 12,
+          "phase1": 1158,
+          "collected": 367
         },
         {
-          "evaluated": 174,
-          "pending": 1002
+          "phase3": 76,
+          "phase2": 8,
+          "phase1": 824,
+          "collected": 287
         },
         {
-          "evaluated": 23,
-          "pending": 388
+          "phase3": 25,
+          "phase2": 1,
+          "phase1": 290,
+          "collected": 105
         },
         {
-          "evaluated": 16,
-          "pending": 410
+          "phase3": 32,
+          "phase2": 2,
+          "phase1": 288,
+          "collected": 124
         }
       ],
       "current_half_year": [
         {
-          "evaluated": 79,
-          "pending": 4481
+          "phase3": 55,
+          "phase2": 6,
+          "phase1": 2341,
+          "collected": 2272
         },
         {
-          "evaluated": 57,
-          "pending": 4479
+          "phase3": 84,
+          "phase2": 4,
+          "phase1": 2115,
+          "collected": 2424
         },
         {
-          "evaluated": 58,
-          "pending": 4573
+          "phase3": 76,
+          "phase2": 9,
+          "phase1": 2333,
+          "collected": 2310
         },
         {
-          "evaluated": 108,
-          "pending": 4499
+          "phase3": 114,
+          "phase2": 12,
+          "phase1": 2336,
+          "collected": 2257
         },
         {
-          "evaluated": 174,
-          "pending": 3478
+          "phase3": 76,
+          "phase2": 8,
+          "phase1": 2196,
+          "collected": 1457
         },
         {
-          "evaluated": 23,
-          "pending": 1395
+          "phase3": 25,
+          "phase2": 1,
+          "phase1": 1047,
+          "collected": 379
         },
         {
-          "evaluated": 16,
-          "pending": 1507
+          "phase3": 32,
+          "phase2": 2,
+          "phase1": 1133,
+          "collected": 397
         }
       ],
       "current_year": [
         {
-          "evaluated": 79,
-          "pending": 8884
+          "phase3": 55,
+          "phase2": 6,
+          "phase1": 2341,
+          "collected": 6920
         },
         {
-          "evaluated": 57,
-          "pending": 8879
+          "phase3": 84,
+          "phase2": 4,
+          "phase1": 2115,
+          "collected": 7080
         },
         {
-          "evaluated": 58,
-          "pending": 8744
+          "phase3": 76,
+          "phase2": 9,
+          "phase1": 2333,
+          "collected": 6713
         },
         {
-          "evaluated": 108,
-          "pending": 8546
+          "phase3": 114,
+          "phase2": 12,
+          "phase1": 2336,
+          "collected": 6548
         },
         {
-          "evaluated": 174,
-          "pending": 6956
+          "phase3": 76,
+          "phase2": 8,
+          "phase1": 2196,
+          "collected": 5152
         },
         {
-          "evaluated": 23,
-          "pending": 2784
+          "phase3": 25,
+          "phase2": 1,
+          "phase1": 1047,
+          "collected": 1867
         },
         {
-          "evaluated": 16,
-          "pending": 2873
+          "phase3": 32,
+          "phase2": 2,
+          "phase1": 1133,
+          "collected": 1841
         }
       ],
       "all_time": [
         {
-          "evaluated": 79,
-          "pending": 12870
+          "phase3": 55,
+          "phase2": 6,
+          "phase1": 2341,
+          "collected": 17806
         },
         {
-          "evaluated": 57,
-          "pending": 13045
+          "phase3": 84,
+          "phase2": 4,
+          "phase1": 2115,
+          "collected": 18260
         },
         {
-          "evaluated": 58,
-          "pending": 12716
+          "phase3": 76,
+          "phase2": 9,
+          "phase1": 2333,
+          "collected": 17294
         },
         {
-          "evaluated": 108,
-          "pending": 12258
+          "phase3": 114,
+          "phase2": 12,
+          "phase1": 2336,
+          "collected": 16833
         },
         {
-          "evaluated": 174,
-          "pending": 10144
+          "phase3": 76,
+          "phase2": 8,
+          "phase1": 2196,
+          "collected": 14024
         },
         {
-          "evaluated": 23,
-          "pending": 4040
+          "phase3": 25,
+          "phase2": 1,
+          "phase1": 1047,
+          "collected": 5328
         },
         {
-          "evaluated": 16,
-          "pending": 4214
+          "phase3": 32,
+          "phase2": 2,
+          "phase1": 1133,
+          "collected": 5404
         }
       ]
     }
