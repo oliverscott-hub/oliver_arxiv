@@ -1,4 +1,4 @@
-name: arXiv abstract importance evaluator Qwen3-8B Saturday and Sunday
+name: 1-6 Weekend
 
 on:
   schedule:

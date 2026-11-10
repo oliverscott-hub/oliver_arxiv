@@ -1,4 +1,4 @@
-name: arXiv abstract importance evaluator Qwen3-8B Wednesday
+name: 1-4 Wednesday
 
 on:
   schedule:

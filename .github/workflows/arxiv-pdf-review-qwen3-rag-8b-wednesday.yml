@@ -1,4 +1,4 @@
-name: arXiv PDF review Qwen3-8B PDF RAG Wednesday
+name: 2-3 Wednesday
 
 on:
   schedule:

@@ -1,4 +1,4 @@
-name: arXiv PDF review Qwen3-8B PDF RAG Weekend
+name: 2-6 Weekend
 
 on:
   schedule:

@@ -1,4 +1,4 @@
-name: arXiv astro-ph.HE collector
+name: 0 High Energy Astrophysical Phenomena
 
 on:
   schedule:
