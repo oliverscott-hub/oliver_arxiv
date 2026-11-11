@@ -56,6 +56,8 @@ def candidates(db):
                     qualified.add(aid)
     found = {}
     for path in sorted((ROOT / "library").glob("*.sqlite")):
+        if path.name.endswith(".coverage.sqlite"):
+            continue
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as source:
             for aid, stamp, links in source.execute(
                 "SELECT arxiv_id,COALESCE(NULLIF(updated,''),published),links_json FROM papers"

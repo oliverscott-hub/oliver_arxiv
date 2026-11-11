@@ -43,6 +43,8 @@ def papers(db):
     done = {row[0] for row in db.execute("SELECT id FROM evaluations")}
     metadata = {}
     for path in sorted((ROOT / "library").glob("*.sqlite")):
+        if path.name.endswith(".coverage.sqlite"):
+            continue
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as library:
             for aid, abstract, stamp in library.execute(
                 "SELECT arxiv_id,summary,COALESCE(NULLIF(updated,''),published) FROM papers"):
