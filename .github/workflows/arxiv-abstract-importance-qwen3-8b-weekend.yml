@@ -1,6 +1,9 @@
 name: 1-6 Weekend
 
 on:
+  push:
+    paths:
+      - '.github/phase1_retry_launch_zero_2026-11-11.txt'
   schedule:
     - cron: '0 7,15,23 * * *'
   workflow_dispatch:
