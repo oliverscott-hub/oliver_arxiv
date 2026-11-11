@@ -31,16 +31,37 @@ def open_db():
     db.execute("PRAGMA busy_timeout=30000")
     db.execute("""CREATE TABLE IF NOT EXISTS evaluations (
         id TEXT PRIMARY KEY, modelo TEXT NOT NULL, version_rubrica INTEGER NOT NULL CHECK(version_rubrica=1),
-        source_model TEXT NOT NULL, puntuacion INTEGER CHECK(puntuacion BETWEEN 0 AND 1000),
-        Q1 TEXT NOT NULL, Q2 TEXT NOT NULL, Q3 TEXT NOT NULL,
-        Q4 TEXT NOT NULL, Q5 TEXT NOT NULL, Q6 TEXT NOT NULL,
-        raw_response TEXT NOT NULL, completed_at_utc TEXT NOT NULL)""")
+        intentos INTEGER NOT NULL DEFAULT 0 CHECK(intentos IN (-1,0,1,2,3)),
+        source_model TEXT, puntuacion INTEGER CHECK(puntuacion BETWEEN 0 AND 1000),
+        Q1 TEXT, Q2 TEXT, Q3 TEXT, Q4 TEXT, Q5 TEXT, Q6 TEXT,
+        raw_response TEXT, completed_at_utc TEXT)""")
+    columns = [row[1] for row in db.execute("PRAGMA table_info(evaluations)")]
+    if "intentos" not in columns:
+        db.execute("ALTER TABLE evaluations ADD COLUMN intentos INTEGER NOT NULL DEFAULT 0")
+        db.execute("UPDATE evaluations SET intentos=0")
+    schema = db.execute("SELECT sql FROM sqlite_master WHERE name='evaluations'").fetchone()[0]
+    if "source_model TEXT NOT NULL" in schema:
+        db.execute("""CREATE TABLE evaluations_new (
+            id TEXT PRIMARY KEY, modelo TEXT NOT NULL,
+            version_rubrica INTEGER NOT NULL CHECK(version_rubrica=1),
+            intentos INTEGER NOT NULL DEFAULT 0 CHECK(intentos IN (-1,0,1,2,3)),
+            source_model TEXT, puntuacion INTEGER CHECK(puntuacion BETWEEN 0 AND 1000),
+            Q1 TEXT, Q2 TEXT, Q3 TEXT, Q4 TEXT, Q5 TEXT, Q6 TEXT,
+            raw_response TEXT, completed_at_utc TEXT)""")
+        db.execute("""INSERT INTO evaluations_new
+            (id,modelo,version_rubrica,intentos,source_model,puntuacion,
+             Q1,Q2,Q3,Q4,Q5,Q6,raw_response,completed_at_utc)
+            SELECT id,modelo,version_rubrica,0,source_model,puntuacion,
+                   Q1,Q2,Q3,Q4,Q5,Q6,raw_response,completed_at_utc
+            FROM evaluations""")
+        db.execute("DROP TABLE evaluations")
+        db.execute("ALTER TABLE evaluations_new RENAME TO evaluations")
     db.commit()
     return db
 
 
 def papers(db):
-    done = {row[0] for row in db.execute("SELECT id FROM evaluations")}
+    done = {row[0] for row in db.execute("SELECT id FROM evaluations WHERE intentos IN (0,-1)")}
     metadata = {}
     for path in sorted((ROOT / "library").glob("*.sqlite")):
         if path.name.endswith(".coverage.sqlite"):
@@ -98,6 +119,13 @@ def main():
         if time.time() >= deadline:
             break
         started = time.monotonic()
+        prior = db.execute("SELECT intentos FROM evaluations WHERE id=?", (aid,)).fetchone()
+        attempt = min(3, (prior[0] if prior and prior[0] > 0 else 0) + 1)
+        db.execute("""INSERT INTO evaluations (id,modelo,version_rubrica,intentos)
+            VALUES (?,?,1,?) ON CONFLICT(id) DO UPDATE SET intentos=excluded.intentos""",
+            (aid, LABEL, attempt))
+        db.commit()
+        unsaved += 1
         try:
             body = "<ABSTRACT_AUTHOR_PROMISE>\n" + abstract + "\n</ABSTRACT_AUTHOR_PROMISE>\n"
             body += "<PDF_ANSWERS_ACCEPTED_AS_FACTS>\n"
@@ -111,17 +139,17 @@ def main():
                 max_tokens=128, grammar=GRAMMAR)
             raw = result["choices"][0]["message"]["content"] or ""
             choices, score = parse_response(raw, POLICY)
-            db.execute("""INSERT OR IGNORE INTO evaluations
-                (id,modelo,version_rubrica,source_model,puntuacion,Q1,Q2,Q3,Q4,Q5,Q6,raw_response,completed_at_utc)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                (aid, LABEL, 1, source_model, score, *choices, raw,
-                 dt.datetime.now(dt.timezone.utc).isoformat()))
+            db.execute("""UPDATE evaluations SET intentos=0,source_model=?,puntuacion=?,
+                Q1=?,Q2=?,Q3=?,Q4=?,Q5=?,Q6=?,raw_response=?,completed_at_utc=? WHERE id=?""",
+                (source_model, score, *choices, raw, dt.datetime.now(dt.timezone.utc).isoformat(), aid))
             db.commit()
-            unsaved += 1
-            print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
+            print(f"{aid} {category} attempt={attempt} duration_s={time.monotonic()-started:.1f} "
                   f"score={score} error=None", flush=True)
         except Exception as exc:
-            print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
+            if attempt == 3:
+                db.execute("UPDATE evaluations SET intentos=-1 WHERE id=?", (aid,))
+                db.commit()
+            print(f"{aid} {category} attempt={attempt} duration_s={time.monotonic()-started:.1f} "
                   f"score=None error={type(exc).__name__}: {exc}", flush=True)
         if unsaved and time.monotonic() - last_push >= 30 * 60:
             print(f"Saving {unsaved} phase 3 evaluations to GitHub", flush=True)
