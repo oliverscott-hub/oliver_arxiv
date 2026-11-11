@@ -56,7 +56,7 @@ def papers(db):
         if not path.exists():
             continue
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as source:
-            for row in source.execute("SELECT id,modelo,answer1,answer2,answer3,answer4,answer5,answer6 FROM answers"):
+            for row in source.execute("SELECT id,modelo,answer1,answer2,answer3,answer4,answer5,answer6 FROM answers WHERE intentos=0"):
                 if row[0] in done or row[0] in seen or row[0] not in metadata or not metadata[row[0]][0].strip():
                     continue
                 seen.add(row[0])

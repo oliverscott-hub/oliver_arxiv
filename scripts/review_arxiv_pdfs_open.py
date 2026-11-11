@@ -22,32 +22,49 @@ DB = (qwen_pdf_db(ROOT, DAY_GROUP) if DAY_GROUP is not None else
       ROOT / "abstract_evaluation" / "open_answers_v1" / f"pdf_answers_{KEY}.sqlite")
 CONTEXT_TOKENS = 16384
 OUTPUT_TOKENS = 3500
+ANSWER_COLUMNS = ("id", "modelo", "version_preguntas", "intentos", "pdf_url", "modalidad",
+                  *(f"answer{i}" for i in range(1, 7)), "raw_response", "completed_at_utc")
+ANSWER_SCHEMA = """CREATE TABLE {table} (
+      id TEXT PRIMARY KEY, modelo TEXT NOT NULL,
+      version_preguntas INTEGER NOT NULL CHECK(version_preguntas=1),
+      intentos INTEGER NOT NULL DEFAULT 0 CHECK(intentos IN (-1,0,1,2,3)),
+      pdf_url TEXT, modalidad TEXT CHECK(modalidad IN ('full_text','rag')),
+      answer1 TEXT, answer2 TEXT, answer3 TEXT,
+      answer4 TEXT, answer5 TEXT, answer6 TEXT,
+      raw_response TEXT, completed_at_utc TEXT)"""
 
 
 def open_db():
     DB.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(DB, timeout=30)
     db.execute("PRAGMA busy_timeout=30000")
-    db.execute("""CREATE TABLE IF NOT EXISTS answers (
-      id TEXT PRIMARY KEY, modelo TEXT NOT NULL,
-      version_preguntas INTEGER NOT NULL CHECK(version_preguntas=1),
-      pdf_url TEXT NOT NULL, modalidad TEXT NOT NULL CHECK(modalidad IN ('full_text','rag')),
-      answer1 TEXT NOT NULL, answer2 TEXT NOT NULL, answer3 TEXT NOT NULL,
-      answer4 TEXT NOT NULL, answer5 TEXT NOT NULL, answer6 TEXT NOT NULL,
-      raw_response TEXT NOT NULL, completed_at_utc TEXT NOT NULL)""")
+    if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='answers'").fetchone():
+        db.execute(ANSWER_SCHEMA.format(table="answers"))
+    names = [row[1] for row in db.execute("PRAGMA table_info(answers)")]
+    if "intentos" not in names:
+        db.execute("ALTER TABLE answers ADD COLUMN intentos INTEGER NOT NULL DEFAULT 0")
+        names = [row[1] for row in db.execute("PRAGMA table_info(answers)")]
+    schema = db.execute("SELECT sql FROM sqlite_master WHERE name='answers'").fetchone()[0]
+    if names != list(ANSWER_COLUMNS) or "answer1 TEXT NOT NULL" in schema or "(-1,0,1,2,3)" not in schema:
+        db.execute(ANSWER_SCHEMA.format(table="answers_reordered"))
+        selected = ",".join("CASE WHEN answer1 IS NOT NULL THEN 0 ELSE intentos END"
+                            if key == "intentos" else key for key in ANSWER_COLUMNS)
+        db.execute(f"INSERT INTO answers_reordered ({','.join(ANSWER_COLUMNS)}) SELECT {selected} FROM answers")
+        db.execute("DROP TABLE answers")
+        db.execute("ALTER TABLE answers_reordered RENAME TO answers")
     db.commit()
     return db
 
 
 def candidates(db):
-    done = {row[0] for row in db.execute("SELECT id FROM answers")}
+    done = {row[0] for row in db.execute("SELECT id FROM answers WHERE intentos IN (0,-1)")}
     if DAY_GROUP is not None:
         for group in DAY_GROUPS:
             path = qwen_pdf_db(ROOT, group)
             if path == DB or not path.exists():
                 continue
             with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as other:
-                done.update(row[0] for row in other.execute("SELECT id FROM answers"))
+                done.update(row[0] for row in other.execute("SELECT id FROM answers WHERE intentos IN (0,-1)"))
     qualified = set()
     for path in sorted((ROOT / "abstract_evaluation").glob("rubric_v3_qwen3_8b*.sqlite")):
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as source:
@@ -72,6 +89,23 @@ def candidates(db):
                         break
     return sorted(((stamp, aid, url, category) for aid, (stamp, url, category) in found.items()
                    if DAY_GROUP is None or group_for_timestamp(stamp) == DAY_GROUP), reverse=True)
+
+
+def mark_attempt(db, aid):
+    row = db.execute("SELECT intentos FROM answers WHERE id=?", (aid,)).fetchone()
+    if row and row[0] in (0, -1):
+        return None
+    attempt = min(row[0] + 1, 3) if row else 1
+    db.execute("""INSERT INTO answers(id,modelo,version_preguntas,intentos) VALUES(?,?,1,?)
+                  ON CONFLICT(id) DO UPDATE SET intentos=excluded.intentos""", (aid, LABEL, attempt))
+    db.commit()
+    return attempt
+
+
+def mark_failed(db, aid, attempt):
+    if attempt == 3:
+        db.execute("UPDATE answers SET intentos=-1 WHERE id=? AND intentos=3", (aid,))
+        db.commit()
 
 
 def supplied_text(pages):
@@ -138,6 +172,9 @@ def main():
     for _, aid, url, category in papers:
         if time.time() >= deadline:
             break
+        attempt = mark_attempt(db, aid)
+        if attempt is None:
+            continue
         started = time.monotonic()
         try:
             pages = page_text(fetch_pdf(url))
@@ -152,21 +189,23 @@ def main():
             )
             raw = result["choices"][0]["message"]["content"] or ""
             answers = split_answers(raw)
-            db.execute("""INSERT OR IGNORE INTO answers
-                (id,modelo,version_preguntas,pdf_url,modalidad,answer1,answer2,answer3,
-                 answer4,answer5,answer6,raw_response,completed_at_utc)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                (aid, LABEL, 1, url, "rag" if RAG else "full_text", *answers, raw,
-                 dt.datetime.now(dt.timezone.utc).isoformat()))
+            values = (aid, LABEL, 1, 0, url, "rag" if RAG else "full_text", *answers, raw,
+                      dt.datetime.now(dt.timezone.utc).isoformat())
+            columns = ",".join(ANSWER_COLUMNS)
+            placeholders = ",".join("?" for _ in ANSWER_COLUMNS)
+            updates = ",".join(f"{key}=excluded.{key}" for key in ANSWER_COLUMNS[3:])
+            db.execute(f"INSERT INTO answers({columns}) VALUES({placeholders}) "
+                       f"ON CONFLICT(id) DO UPDATE SET {updates} WHERE answers.intentos IN (1,2,3)", values)
             db.commit()
-            print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
+            print(f"{aid} {category} attempt={attempt} duration_s={time.monotonic()-started:.1f} "
                   "score=None error=None status=valid", flush=True)
-            db = push_result(db)
         except Exception as exc:
-            print(f"{aid} {category} attempt=1 duration_s={time.monotonic()-started:.1f} "
+            mark_failed(db, aid, attempt)
+            print(f"{aid} {category} attempt={attempt} duration_s={time.monotonic()-started:.1f} "
                   f"score=None error={type(exc).__name__}: {exc} status=error", flush=True)
         finally:
             gc.collect()
+        db = push_result(db)
     db.close()
 
 

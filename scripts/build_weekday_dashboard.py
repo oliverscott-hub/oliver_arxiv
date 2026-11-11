@@ -71,7 +71,7 @@ def phase_ids() -> tuple[set[str], set[str], set[str]]:
     )):
         db = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
         try:
-            phase2.update(row[0] for row in db.execute("SELECT id FROM answers"))
+            phase2.update(row[0] for row in db.execute("SELECT id FROM answers WHERE intentos=0"))
         finally:
             db.close()
     path = ROOT / "abstract_evaluation" / "phase3" / "pdf_score_qwen3_8b.sqlite"
