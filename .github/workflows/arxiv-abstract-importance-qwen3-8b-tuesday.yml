@@ -1,9 +1,6 @@
 name: 1-2 Tuesday
 
 on:
-  push:
-    paths:
-      - '.github/phase1_retry_launch_2026-11-11.txt'
   schedule:
     - cron: '0 3,11,19 * * *'
   workflow_dispatch:
