@@ -4,7 +4,7 @@ import sqlite3
 
 WEIGHTS = (20, 40, 20, 20)
 LINES = ('T', 'Q1', 'E1', 'J1', 'Q2', 'E2', 'J2', 'Q3', 'E3', 'J3', 'Q4', 'E4', 'J4')
-COLUMNS = ('id', 'modelo', 'version_rubrica', 'puntuacion', *LINES)
+COLUMNS = ('id', 'modelo', 'version_rubrica', 'intentos', 'puntuacion', *LINES)
 
 
 def normalize(raw, abstract=None):
@@ -55,9 +55,42 @@ def open_db(path):
     db.execute(f'''CREATE TABLE IF NOT EXISTS evaluations (
         id TEXT PRIMARY KEY, modelo TEXT NOT NULL,
         version_rubrica INTEGER NOT NULL CHECK(version_rubrica=3),
+        intentos INTEGER NOT NULL DEFAULT 1 CHECK(intentos IN (-1,1,2,3)),
         puntuacion INTEGER CHECK(puntuacion BETWEEN 0 AND 1000), {fields})''')
+    names = [row[1] for row in db.execute('PRAGMA table_info(evaluations)')]
+    if 'intentos' not in names:
+        db.execute('ALTER TABLE evaluations ADD COLUMN intentos INTEGER NOT NULL DEFAULT 1 CHECK(intentos IN (-1,1,2,3))')
+        names = [row[1] for row in db.execute('PRAGMA table_info(evaluations)')]
+    if names != list(COLUMNS):
+        db.execute(f'''CREATE TABLE evaluations_reordered (
+            id TEXT PRIMARY KEY, modelo TEXT NOT NULL,
+            version_rubrica INTEGER NOT NULL CHECK(version_rubrica=3),
+            intentos INTEGER NOT NULL DEFAULT 1 CHECK(intentos IN (-1,1,2,3)),
+            puntuacion INTEGER CHECK(puntuacion BETWEEN 0 AND 1000), {fields})''')
+        db.execute(f'INSERT INTO evaluations_reordered ({",".join(COLUMNS)}) SELECT {",".join(COLUMNS)} FROM evaluations')
+        db.execute('DROP TABLE evaluations')
+        db.execute('ALTER TABLE evaluations_reordered RENAME TO evaluations')
     db.commit()
     return db
+
+
+def mark_attempt(db, *, paper_id, model):
+    row = db.execute('SELECT intentos,T FROM evaluations WHERE id=?', (paper_id,)).fetchone()
+    if row and (row[1] is not None or row[0] == -1):
+        return None
+    attempt = min(row[0] + 1, 3) if row else 1
+    if attempt > 3:
+        return None
+    db.execute('''INSERT INTO evaluations (id,modelo,version_rubrica,intentos)
+        VALUES (?,?,3,?) ON CONFLICT(id) DO UPDATE SET intentos=excluded.intentos''',
+        (paper_id, model, attempt))
+    db.commit()
+    return attempt
+
+
+def mark_discarded(db, paper_id):
+    db.execute('UPDATE evaluations SET intentos=-1 WHERE id=? AND intentos=3 AND T IS NULL', (paper_id,))
+    db.commit()
 
 
 def save_response(db, *, arxiv_id, model, abstract, raw, **unused):
@@ -66,8 +99,10 @@ def save_response(db, *, arxiv_id, model, abstract, raw, **unused):
     except ValueError as error:
         return None, str(error)
     score = metrics(values)['score_cents']
-    row = (arxiv_id, model, 3, score, *(values[key] for key in LINES))
+    row = (arxiv_id, model, 3, 1, score, *(values[key] for key in LINES))
     placeholders = ','.join('?' for _ in COLUMNS)
-    db.execute(f'INSERT OR IGNORE INTO evaluations ({",".join(COLUMNS)}) VALUES ({placeholders})', row)
+    updates = ','.join(f'{key}=excluded.{key}' for key in ('puntuacion', *LINES))
+    db.execute(f'INSERT INTO evaluations ({",".join(COLUMNS)}) VALUES ({placeholders}) '
+               f'ON CONFLICT(id) DO UPDATE SET {updates} WHERE evaluations.T IS NULL', row)
     db.commit()
     return score, None

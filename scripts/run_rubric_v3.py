@@ -16,7 +16,7 @@ from pathlib import Path
 from huggingface_hub import hf_hub_download
 from llama_cpp import Llama, LlamaGrammar
 
-from rubric_v3_storage import open_db, save_response
+from rubric_v3_storage import open_db, save_response, mark_attempt, mark_discarded
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_KEY = os.environ.get("RUBRIC_MODEL", "qwen3_8b")
@@ -108,7 +108,7 @@ def prompt(abstract: str) -> str:
 
 def collect_candidates(db: sqlite3.Connection):
     categories = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))["categories"]
-    done = {row[0] for row in db.execute("SELECT id FROM evaluations")}
+    done = {row[0] for row in db.execute("SELECT id FROM evaluations WHERE T IS NOT NULL OR intentos=-1")}
     if MODEL_KEY == "qwen3_8b":
         for group in DAY_GROUPS:
             path = ROOT / "abstract_evaluation" / (
@@ -119,7 +119,7 @@ def collect_candidates(db: sqlite3.Connection):
                 continue
             other = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
             try:
-                done.update(row[0] for row in other.execute("SELECT id FROM evaluations"))
+                done.update(row[0] for row in other.execute("SELECT id FROM evaluations WHERE T IS NOT NULL OR intentos=-1"))
             finally:
                 other.close()
     pending = {}
@@ -228,8 +228,11 @@ def main():
                 break
             processed += 1
             paper_valid = False
-            for attempt in (1,2):
+            for _ in (1,2):
                 if time.time() >= deadline:
+                    break
+                attempt = mark_attempt(db, paper_id=arxiv_id, model=MODEL_LABEL)
+                if attempt is None:
                     break
                 attempt_started = time.monotonic()
                 try:
@@ -245,6 +248,9 @@ def main():
                     paper_valid = True
                     break
                 invalid += 1
+                if attempt == 3:
+                    mark_discarded(db, arxiv_id)
+                    break
             consecutive_failures = 0 if paper_valid else consecutive_failures + 1
             if time.monotonic() >= next_checkpoint:
                 db=checkpoint(db)
