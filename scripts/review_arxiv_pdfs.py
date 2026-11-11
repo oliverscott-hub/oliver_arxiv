@@ -88,8 +88,8 @@ def fetch_pdf(url):
         chunks, size = [], 0
         while chunk := response.read(65536):
             size += len(chunk)
-            if size > 30_000_000:
-                raise ValueError("PDF exceeds 30 MB")
+            if size > 40_000_000:
+                raise ValueError("PDF exceeds 40 MB")
             chunks.append(chunk)
     data = b"".join(chunks)
     if not data.startswith(b"%PDF-"):
