@@ -108,7 +108,7 @@ def prompt(abstract: str) -> str:
 
 def collect_candidates(db: sqlite3.Connection):
     categories = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))["categories"]
-    done = {row[0] for row in db.execute("SELECT id FROM evaluations WHERE T IS NOT NULL OR intentos=-1")}
+    done = {row[0] for row in db.execute("SELECT id FROM evaluations WHERE intentos IN (0,-1)")}
     if MODEL_KEY == "qwen3_8b":
         for group in DAY_GROUPS:
             path = ROOT / "abstract_evaluation" / (
@@ -119,7 +119,7 @@ def collect_candidates(db: sqlite3.Connection):
                 continue
             other = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
             try:
-                done.update(row[0] for row in other.execute("SELECT id FROM evaluations WHERE T IS NOT NULL OR intentos=-1"))
+                done.update(row[0] for row in other.execute("SELECT id FROM evaluations WHERE intentos IN (0,-1)"))
             finally:
                 other.close()
     pending = {}
