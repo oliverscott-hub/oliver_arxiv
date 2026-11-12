@@ -1,0 +1,24 @@
+name: Launch idle evaluation workflows
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [launch-idle-evaluators]
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: launch-idle-evaluators
+  cancel-in-progress: false
+
+jobs:
+  launch:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Dispatch idle workflows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/launch_evaluators.py
