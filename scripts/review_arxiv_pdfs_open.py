@@ -6,7 +6,9 @@ import os
 import re
 import sqlite3
 import subprocess
+import threading
 import time
+from contextlib import contextmanager
 
 from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
@@ -32,6 +34,28 @@ ANSWER_SCHEMA = """CREATE TABLE {table} (
       answer1 TEXT, answer2 TEXT, answer3 TEXT,
       answer4 TEXT, answer5 TEXT, answer6 TEXT,
       raw_response TEXT, completed_at_utc TEXT)"""
+
+
+@contextmanager
+def timed_stage(stage, paper_id=None):
+    """Expose long operations in Actions without logging paper contents."""
+    label = paper_id or "model"
+    started = time.monotonic()
+    stopped = threading.Event()
+    print(f"{label} stage={stage} status=started", flush=True)
+
+    def heartbeat():
+        while not stopped.wait(300):
+            print(f"{label} stage={stage} status=running duration_s={time.monotonic()-started:.1f}", flush=True)
+
+    thread = threading.Thread(target=heartbeat, daemon=True)
+    thread.start()
+    try:
+        yield
+    finally:
+        stopped.set()
+        thread.join(timeout=1)
+        print(f"{label} stage={stage} status=finished duration_s={time.monotonic()-started:.1f}", flush=True)
 
 
 def open_db():
@@ -164,9 +188,11 @@ def main():
     if not papers:
         db.close()
         return
-    model_path = hf_hub_download(repo_id=REPO, filename=FILE)
-    model = Llama(model_path=model_path, n_ctx=CONTEXT_TOKENS,
-                  n_threads=min(4, os.cpu_count() or 1), n_batch=256, verbose=False)
+    with timed_stage("model_download"):
+        model_path = hf_hub_download(repo_id=REPO, filename=FILE)
+    with timed_stage("model_load"):
+        model = Llama(model_path=model_path, n_ctx=CONTEXT_TOKENS,
+                      n_threads=min(4, os.cpu_count() or 1), n_batch=256, verbose=False)
     prompt_file = "pdf_open_questions_rag.txt" if RAG else "pdf_open_questions_full.txt"
     instructions = (ROOT / "scripts" / prompt_file).read_text(encoding="utf-8-sig")
     for _, aid, url, category in papers:
@@ -177,16 +203,25 @@ def main():
             continue
         started = time.monotonic()
         try:
-            pages = page_text(fetch_pdf(url))
-            body = supplied_text(pages)
+            with timed_stage("pdf_download", aid):
+                pdf_bytes = fetch_pdf(url)
+            print(f"{aid} pdf_bytes={len(pdf_bytes)}", flush=True)
+            with timed_stage("pdf_extract", aid):
+                pages = page_text(pdf_bytes)
+            print(f"{aid} pages={len(pages)}", flush=True)
+            with timed_stage("text_selection", aid):
+                body = supplied_text(pages)
             request = instructions + "\n\n<PAPER_TEXT>\n" + body + "\n</PAPER_TEXT>"
-            token_count = len(model.tokenize(request.encode("utf-8")))
+            with timed_stage("tokenize", aid):
+                token_count = len(model.tokenize(request.encode("utf-8")))
+            print(f"{aid} input_tokens={token_count} output_budget={OUTPUT_TOKENS}", flush=True)
             if token_count + OUTPUT_TOKENS + 64 > CONTEXT_TOKENS:
                 raise ValueError(f"PDF text exceeds model context budget: {token_count} input tokens")
-            result = model.create_chat_completion(
-                messages=[{"role": "user", "content": request}], temperature=0.1,
-                max_tokens=OUTPUT_TOKENS,
-            )
+            with timed_stage("inference", aid):
+                result = model.create_chat_completion(
+                    messages=[{"role": "user", "content": request}], temperature=0.1,
+                    max_tokens=OUTPUT_TOKENS,
+                )
             raw = result["choices"][0]["message"]["content"] or ""
             answers = split_answers(raw)
             values = (aid, LABEL, 1, 0, url, "rag" if RAG else "full_text", *answers, raw,
