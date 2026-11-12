@@ -29,6 +29,9 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+      - name: Restaurar bibliotecas
+        run: python scripts/library_storage.py restore library/math-ph.sqlite library/math-ph.coverage.sqlite
+
       - name: Recopilar días pendientes de math-ph
         env:
           MAX_DAYS: ${{ inputs.max_days || '30' }}
@@ -39,7 +42,8 @@ jobs:
           if [ ! -f library/math-ph.sqlite ]; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add library/math-ph.sqlite library/math-ph.coverage.sqlite
+          python scripts/library_storage.py pack library/math-ph.sqlite library/math-ph.coverage.sqlite
+          git add library/math-ph.db library/math-ph.coverage.db
           if ! git diff --cached --quiet; then
             git commit -m 'Actualizar biblioteca arXiv math-ph'
             for attempt in 1 2 3; do

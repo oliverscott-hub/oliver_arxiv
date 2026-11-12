@@ -29,6 +29,8 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+      - name: Restore collector libraries
+        run: python scripts/library_storage.py restore
 
       - name: Build weekday summaries from collector databases
         run: python scripts/build_weekday_dashboard.py

@@ -34,6 +34,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Restaurar bibliotecas
+        run: python scripts/library_storage.py restore library/astro-ph_CO.sqlite library/astro-ph_CO.coverage.sqlite
+
       - name: Recopilar días pendientes de astro-ph.CO
         env:
           MAX_DAYS: ${{ inputs.max_days || '30' }}
@@ -48,7 +51,8 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add library/astro-ph_CO.sqlite library/astro-ph_CO.coverage.sqlite
+          python scripts/library_storage.py pack library/astro-ph_CO.sqlite library/astro-ph_CO.coverage.sqlite
+          git add library/astro-ph_CO.db library/astro-ph_CO.coverage.db
           if git diff --cached --quiet; then
             echo 'No hay cambios que guardar.'
           else
