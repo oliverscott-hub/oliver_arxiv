@@ -4,6 +4,7 @@ import gc
 import json
 import os
 import re
+import signal
 import sqlite3
 import subprocess
 import threading
@@ -147,6 +148,19 @@ def supplied_text(pages):
     return "\n\n".join(f"[PDF page {page}]\n{body}" for page, body in selected)
 
 
+def select_text_with_timeout(pages):
+    def expired(signum, frame):
+        raise TimeoutError("text_selection exceeded 1800 seconds")
+
+    previous = signal.signal(signal.SIGALRM, expired)
+    signal.setitimer(signal.ITIMER_REAL, 1800)
+    try:
+        return supplied_text(pages)
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)
+
+
 def split_answers(raw):
     if "</think>" in raw:
         raw = raw.split("</think>", 1)[1]
@@ -210,7 +224,7 @@ def main():
                 pages = page_text(pdf_bytes)
             print(f"{aid} pages={len(pages)}", flush=True)
             with timed_stage("text_selection", aid):
-                body = supplied_text(pages)
+                body = select_text_with_timeout(pages)
             request = instructions + "\n\n<PAPER_TEXT>\n" + body + "\n</PAPER_TEXT>"
             with timed_stage("tokenize", aid):
                 token_count = len(model.tokenize(request.encode("utf-8")))
