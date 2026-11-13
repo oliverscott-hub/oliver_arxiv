@@ -8,7 +8,7 @@ on:
       max_days:
         description: "Máximo de días UTC a procesar en esta ejecución"
         required: true
-        default: "30"
+        default: "120"
         type: string
 
 permissions:
@@ -34,7 +34,7 @@ jobs:
 
       - name: Recopilar días pendientes de astro-ph.HE
         env:
-          MAX_DAYS: ${{ inputs.max_days || '30' }}
+          MAX_DAYS: ${{ inputs.max_days || '120' }}
         run: python scripts/collect_arxiv_category.py --category astro-ph.HE --max-days "$MAX_DAYS"
       - name: Guardar SQLite, cobertura y log
         if: always()

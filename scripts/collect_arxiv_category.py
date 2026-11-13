@@ -28,7 +28,8 @@ MIN_INTERVAL = 3.2
 MAX_PER_PAGE = 2000
 MAX_PER_QUERY = 30000
 MAX_RETRIES = 3
-MAX_DAYS_PER_RUN = 30
+MAX_DAYS_PER_RUN = 120
+RECENT_RECHECK_DAYS = 7
 USER_AGENT = (
     "oliver-arxiv-category-collector/1.0 "
     "(metadata-only; https://github.com/oliverscott-hub/oliver_arxiv)"
@@ -496,7 +497,7 @@ def run(max_days, category):
         while complete_days_processed < max_days:
             if day < archive_start:
                 break
-            if day not in covered:
+            if day not in covered or day >= target - timedelta(days=RECENT_RECHECK_DAYS - 1):
                 try:
                     result = collect_day(connection, client, day)
                 except Exception as exc:
