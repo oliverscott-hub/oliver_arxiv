@@ -2,6 +2,7 @@
 import datetime as dt
 import json
 import sqlite3
+import statistics
 
 from build_weekday_dashboard import ROOT, LIBRARY, CATEGORIES, EVALUATION_DATABASES, read_category
 from library_storage import restore
@@ -107,8 +108,12 @@ def aggregate(items, state, today):
     }
     totals = empty()
     started = [0, 0, 0]
+    scores = []
     for aid, day in items.items():
         key = stage(aid, *state)
+        score_record = phase3.get(aid)
+        if score_record and score_record[0] == 0 and score_record[1] is not None:
+            scores.append(score_record[1] / 100)
         totals[key] += 1
         started[0] += aid in phase1 or aid in phase2 or aid in phase3 or aid in phase4
         started[1] += aid in phase2 or aid in phase3 or aid in phase4
@@ -150,7 +155,16 @@ def aggregate(items, state, today):
     for age in range(len(buckets["semesters"])-1, -1, -1):
         half = today.year*2+(today.month > 6)-age
         labels["semesters"].append(f"S{half%2+1} {half//2}")
+    bins = [0] * 40
+    for score in scores:
+        bins[min(39, max(0, int(score * 4)))] += 1
+    distribution = {"bins": bins, "count": len(scores),
+                    "mean": statistics.mean(scores) if scores else None,
+                    "median": statistics.median(scores) if scores else None,
+                    "stdev": statistics.pstdev(scores) if scores else None,
+                    "gte9": sum(score >= 9 for score in scores)}
     return {"total": len(items), "started": started, "totals": totals,
+            "score_distribution": distribution,
             "charts": {key: {"labels": labels[key], "values": values} for key, values in buckets.items()}}
 
 
