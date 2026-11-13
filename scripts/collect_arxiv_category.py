@@ -424,6 +424,34 @@ def configure_category(category):
     COVERAGE_SQLITE_PATH = ROOT / "library" / f"{slug}.coverage.sqlite"
 
 
+def reset_this_weeks_coverage_once(connection, today):
+    """Recheck the week of the 2026-11-11 arXiv announcement delay.
+
+    This removes only coverage marks. Existing paper rows remain intact and
+    are safely updated by arxiv_id when the days are queried again.
+    """
+    monday = date(2026, 11, 9)
+    marker = "coverage_reset_2026_11_09"
+    if today < monday or connection.execute(
+        "SELECT 1 FROM collector_state WHERE state_key=?", (marker,)
+    ).fetchone():
+        return 0
+    end = min(today - timedelta(days=1), monday + timedelta(days=6))
+    if end < monday:
+        return 0
+    with connection:
+        removed = connection.execute(
+            "DELETE FROM day_coverage WHERE day_utc BETWEEN ? AND ?",
+            (monday.isoformat(), end.isoformat()),
+        ).rowcount
+        connection.execute(
+            "INSERT INTO collector_state(state_key,state_value,updated_at_utc) VALUES(?,?,?)",
+            (marker, f"{monday.isoformat()}..{end.isoformat()}", iso_utc(utc_now())),
+        )
+    print(f"{CATEGORY}: reset coverage {monday}..{end}; {removed} days; papers unchanged", flush=True)
+    return removed
+
+
 def run(max_days, category):
     configure_category(category)
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -449,6 +477,7 @@ def run(max_days, category):
     day = target
     try:
         archive_start = archive_start_day(connection, client)
+        reset_this_weeks_coverage_once(connection, today)
         # Query today on every run, but never insert it into day_coverage.
         today_query, today_total, today_captured, today_requests = fetch_day(connection, client, today)
         processed.append({"date_utc": today.isoformat(), "status": "partial",
