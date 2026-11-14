@@ -72,7 +72,7 @@ def open_db():
     schema = db.execute("SELECT sql FROM sqlite_master WHERE name='answers'").fetchone()[0]
     if names != list(ANSWER_COLUMNS) or "answer1 TEXT NOT NULL" in schema or "(-1,0,1,2,3)" not in schema:
         db.execute(ANSWER_SCHEMA.format(table="answers_reordered"))
-        selected = ",".join("CASE WHEN answer1 IS NOT NULL THEN 0 ELSE intentos END"
+        selected = ",".join("intentos"
                             if key == "intentos" else key for key in ANSWER_COLUMNS)
         db.execute(f"INSERT INTO answers_reordered ({','.join(ANSWER_COLUMNS)}) SELECT {selected} FROM answers")
         db.execute("DROP TABLE answers")
@@ -82,14 +82,14 @@ def open_db():
 
 
 def candidates(db):
-    done = {row[0] for row in db.execute("SELECT id FROM answers WHERE intentos IN (0,-1)")}
+    done = {row[0] for row in db.execute("SELECT id FROM answers WHERE intentos=0 OR answer1 IS NOT NULL")}
     if DAY_GROUP is not None:
         for group in DAY_GROUPS:
             path = qwen_pdf_db(ROOT, group)
             if path == DB or not path.exists():
                 continue
             with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as other:
-                done.update(row[0] for row in other.execute("SELECT id FROM answers WHERE intentos IN (0,-1)"))
+                done.update(row[0] for row in other.execute("SELECT id FROM answers WHERE intentos=0 OR answer1 IS NOT NULL"))
     qualified = set()
     for path in sorted((ROOT / "abstract_evaluation").glob("rubric_v3_qwen3_8b*.sqlite")):
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as source:
@@ -117,10 +117,10 @@ def candidates(db):
 
 
 def mark_attempt(db, aid):
-    row = db.execute("SELECT intentos FROM answers WHERE id=?", (aid,)).fetchone()
-    if row and row[0] in (0, -1):
+    row = db.execute("SELECT intentos,answer1 FROM answers WHERE id=?", (aid,)).fetchone()
+    if row and (row[0] == 0 or row[1] is not None):
         return None
-    attempt = min(row[0] + 1, 3) if row else 1
+    attempt = row[0] - 1 if row else 2
     db.execute("""INSERT INTO answers(id,modelo,version_preguntas,intentos) VALUES(?,?,1,?)
                   ON CONFLICT(id) DO UPDATE SET intentos=excluded.intentos""", (aid, LABEL, attempt))
     db.commit()
@@ -128,8 +128,8 @@ def mark_attempt(db, aid):
 
 
 def mark_failed(db, aid, attempt):
-    if attempt == 3:
-        db.execute("UPDATE answers SET intentos=-1 WHERE id=? AND intentos=3", (aid,))
+    if attempt == 0:
+        db.execute("UPDATE answers SET intentos=0 WHERE id=? AND intentos=0", (aid,))
         db.commit()
 
 
@@ -209,12 +209,16 @@ def main():
                       n_threads=min(4, os.cpu_count() or 1), n_batch=256, verbose=False)
     prompt_file = "pdf_open_questions_rag.txt" if RAG else "pdf_open_questions_full.txt"
     instructions = (ROOT / "scripts" / prompt_file).read_text(encoding="utf-8-sig")
+    first_reserved = False
     for _, aid, url, category in papers:
         if time.time() >= deadline:
             break
         attempt = mark_attempt(db, aid)
         if attempt is None:
             continue
+        if not first_reserved:
+            db = push_result(db)
+            first_reserved = True
         started = time.monotonic()
         try:
             with timed_stage("pdf_download", aid):
@@ -238,13 +242,13 @@ def main():
                 )
             raw = result["choices"][0]["message"]["content"] or ""
             answers = split_answers(raw)
-            values = (aid, LABEL, 1, 0, url, "rag" if RAG else "full_text", *answers, raw,
+            values = (aid, LABEL, 1, attempt, url, "rag" if RAG else "full_text", *answers, raw,
                       dt.datetime.now(dt.timezone.utc).isoformat())
             columns = ",".join(ANSWER_COLUMNS)
             placeholders = ",".join("?" for _ in ANSWER_COLUMNS)
             updates = ",".join(f"{key}=excluded.{key}" for key in ANSWER_COLUMNS[3:])
             db.execute(f"INSERT INTO answers({columns}) VALUES({placeholders}) "
-                       f"ON CONFLICT(id) DO UPDATE SET {updates} WHERE answers.intentos IN (1,2,3)", values)
+                       f"ON CONFLICT(id) DO UPDATE SET {updates} WHERE answers.answer1 IS NULL", values)
             db.commit()
             print(f"{aid} {category} attempt={attempt} duration_s={time.monotonic()-started:.1f} "
                   "score=None error=None status=valid", flush=True)

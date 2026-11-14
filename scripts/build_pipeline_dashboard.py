@@ -26,8 +26,8 @@ def records():
         for aid, attempts, score, q2, q3 in rows(EVALUATIONS / filename, "evaluations", "id,intentos,puntuacion,Q2,Q3"):
             phase1[aid] = (attempts, score, q2, q3)
     for path in (EVALUATIONS / "open_answers_v1").glob("pdf_answers_qwen3_rag_8b*.sqlite"):
-        for aid, attempts in rows(path, "answers", "id,intentos"):
-            phase2[aid] = attempts
+        for aid, attempts, answer1 in rows(path, "answers", "id,intentos,answer1"):
+            phase2[aid] = (attempts, answer1 is not None)
     for aid, attempts, score in rows(EVALUATIONS / "phase3/pdf_score_qwen3_8b.sqlite", "evaluations", "id,intentos,puntuacion"):
         phase3[aid] = (attempts, score)
     phase4 = {row[0] for row in rows(EVALUATIONS / "phase4/selected_papers.sqlite", "papers", "id")}
@@ -39,19 +39,19 @@ def stage(aid, phase1, phase2, phase3, phase4):
         return "selected"
     if aid in phase3:
         attempts, score = phase3[aid]
-        if attempts == -1:
+        if score is None and attempts == 0:
             return "paper_discarded"
-        if attempts == 0 and score is not None:
+        if score is not None:
             return "paper_pending" if score >= 900 else "paper_stopped"
         return "paper_pending"
     if aid in phase2:
-        attempts = phase2[aid]
-        return "paper_discarded" if attempts == -1 else "paper_pending"
+        attempts, has_answers = phase2[aid]
+        return "paper_discarded" if attempts == 0 and not has_answers else "paper_pending"
     if aid in phase1:
         attempts, score, q2, q3 = phase1[aid]
-        if attempts == -1:
+        if score is None and attempts == 0:
             return "abstract_discarded"
-        if attempts != 0 or score is None:
+        if score is None:
             return "abstract_pending"
         qualifies = score > 800 or (700 < score <= 800 and q2 == "D" and q3 in ("C", "D"))
         return "paper_pending" if qualifies else "abstract_stopped"
@@ -112,7 +112,7 @@ def aggregate(items, state, today):
     for aid, day in items.items():
         key = stage(aid, *state)
         score_record = phase3.get(aid)
-        if score_record and score_record[0] == 0 and score_record[1] is not None:
+        if score_record and score_record[1] is not None:
             scores.append(score_record[1] / 100)
         totals[key] += 1
         started[0] += aid in phase1 or aid in phase2 or aid in phase3 or aid in phase4

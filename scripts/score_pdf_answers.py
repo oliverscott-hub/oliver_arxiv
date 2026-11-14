@@ -38,7 +38,7 @@ def open_db():
     columns = [row[1] for row in db.execute("PRAGMA table_info(evaluations)")]
     if "intentos" not in columns:
         db.execute("ALTER TABLE evaluations ADD COLUMN intentos INTEGER NOT NULL DEFAULT 0")
-        db.execute("UPDATE evaluations SET intentos=0")
+        db.execute("UPDATE evaluations SET intentos=2")
     schema = db.execute("SELECT sql FROM sqlite_master WHERE name='evaluations'").fetchone()[0]
     if "source_model TEXT NOT NULL" in schema:
         db.execute("""CREATE TABLE evaluations_new (
@@ -51,7 +51,7 @@ def open_db():
         db.execute("""INSERT INTO evaluations_new
             (id,modelo,version_rubrica,intentos,source_model,puntuacion,
              Q1,Q2,Q3,Q4,Q5,Q6,raw_response,completed_at_utc)
-            SELECT id,modelo,version_rubrica,0,source_model,puntuacion,
+            SELECT id,modelo,version_rubrica,intentos,source_model,puntuacion,
                    Q1,Q2,Q3,Q4,Q5,Q6,raw_response,completed_at_utc
             FROM evaluations""")
         db.execute("DROP TABLE evaluations")
@@ -61,7 +61,7 @@ def open_db():
 
 
 def papers(db):
-    done = {row[0] for row in db.execute("SELECT id FROM evaluations WHERE intentos IN (0,-1)")}
+    done = {row[0] for row in db.execute("SELECT id FROM evaluations WHERE intentos=0 OR puntuacion IS NOT NULL")}
     metadata = {}
     for path in sorted((ROOT / "library").glob("*.sqlite")):
         if path.name.endswith(".coverage.sqlite"):
@@ -77,7 +77,7 @@ def papers(db):
         if not path.exists():
             continue
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as source:
-            for row in source.execute("SELECT id,modelo,answer1,answer2,answer3,answer4,answer5,answer6 FROM answers WHERE intentos=0"):
+            for row in source.execute("SELECT id,modelo,answer1,answer2,answer3,answer4,answer5,answer6 FROM answers WHERE answer1 IS NOT NULL"):
                 if row[0] in done or row[0] in seen or row[0] not in metadata or not metadata[row[0]][0].strip():
                     continue
                 seen.add(row[0])
@@ -115,17 +115,27 @@ def main():
                   n_batch=256, verbose=False)
     last_push = time.monotonic()
     unsaved = 0
+    first_reserved = False
+    first_postpush = False
     for _, aid, category, abstract, source_model, answers in pending:
         if time.time() >= deadline:
             break
         started = time.monotonic()
-        prior = db.execute("SELECT intentos FROM evaluations WHERE id=?", (aid,)).fetchone()
-        attempt = min(3, (prior[0] if prior and prior[0] > 0 else 0) + 1)
+        prior = db.execute("SELECT intentos,puntuacion FROM evaluations WHERE id=?", (aid,)).fetchone()
+        if prior and (prior[0] == 0 or prior[1] is not None):
+            continue
+        attempt = prior[0] - 1 if prior else 2
         db.execute("""INSERT INTO evaluations (id,modelo,version_rubrica,intentos)
             VALUES (?,?,1,?) ON CONFLICT(id) DO UPDATE SET intentos=excluded.intentos""",
             (aid, LABEL, attempt))
         db.commit()
         unsaved += 1
+        if not first_reserved:
+            db = push_result(db)
+            first_reserved = True
+            first_postpush = True
+            unsaved = 0
+            last_push = time.monotonic()
         try:
             body = "<ABSTRACT_AUTHOR_PROMISE>\n" + abstract + "\n</ABSTRACT_AUTHOR_PROMISE>\n"
             body += "<PDF_ANSWERS_ACCEPTED_AS_FACTS>\n"
@@ -139,18 +149,18 @@ def main():
                 max_tokens=128, grammar=GRAMMAR)
             raw = result["choices"][0]["message"]["content"] or ""
             choices, score = parse_response(raw, POLICY)
-            db.execute("""UPDATE evaluations SET intentos=0,source_model=?,puntuacion=?,
+            db.execute("""UPDATE evaluations SET source_model=?,puntuacion=?,
                 Q1=?,Q2=?,Q3=?,Q4=?,Q5=?,Q6=?,raw_response=?,completed_at_utc=? WHERE id=?""",
                 (source_model, score, *choices, raw, dt.datetime.now(dt.timezone.utc).isoformat(), aid))
             db.commit()
             print(f"{aid} {category} attempt={attempt} duration_s={time.monotonic()-started:.1f} "
                   f"score={score} error=None", flush=True)
         except Exception as exc:
-            if attempt == 3:
-                db.execute("UPDATE evaluations SET intentos=-1 WHERE id=?", (aid,))
-                db.commit()
             print(f"{aid} {category} attempt={attempt} duration_s={time.monotonic()-started:.1f} "
                   f"score=None error={type(exc).__name__}: {exc}", flush=True)
+        if first_postpush:
+            db = push_result(db)
+            first_postpush = False
         if unsaved and time.monotonic() - last_push >= 30 * 60:
             print(f"Saving {unsaved} phase 3 evaluations to GitHub", flush=True)
             db = push_result(db)

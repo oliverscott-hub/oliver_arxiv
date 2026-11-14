@@ -68,7 +68,7 @@ def open_db(path):
             version_rubrica INTEGER NOT NULL CHECK(version_rubrica=3),
             intentos INTEGER NOT NULL DEFAULT 0 CHECK(intentos IN (-1,0,1,2,3)),
             puntuacion INTEGER CHECK(puntuacion BETWEEN 0 AND 1000), {fields})''')
-        selected = ','.join('CASE WHEN T IS NOT NULL THEN 0 ELSE intentos END' if key == 'intentos' else key for key in COLUMNS)
+        selected = ','.join('intentos' if key == 'intentos' else key for key in COLUMNS)
         db.execute(f'INSERT INTO evaluations_reordered ({",".join(COLUMNS)}) SELECT {selected} FROM evaluations')
         db.execute('DROP TABLE evaluations')
         db.execute('ALTER TABLE evaluations_reordered RENAME TO evaluations')
@@ -78,11 +78,9 @@ def open_db(path):
 
 def mark_attempt(db, *, paper_id, model):
     row = db.execute('SELECT intentos,T FROM evaluations WHERE id=?', (paper_id,)).fetchone()
-    if row and row[0] in (0, -1):
+    if row and (row[0] == 0 or row[1] is not None):
         return None
-    attempt = min(row[0] + 1, 3) if row else 1
-    if attempt > 3:
-        return None
+    attempt = row[0] - 1 if row else 2
     db.execute('''INSERT INTO evaluations (id,modelo,version_rubrica,intentos)
         VALUES (?,?,3,?) ON CONFLICT(id) DO UPDATE SET intentos=excluded.intentos''',
         (paper_id, model, attempt))
@@ -91,7 +89,7 @@ def mark_attempt(db, *, paper_id, model):
 
 
 def mark_discarded(db, paper_id):
-    db.execute('UPDATE evaluations SET intentos=-1 WHERE id=? AND intentos=3 AND T IS NULL', (paper_id,))
+    db.execute('UPDATE evaluations SET intentos=0 WHERE id=? AND intentos=0 AND T IS NULL', (paper_id,))
     db.commit()
 
 
@@ -101,10 +99,11 @@ def save_response(db, *, arxiv_id, model, abstract, raw, **unused):
     except ValueError as error:
         return None, str(error)
     score = metrics(values)['score_cents']
-    row = (arxiv_id, model, 3, 0, score, *(values[key] for key in LINES))
+    remaining = db.execute('SELECT intentos FROM evaluations WHERE id=?', (arxiv_id,)).fetchone()
+    row = (arxiv_id, model, 3, remaining[0] if remaining else 2, score, *(values[key] for key in LINES))
     placeholders = ','.join('?' for _ in COLUMNS)
     updates = ','.join(f'{key}=excluded.{key}' for key in ('intentos', 'puntuacion', *LINES))
     db.execute(f'INSERT INTO evaluations ({",".join(COLUMNS)}) VALUES ({placeholders}) '
-               f'ON CONFLICT(id) DO UPDATE SET {updates} WHERE evaluations.intentos IN (1,2,3)', row)
+               f'ON CONFLICT(id) DO UPDATE SET {updates} WHERE evaluations.T IS NULL', row)
     db.commit()
     return score, None
