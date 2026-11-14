@@ -91,6 +91,8 @@ def push_result(db):
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=ROOT, check=True)
     subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
     subprocess.run(["git", "add", DB.relative_to(ROOT).as_posix()], cwd=ROOT, check=True)
+    if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode == 0:
+        return open_db()
     subprocess.run(["git", "commit", "-m", f"Save phase 3 PDF score {KEY}"], cwd=ROOT, check=True)
     for attempt in range(1, 9):
         subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
